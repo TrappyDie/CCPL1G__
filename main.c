@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <string.h>
+#include "stack.h"
 
 int main(void) {
     char val[100];
