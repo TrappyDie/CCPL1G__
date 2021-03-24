@@ -2,44 +2,45 @@
 #include <string.h>
 #include "stack.h"
 
-int main(void) {
-    char val[100];
-    char token[100];
-    char resto[100];
-    long n;
-    char c[100];
-    int i = 0;
-    STACK s1 = criar_stack();
-    STACK s2 = criar_stack();
+#define MAX_SIZE	1000
 
-    fgets(val, 100, stdin);
+int main(void) {
+    char val[MAX_SIZE];
+    char token[MAX_SIZE];
+    char resto[MAX_SIZE];
+    long n;
+    STACK s = criar_stack();
+
+    fgets(val, MAX_SIZE, stdin);
     while(sscanf(val, "%s%[^\n]", token, resto) > 0) {
+	strcpy(val, resto); // Faltava isto!
+
         *resto = 0;
         if (sscanf(token, "%ld", &n) == 1)
-        	PUSH (s1,n);
+        	PUSH (s,n);
         else
-            (c[i] = token[0]);
-            i++;
+		switch (*token) { // Isto estava errado, não sei bem porquê
+			case '+' : SUM(s); break;
+			case '-' : LESS(s); break;
+			case '/' : DIV(s); break;
+			case '*' : MULT(s); break;
+			case '#' : EXP(s); break;
+			case '%' : RES(s); break;
+			case '(' : INC(s); break;
+			case ')' : DEC(s); break;
+			case '&' : AND(s); break;
+			case '|' : OR(s); break;
+			case '^' : XOR(s); break;
+			case '~' : NOT(s); break;
+    		}
    }
     
+    /*
     c[i] = '\0';
     for(int x = strlen(c); x >= 0; x--){
     	PUSH(s2,c[x]);
     }
-    switch ('+') {
-    	case '+' : SUM(s1); break;
-    	case '-' : LESS(s1); break;
-    	case '/' : DIV(s1); break;
-    	case '*' : MULT(s1); break;
-    	case '#' : EXP(s1); break;
-    	case '%' : RES(s1); break;
-    	case '(' : INC(s1); break;
-    	case ')' : DEC(s1); break;
-    	case '&' : AND(s1); break;
-    	case '|' : OR(s1); break;
-    	case '^' : XOR(s1); break;
-    	case '~' : NOT(s1); break;
-    }
+    */
 
     return 0;
 }
