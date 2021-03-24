@@ -42,11 +42,16 @@ return s;
 }
 
 #define RES(s)     PUSH(s,POP(s) % POP(s))
-#define INC(s)     PUSH(s,POP(s)++)
-#define DEC(s)     PUSH(s,POP(s)--)
+#define INC(s)     PUSH(s,++POP(s))
+#define DEC(s)     PUSH(s,--POP(s))
 #define AND(s)     PUSH(s,(POP(s) & POP(s)))
 #define OR(s)      PUSH(s,(POP(s) | POP(s)))
 #define XOR(s)     PUSH(s,(POP(s) ^ POP(s)))
 #define NOT(s)     PUSH(s,(~POP(s)))
 
+
+void output(STACK s){
+	for(int j = 0;j<s.i;j++)
+		printf("%ld", s.input[j]);
+}
 #endif
