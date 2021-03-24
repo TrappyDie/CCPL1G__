@@ -13,13 +13,13 @@ int main(void) {
 
     fgets(val, MAX_SIZE, stdin);
     while(sscanf(val, "%s%[^\n]", token, resto) > 0) {
-	strcpy(val, resto); // Faltava isto!
+	strcpy(val, resto); 
 
         *resto = 0;
         if (sscanf(token, "%ld", &n) == 1)
         	PUSH (s,n);
         else
-		switch (*token) { // Isto estava errado, não sei bem porquê
+		switch (*token) { 
 			case '+' : SUM(s); break;
 			case '-' : LESS(s); break;
 			case '/' : DIV(s); break;
@@ -34,13 +34,6 @@ int main(void) {
 			case '~' : NOT(s); break;
     		}
    }
-    
-    /*
-    c[i] = '\0';
-    for(int x = strlen(c); x >= 0; x--){
-    	PUSH(s2,c[x]);
-    }
-    */
 
     return 0;
 }
