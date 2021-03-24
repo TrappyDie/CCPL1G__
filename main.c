@@ -9,8 +9,8 @@ int main(void) {
     long n;
     char c[100];
     int i = 0;
-    STACK s1 = criar_stack()
-    STACK s2 = criar_stack()
+    STACK s1 = criar_stack();
+    STACK s2 = criar_stack();
 
     fgets(val, 100, stdin);
     while(sscanf(val, "%s%[^\n]", token, resto) > 0) {
