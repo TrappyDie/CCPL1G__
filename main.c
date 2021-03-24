@@ -34,6 +34,7 @@ int main(void) {
 			case '~' : NOT(s); break;
     		}
    }
+output(s);
 
-    return 0;
+return 0;
 }
