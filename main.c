@@ -18,9 +18,11 @@ int main(void) {
         if (sscanf(token, "%ld", &n) == 1)
         	PUSH (s1,n);
         else
-            (c[i] = token[0]) && i++;
-        c[i] = '\0';
-    }
+            (c[i] = token[0]);
+            i++;
+   }
+    
+    c[i] = '\0';
     for(int x = strlen(c); x >= 0; x--){
     	PUSH(s2,c[x]);
     }
