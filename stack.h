@@ -22,7 +22,7 @@ return s;
 #define LESS(s)    PUSH(s,(POP(s) - POP(s));
 #define DIV(s)     PUSH(s,(POP(s) / POP(s));
 #define MULT(s)    PUSH(s,(POP(s) * POP(s));
-#define EXP(s)     PUSH(s,pow(POP(s), POP(s)));
+#define EXP(s)     PUSH(s,pow(POP(s.input[s.i--]),POP(s.input[s.i)));
 #define RES(s)     PUSH(s,(POP(s) % POP(s));
 #define INC(s)     PUSH(s,POP(s)++);
 #define DEC(s)     PUSH(s,POP(s)--);
