@@ -42,8 +42,8 @@ return s;
 }
 
 #define RES(s)     PUSH(s,POP(s) % POP(s))
-#define INC(s)     PUSH(s,POP(s)++)
-#define DEC(s)     PUSH(s,POP(s)--)
+#define INC(s)     PUSH(s,++POP(s))
+#define DEC(s)     PUSH(s,--POP(s))
 #define AND(s)     PUSH(s,POP(s) & POP(s))
 #define OR(s)      PUSH(s,POP(s) | POP(s))
 #define XOR(s)     PUSH(s,POP(s) ^ POP(s))
