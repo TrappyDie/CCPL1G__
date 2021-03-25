@@ -43,8 +43,8 @@ int main(void) {
 			case '*' : MULT(s); break;
 			case '#' : EXP(s); break;
 			case '%' : RES(s); break;
-			case '(' : INC(s); break;
-			case ')' : DEC(s); break;
+			case ')' : INC(s); break;
+			case '(' : DEC(s); break;
 			case '&' : AND(s); break;
 			case '|' : OR(s); break;
 			case '^' : XOR(s); break;
