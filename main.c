@@ -1,5 +1,5 @@
 /**
- * @file Contem a função principal do programa
+ * @file Contem a funcao principal do programa
  */
 
 #include <stdio.h>
@@ -14,8 +14,8 @@
 /**
  * \brief Funcao principal do programa
  * @param val Input do utilizador
- * @param token String que contém os operadores
- * @param resto String que contém o que sobra do Input do utilizador
+ * @param token String que contem os operadores
+ * @param resto String que contem o que sobra do Input do utilizador
  * @param n Numero que e retirado do Input e inserido no stack 
  * @returns A stack resultante do programa
  */
