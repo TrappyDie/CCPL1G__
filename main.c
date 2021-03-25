@@ -1,10 +1,11 @@
 /**
- * @file Contem a funcao principal do programa
+ * @file Contem a função principal do programa
  */
 
 #include <stdio.h>
 #include <string.h>
 #include "stack.h"
+#include <assert.h>
 
 /**
  * @def Tamanho usado nos arrays do programa
@@ -14,8 +15,8 @@
 /**
  * \brief Funcao principal do programa
  * @param val Input do utilizador
- * @param token String que contem os operadores
- * @param resto String que contem o que sobra do Input do utilizador
+ * @param token String que contém os operadores
+ * @param resto String que contém o que sobra do Input do utilizador
  * @param n Numero que e retirado do Input e inserido no stack 
  * @returns A stack resultante do programa
  */
@@ -26,7 +27,8 @@ int main(void) {
     long n;
     STACK s = criar_stack();
 
-    fgets(val, MAX_SIZE, stdin);
+    assert(fgets(val, MAX_SIZE, stdin) != NULL);
+    
     while(sscanf(val, "%s%[^\n]", token, resto) > 0) {
 	strcpy(val, resto); 
 

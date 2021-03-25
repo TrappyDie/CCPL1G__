@@ -40,15 +40,20 @@ return s;
  */
 #define POP(s)     s.input[--s.i]
 
+
 /**
- * @def Soma os dois elementos que estao mais acima no stack
+ * @def Soma os dois elementos que estão mais acima no stack
  */
-#define SUM(s)     PUSH(s,POP(s) + POP(s))
+#define SUM(s)   {   			\
+	long Y = POP(s);			\
+	long X = POP(s); 			\
+	PUSH(s,X + Y);				\
+}
 
 /**
  * @def Subtrai o elemento mais acima no stack pelo elemento abaixo desse
  */
-#define LESS(s)    {			\
+#define LESS(s) { 				\
 	long Y = POP(s);			\
 	long X = POP(s); 			\
 	PUSH(s, X - Y);				\
@@ -64,9 +69,13 @@ return s;
 }
 
 /**
- * @def Multiplica os dois elementos que estao mais acima no stack
+ * @def Multiplica os dois elementos que estão mais acima no stack
  */
-#define MULT(s)    PUSH(s,POP(s) * POP(s))
+#define MULT(s) {				\
+	long Y = POP(s);			\
+	long X = POP(s);			\
+	PUSH(s,X * Y);				\
+}
 
 /**
  * @def Coloca o elemento mais acima do stack como base e o elemento abaixo desse como expoente
@@ -78,39 +87,64 @@ return s;
 }
 
 /**
- * @def Calcula o resto da divisao entre o elemento mais acima no stack e o abaixo desse
+ * @def Calcula o resto da divisão entre o elemento mais acima no stack e o abaixo desse
  */
-#define RES(s)     PUSH(s,POP(s) % POP(s))
+#define RES(s) {				\
+	long Y = POP(s);			\
+	long X = POP(s); 			\
+	PUSH(s,X % Y);				\
+}	
 
 /**
  * @def Incrementa um elemento no stack
  */
-#define INC(s)     PUSH(s,POP(s)++)
+#define INC(s) {    			\
+	long Y = POP(s);			\
+	PUSH(s,++Y);	 			\
+}
 
 /**
  * @def Decrementa um elemento do stack
  */
-#define DEC(s)     PUSH(s,POP(s)--)
+#define DEC(s) {				\
+	long Y = POP(s);			\
+     	PUSH(s,--Y);			\
+}
 
 /**
- * @def Faz a operação logica "AND" em bitwise entre os dois elementos mais acima do stack
+ * @def Faz a operação lógica "AND" em bitwise entre os dois elementos mais acima do stack
  */
-#define AND(s)     PUSH(s,(POP(s) & POP(s)))
+#define AND(s) {			\
+	long Y = POP(s);		\
+	long X = POP(s);		\
+        PUSH(s,X & Y);		\
+}
 
 /**
- * @def Faz a operação logica "OR" em bitwise entre os dois elementos mais acima do stack
+ * @def Faz a operação lógica "OR" em bitwise entre os dois elementos mais acima do stack
  */
-#define OR(s)      PUSH(s,(POP(s) | POP(s)))
+#define OR(s) {				\
+	long Y = POP(s);		\
+	long X = POP(s);		\
+        PUSH(s,X | Y);		\
+}
 
 /**
- * @def Faz a operação logica "XOR" em bitwise entre os dois elementos mais acima do stack
+ * @def Faz a operação lógica "XOR" em bitwise entre os dois elementos mais acima do stack
  */
-#define XOR(s)     PUSH(s,(POP(s) ^ POP(s)))
+#define XOR(s) {     		\
+	long Y = POP(s);		\
+	long X = POP(s);		\
+        PUSH(s,X ^ Y);		\
+}
 
 /**
- * @def Faz a operação logica "NOT" em bitwise ao elemento no topo do stack
+ * @def Faz a operação lógica "NOT" em bitwise ao elemento no topo do stack
  */
-#define NOT(s)     PUSH(s,(~POP(s)))
+#define NOT(s) {  			\
+	long Y = POP(s);		\
+        PUSH(s,~Y);			\
+}
 
 /**
  * /brief Funcao que da print a um stack
