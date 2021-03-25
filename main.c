@@ -24,7 +24,6 @@ int main(void) {
     char val[MAX_SIZE];
     char token[MAX_SIZE];
     char resto[MAX_SIZE];
-    long n;
     STACK s = criar_stack();
 
     assert(fgets(val, MAX_SIZE, stdin) != NULL);
@@ -33,6 +32,7 @@ int main(void) {
 	strcpy(val, resto); 
 
         *resto = 0;
+        long n;
         if (sscanf(token, "%ld", &n) == 1)
         	PUSH (s,n);
         else
