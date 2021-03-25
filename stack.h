@@ -100,7 +100,7 @@ return s;
  */
 #define INC(s) {    			\
 	long Y = POP(s);			\
-	PUSH(s,++Y);	 			\
+	PUSH(s,Y++);	 			\
 }
 
 /**
@@ -108,7 +108,7 @@ return s;
  */
 #define DEC(s) {				\
 	long Y = POP(s);			\
-     	PUSH(s,--Y);			\
+     	PUSH(s,Y--);			\
 }
 
 /**
