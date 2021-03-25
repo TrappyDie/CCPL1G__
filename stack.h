@@ -152,8 +152,9 @@ return s;
  */
  
 void output(STACK s){
-	for(int j = 0;j<s.i;j++)
+	for(int j = 0;j<s.i;j++){
 		printf("%ld", s.input[j]);
-		}
-
+    }
+    printf("\n");
+}
 #endif
