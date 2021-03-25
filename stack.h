@@ -41,7 +41,7 @@ return s;
 #define POP(s)     s.input[--s.i]
 
 /**
- * @def Soma os dois elementos que estão mais acima no stack
+ * @def Soma os dois elementos que estao mais acima no stack
  */
 #define SUM(s)     PUSH(s,POP(s) + POP(s))
 
@@ -64,7 +64,7 @@ return s;
 }
 
 /**
- * @def Multiplica os dois elementos que estão mais acima no stack
+ * @def Multiplica os dois elementos que estao mais acima no stack
  */
 #define MULT(s)    PUSH(s,POP(s) * POP(s))
 
@@ -78,7 +78,7 @@ return s;
 }
 
 /**
- * @def Calcula o resto da divisão entre o elemento mais acima no stack e o abaixo desse
+ * @def Calcula o resto da divisao entre o elemento mais acima no stack e o abaixo desse
  */
 #define RES(s)     PUSH(s,POP(s) % POP(s))
 
@@ -93,22 +93,22 @@ return s;
 #define DEC(s)     PUSH(s,POP(s)--)
 
 /**
- * @def Faz a operação lógica "AND" em bitwise entre os dois elementos mais acima do stack
+ * @def Faz a operação logica "AND" em bitwise entre os dois elementos mais acima do stack
  */
 #define AND(s)     PUSH(s,(POP(s) & POP(s)))
 
 /**
- * @def Faz a operação lógica "OR" em bitwise entre os dois elementos mais acima do stack
+ * @def Faz a operação logica "OR" em bitwise entre os dois elementos mais acima do stack
  */
 #define OR(s)      PUSH(s,(POP(s) | POP(s)))
 
 /**
- * @def Faz a operação lógica "XOR" em bitwise entre os dois elementos mais acima do stack
+ * @def Faz a operação logica "XOR" em bitwise entre os dois elementos mais acima do stack
  */
 #define XOR(s)     PUSH(s,(POP(s) ^ POP(s)))
 
 /**
- * @def Faz a operação lógica "NOT" em bitwise ao elemento no topo do stack
+ * @def Faz a operação logica "NOT" em bitwise ao elemento no topo do stack
  */
 #define NOT(s)     PUSH(s,(~POP(s)))
 
