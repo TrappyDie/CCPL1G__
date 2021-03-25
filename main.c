@@ -1,19 +1,22 @@
 /**
- * @file Contém a função principal do programa
+ * @file Contem a função principal do programa
  */
 
 #include <stdio.h>
 #include <string.h>
 #include "stack.h"
 
+/**
+ * @def Tamanho usado nos arrays do programa
+ */
 #define MAX_SIZE	1000
 
 /**
- * \brief Função principal do programa
+ * \brief Funcao principal do programa
  * @param val Input do utilizador
  * @param token String que contém os operadores
  * @param resto String que contém o que sobra do Input do utilizador
- * @param n Numero que é retirado do Input e inserido no stack 
+ * @param n Numero que e retirado do Input e inserido no stack 
  * @returns A stack resultante do programa
  */
 int main(void) {
@@ -50,4 +53,3 @@ output(s);
 
 return 0;
 }
-
