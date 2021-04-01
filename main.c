@@ -51,7 +51,7 @@ int main(void) {
 			case '~' : NOT(s);  break;
 			case '@' : ROT(s);  break;
 			case '_' : DUP(s);  break;
-	//		case ';' :
+		    case ';' : POP2(s); break;
 	//		case '#' :
 			//case 'i' :
 			// case '\'

@@ -155,11 +155,15 @@ return s;
 	PUSH (s, Z);			\
 }
 
-#define DUP(s) {   \
-   long X = POP(s);\
-   PUSH (s, Y);    \
-   PUSH (s, Y);    \
+#define DUP(s) {   			\
+   long X = POP(s);			\
+   PUSH (s, Y);    			\
+   PUSH (s, Y);    			\
 
+}
+
+#define POP2(s) {			\
+        POP(s);				\
 }
 
 /**
