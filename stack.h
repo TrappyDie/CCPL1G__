@@ -155,6 +155,13 @@ return s;
 	PUSH (s, Z);			\
 }
 
+#define DUP(s) {   \
+   long X = POP(s);\
+   PUSH (s, Y);    \
+   PUSH (s, Y);    \
+
+}
+
 /**
  * /brief Funcao que da print a um stack
  * @param j Inteiro que se usa para ir mudando a posicao do elemento do stack que se vai imprimir
