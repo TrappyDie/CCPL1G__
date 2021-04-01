@@ -33,7 +33,7 @@ int main(void) {
 
         *resto = 0;
         long n;
-        if (sscanf(token, "%ld", &n) == 1)
+        if ((sscanf(token, "%ld", &n) == 1) || (sscanf(token, "%lf", &n) == 1))
         	PUSH (s,n);
         else
 		switch (*token) { 
@@ -49,6 +49,13 @@ int main(void) {
 			case '|' : OR(s); break;
 			case '^' : XOR(s); break;
 			case '~' : NOT(s); break;
+			case '@' : ROT(s); break;
+	//		case '_' :
+	//		case ';' :
+	//		case '#' :
+			//case 'i' :
+			// case '\'
+
     		}
    }
 output(s);

@@ -146,6 +146,15 @@ return s;
         PUSH(s,~Y);			\
 }
 
+#define ROT(s) {
+	long X = POP(s);        \
+	long Y = POP(s);		\
+	long Z = POP(s);		\
+	PUSH (s, Y); 			\
+	PUSH (s, X);			\
+	PUSH (s, Z);			\
+}
+
 /**
  * /brief Funcao que da print a um stack
  * @param j Inteiro que se usa para ir mudando a posicao do elemento do stack que se vai imprimir
