@@ -37,24 +37,24 @@ int main(void) {
         	PUSH (s,n);
         else
 		switch (*token) { 
-			case '+' : SUM(s);  break;
+			case '+' : SUM(s); break;
 			case '-' : LESS(s); break;
-			case '/' : DIV(s);  break;
+			case '/' : DIV(s); break;
 			case '*' : MULT(s); break;
-			case '#' : EXP(s);  break;
-			case '%' : RES(s);  break;
-			case ')' : INC(s);  break;
-			case '(' : DEC(s);  break;
-			case '&' : AND(s);  break;
-			case '|' : OR(s);   break;
-			case '^' : XOR(s);  break;
-			case '~' : NOT(s);  break;
-			case '@' : ROT(s);  break;
-			case '_' : DUP(s);  break;
-		    case ';' : POP2(s); break;
-	//		case '#' :
-			//case 'i' :
-			// case '\'
+			case '#' : EXP(s); break;
+			case '%' : RES(s); break;
+			case ')' : INC(s); break;
+			case '(' : DEC(s); break;
+			case '&' : AND(s); break;
+			case '|' : OR(s); break;
+			case '^' : XOR(s); break;
+			case '~' : NOT(s); break;
+			case '@' : ROT(s); break;
+            case '_' : DUP(s);  break;
+            case ';' : POP2(s); break;
+		//	case '#' :
+		//	case 'i' :
+            case(*token = 92) : CBARRA(s); break;
 
     		}
    }
