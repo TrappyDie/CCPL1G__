@@ -146,7 +146,7 @@ return s;
         PUSH(s,~Y);			\
 }
 
-#define ROT(s) {
+#define ROT(s) {			\
 	long X = POP(s);        \
 	long Y = POP(s);		\
 	long Z = POP(s);		\
