@@ -146,6 +146,9 @@ return s;
         PUSH(s,~Y);			\
 }
 
+/**
+ * @def Faz a rotação dos 3 elementos mais acima do stack
+ */
 #define ROT(s) {			\
 	long X = POP(s);        \
 	long Y = POP(s);		\
@@ -162,15 +165,22 @@ return s;
     PUSH (s, X);            \
 }
 
+/**
+ * @def Duplica o elemento mais acima do stack
+ */
 #define DUP(s) {               \
    long Y = POP(s);            \
    PUSH (s, Y);                \
    PUSH (s, Y);                \
 }
 
+/**
+ * @def Retira o elemento mais acima do stack
+ */
 #define POP2(s) {             \
-        POP(s);                \
+        POP(s);               \
 }
+
 
 /**
  * /brief Funcao que da print a um stack
