@@ -52,8 +52,8 @@ int main(void) {
 			case '@' : ROT(s);  break;
             case '_' : DUP(s);  break;
             case ';' : POP2(s); break;
-		//	case '#' :
-		//	case 'i' :
+		  //case 'i' :
+          //case 'l' :  
             case(*token = 92) : CBARRA(s); break;
 
     		}

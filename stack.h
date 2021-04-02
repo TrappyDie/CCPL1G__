@@ -168,7 +168,7 @@ return s;
    PUSH (s, Y);                \
 }
 
-#define POP2(s) {            \
+#define POP2(s) {             \
         POP(s);                \
 }
 
