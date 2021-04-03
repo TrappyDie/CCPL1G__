@@ -53,19 +53,11 @@ int main(void) {
 			case '^' : XOR(s);  break;
 			case '~' : NOT(s);  break;
 			case '@' : ROT(s);  break;
-<<<<<<< Updated upstream
                         case '_' : DUP(s);  break;
             		case ';' : POP2(s); break;
             		case '\\' : TRD(s); break;
 		    	case 'i' : TOINT(s); break;
             		case 'l' : READ(s); break; 
-=======
-            case '_' : DUP(s);  break;
-            case ';' : POP(s); break;
-            case '\\' : TRD(s); break;
-		    case 'i' : TOINT(s); break;
-            case 'l' : READ(s); break; 
->>>>>>> Stashed changes
 
     		}
    }
