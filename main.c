@@ -17,7 +17,8 @@
  * @param val Input do utilizador
  * @param token String que contém os operadores
  * @param resto String que contém o que sobra do Input do utilizador
- * @param n Numero que e retirado do Input e inserido no stack 
+ * @param n Numero inteiro que é retirado do Input e inserido no stack
+ * @param c Double que é retirado do Input e inserido no stack
  * @returns A stack resultante do programa
  */
 int main(void) {
@@ -32,8 +33,10 @@ int main(void) {
 	strcpy(val, resto); 
 
         *resto = 0;
+        
+        double c;
         long n;
-        if ((sscanf(token, "%ld", &n) == 1) || (sscanf(token, "%lf", &n) == 1))
+        if ((sscanf(token, "%ld", &n) == 1) || (sscanf(token, "%lf", &c) == 1))
         	PUSH (s,n);
         else
 		switch (*token) { 
@@ -50,11 +53,19 @@ int main(void) {
 			case '^' : XOR(s);  break;
 			case '~' : NOT(s);  break;
 			case '@' : ROT(s);  break;
+<<<<<<< Updated upstream
                         case '_' : DUP(s);  break;
             		case ';' : POP2(s); break;
             		case '\\' : TRD(s); break;
 		    	case 'i' : TOINT(s); break;
             		case 'l' : READ(s); break; 
+=======
+            case '_' : DUP(s);  break;
+            case ';' : POP(s); break;
+            case '\\' : TRD(s); break;
+		    case 'i' : TOINT(s); break;
+            case 'l' : READ(s); break; 
+>>>>>>> Stashed changes
 
     		}
    }

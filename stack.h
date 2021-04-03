@@ -8,6 +8,8 @@
 
 #include <stdio.h>
 #include <math.h>
+#include <string.h>
+#include <stdlib.h>
 
 /**
  * @struct Stack
@@ -167,12 +169,6 @@ return s;
    PUSH (s, Y);                \
 }
 
-/**
- * @def Retira o elemento mais acima do stack
- */
-#define POP2(s) {             \
-        POP(s);               \
-}
 
 /**
  * @def Troca os dois elementos mais acima do stack
@@ -186,7 +182,7 @@ return s;
 
 /**
  * @def Lê uma linha
- */
+ */ 
 #define READ(s){              \
 	char line[1000];          \
 	fgets(line, 1000, stdin); \
@@ -197,8 +193,8 @@ return s;
  * @def Converte o topo do stack para inteiro
  */
 #define TOINT(s){             \
-	long X = POP(s);          \
-	PUSH (s, atoi(X));        \
+	int X = POP(s);      \
+	PUSH (s, X);	      \
 }
 
 /**
