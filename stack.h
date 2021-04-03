@@ -158,13 +158,6 @@ return s;
 	PUSH (s, Z);			\
 }
 
-#define CBARRA(s){          \
-    long X = POP(s);        \
-    long Y = POP(s);        \
-    PUSH (s, Y);            \
-    PUSH (s, X);            \
-}
-
 /**
  * @def Duplica o elemento mais acima do stack
  */
@@ -181,6 +174,28 @@ return s;
         POP(s);               \
 }
 
+/**
+ * @def Troca os dois elementos mais acima do stack
+ */
+#define TRD(s) {			  \
+	long X = POP(s);		  \
+	long Y = POP(s);		  \
+	PUSH (s, X);			  \
+	PUSH (s, Y);		      \
+}
+
+/**
+ * @def Lê uma linha
+ */
+#define READ(s){              \
+	char line[1000];          \
+	fgets(line, 1000, stdin); \
+	PUSH (s, line);           \
+}
+
+#define TOINT(s){
+	
+}
 
 /**
  * /brief Funcao que da print a um stack
