@@ -193,8 +193,12 @@ return s;
 	PUSH (s, line);           \
 }
 
-#define TOINT(s){
-	
+/**
+ * @def Converte o topo do stack para inteiro
+ */
+#define TOINT(s){             \
+	long X = POP(s);          \
+	PUSH (s, atoi(X));        \
 }
 
 /**
