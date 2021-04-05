@@ -180,14 +180,6 @@ return s;
 	PUSH (s, Y);		      \
 }
 
-/**
- * @def Lê uma linha
- */ 
-#define READ(s){              \
-	char line[1000];          \
-	fgets(line, 1000, stdin); \
-	PUSH (s, line);           \
-}
 
 /**
  * @def Converte o topo do stack para inteiro
