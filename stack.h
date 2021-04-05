@@ -180,6 +180,9 @@ return s;
 	PUSH (s, Y);		      \
 }
 
+#define POP1(s){              \
+        POP(s);               \
+}
 
 /**
  * @def Converte o topo do stack para inteiro

@@ -53,10 +53,10 @@ while(sscanf(val, "%s%[^\n]", token, resto) > 0) {
 			case '~' : NOT(s);  break;
 			case '@' : ROT(s);  break;
             case '_' : DUP(s);  break;
-            case ';' : POP(s); break;
+            case ';' : POP1(s);  break;
             case '\\' : TRD(s); break;
 		    case 'i' : TOINT(s); break;
-            case 'l' : fgets(line, MAX_SIZE, stdin);
+            case 'l' : assert(fgets(line, MAX_SIZE, stdin) != NULL);
                        stacking (line, s); break; 
 
     		}
