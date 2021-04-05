@@ -181,7 +181,8 @@ return s;
 }
 
 #define POP1(s){              \
-        POP(s);               \
+    long X =POP(s);            \
+    X++;               \
 }
 
 /**
