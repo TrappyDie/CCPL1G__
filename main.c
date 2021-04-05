@@ -35,8 +35,10 @@ while(sscanf(val, "%s%[^\n]", token, resto) > 0) {
         
         double c;
         long n;
-        if ((sscanf(token, "%ld", &n) == 1) || (sscanf(token, "%lf", &c) == 1))
+        if (sscanf(token, "%ld", &n) == 1)
         	PUSH (s,n);
+        else if (sscanf(token, "%lf", &c) == 1)
+        	PUSH (s,c);
         else
 		switch (*token) { 
 			case '+' : SUM(s);  break;
