@@ -18,7 +18,7 @@
  * @param i Inteiro usado para indicar a posicao de cada elemento do stack
  */
 typedef struct {
- long input[100];
+ double input[100];
  int i;
 }STACK;
 
@@ -47,8 +47,8 @@ return s;
  * @def Soma os dois elementos que estão mais acima no stack
  */
 #define SUM(s)   {   			\
-	long Y = POP(s);			\
-	long X = POP(s); 			\
+	double Y = POP(s);			\
+	double X = POP(s); 			\
 	PUSH(s,X + Y);				\
 }
 
@@ -56,8 +56,8 @@ return s;
  * @def Subtrai o elemento mais acima no stack pelo elemento abaixo desse
  */
 #define LESS(s) { 				\
-	long Y = POP(s);			\
-	long X = POP(s); 			\
+	double Y = POP(s);			\
+	double X = POP(s); 			\
 	PUSH(s, X - Y);				\
 }
 
@@ -65,8 +65,8 @@ return s;
  * @def Divide o elemento mais acima no stack pelo elemento abaixo desse
  */
 #define DIV(s)  {   			\
-	long Y = POP(s);			\
-	long X = POP(s); 			\
+	double Y = POP(s);			\
+	double X = POP(s); 			\
 	PUSH(s, X / Y);				\
 }
 
@@ -74,8 +74,8 @@ return s;
  * @def Multiplica os dois elementos que estão mais acima no stack
  */
 #define MULT(s) {				\
-	long Y = POP(s);			\
-	long X = POP(s);			\
+	double Y = POP(s);			\
+	double X = POP(s);			\
 	PUSH(s,X * Y);				\
 }
 
@@ -83,8 +83,8 @@ return s;
  * @def Coloca o elemento mais acima do stack como base e o elemento abaixo desse como expoente
  */
 #define EXP(s) {				\
-	long Y = POP(s);			\
-	long X = POP(s); 			\
+	double Y = POP(s);			\
+	double X = POP(s); 			\
 	PUSH(s, pow(X, Y));			\
 }
 
@@ -101,7 +101,7 @@ return s;
  * @def Incrementa um elemento no stack
  */
 #define INC(s) {    			\
-	long Y = POP(s);			\
+	double Y = POP(s);			\
 	PUSH(s,Y++);	 			\
 }
 
@@ -109,7 +109,7 @@ return s;
  * @def Decrementa um elemento do stack
  */
 #define DEC(s) {				\
-	long Y = POP(s);			\
+	double Y = POP(s);			\
      	PUSH(s,Y--);			\
 }
 
@@ -152,9 +152,9 @@ return s;
  * @def Faz a rotação dos 3 elementos mais acima do stack
  */
 #define ROT(s) {			\
-	long X = POP(s);        \
-	long Y = POP(s);		\
-	long Z = POP(s);		\
+	double X = POP(s);        \
+	double Y = POP(s);		\
+	double Z = POP(s);		\
 	PUSH (s, Y); 			\
 	PUSH (s, X);			\
 	PUSH (s, Z);			\
@@ -164,7 +164,7 @@ return s;
  * @def Duplica o elemento mais acima do stack
  */
 #define DUP(s) {               \
-   long Y = POP(s);            \
+   double Y = POP(s);            \
    PUSH (s, Y);                \
    PUSH (s, Y);                \
 }
@@ -174,15 +174,15 @@ return s;
  * @def Troca os dois elementos mais acima do stack
  */
 #define TRD(s) {			  \
-	long X = POP(s);		  \
-	long Y = POP(s);		  \
+	double X = POP(s);		  \
+	double Y = POP(s);		  \
 	PUSH (s, X);			  \
 	PUSH (s, Y);		      \
 }
 
 #define POP1(s){              \
-    long X =POP(s);            \
-    X++;               \
+    double X =POP(s);         \
+    X++;               		\
 }
 
 /**
@@ -200,7 +200,7 @@ return s;
  
 void output(STACK s){
     for(int j = 0;j<s.i;j++){
-		printf("%ld", s.input[j]);
+		printf("%lf", s.input[j]);
     }
     printf("\n");
 		}
