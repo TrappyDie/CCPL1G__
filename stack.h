@@ -10,6 +10,21 @@
 #include <math.h>
 #include <string.h>
 #include <stdlib.h>
+#include <assert.h>
+
+typedef enum {LONG = 1, DOUBLE = 2, CHAR = 4, STRING = 8} TYPE;
+
+#define INTEGER (LONG | CHAR)
+#define NUMBER  (INTEGER | DOUBLE)
+
+typedef struct data {
+	TYPE type;
+	long LONG;
+	double DOUBLE;
+	char CHAR;
+	char *STRING;
+} DATA;
+
 
 /**
  * @struct Stack
@@ -18,35 +33,38 @@
  * @param i Inteiro usado para indicar a posicao de cada elemento do stack
  */
 typedef struct {
- double input[100];
- int i;
+ DATA *s;
+ int size;
+ int n_elems;
 }STACK;
 
-/**
- * \brief Controi um stack
- * @returns O stack construido vazio
- */
-STACK criar_stack(){
-STACK s;
-s.i = 0;
-return s;
-}
+
+//prototipos
+int has_type(DATA elem, int mask);
+STACK *createstack();
+void push(STACK *s, DATA elem);
+DATA pop(STACK *s);
+DATA top(STACK *s);
+int is_empty(STACK *s);
+void print_stack(STACK *s);
+
+
 
 /**
  * @def Coloca um elemento num stack
  */
-#define PUSH(s,n)  s.input[s.i++]=n
+//#define PUSH(s,n)  s.input[s.i++]=n
 
 /**
  * @def Retira um elemento de um stack
  */
-#define POP(s)     s.input[--s.i]
+//#define POP(s)     s.input[--s.i]
 
 
 /**
  * @def Soma os dois elementos que estão mais acima no stack
  */
-#define SUM(s)   {   			\
+/*#define SUM(s)   {   			\
 	double Y = POP(s);			\
 	double X = POP(s); 			\
 	PUSH(s,X + Y);				\
@@ -55,7 +73,7 @@ return s;
 /**
  * @def Subtrai o elemento mais acima no stack pelo elemento abaixo desse
  */
-#define LESS(s) { 				\
+/*#define LESS(s) { 				\
 	double Y = POP(s);			\
 	double X = POP(s); 			\
 	PUSH(s, X - Y);				\
@@ -64,7 +82,7 @@ return s;
 /**
  * @def Divide o elemento mais acima no stack pelo elemento abaixo desse
  */
-#define DIV(s)  {   			\
+/*#define DIV(s)  {   			\
 	double Y = POP(s);			\
 	double X = POP(s); 			\
 	PUSH(s, X / Y);				\
@@ -73,7 +91,7 @@ return s;
 /**
  * @def Multiplica os dois elementos que estão mais acima no stack
  */
-#define MULT(s) {				\
+/*#define MULT(s) {				\
 	double Y = POP(s);			\
 	double X = POP(s);			\
 	PUSH(s,X * Y);				\
@@ -82,7 +100,7 @@ return s;
 /**
  * @def Coloca o elemento mais acima do stack como base e o elemento abaixo desse como expoente
  */
-#define EXP(s) {				\
+/*#define EXP(s) {				\
 	double Y = POP(s);			\
 	double X = POP(s); 			\
 	PUSH(s, pow(X, Y));			\
@@ -91,7 +109,7 @@ return s;
 /**
  * @def Calcula o resto da divisão entre o elemento mais acima no stack e o abaixo desse
  */
-#define RES(s) {				\
+/*#define RES(s) {				\
 	long Y = POP(s);			\
 	long X = POP(s); 			\
 	PUSH(s,X % Y);				\
@@ -100,7 +118,7 @@ return s;
 /**
  * @def Incrementa um elemento no stack
  */
-#define INC(s) {    			\
+/*#define INC(s) {    			\
 	double Y = POP(s);			\
 	PUSH(s,Y++);	 			\
 }
@@ -108,7 +126,7 @@ return s;
 /**
  * @def Decrementa um elemento do stack
  */
-#define DEC(s) {				\
+/*#define DEC(s) {				\
 	double Y = POP(s);			\
      	PUSH(s,Y--);			\
 }
@@ -116,7 +134,7 @@ return s;
 /**
  * @def Faz a operação lógica "AND" em bitwise entre os dois elementos mais acima do stack
  */
-#define AND(s) {			\
+/*#define AND(s) {			\
 	long Y = POP(s);		\
 	long X = POP(s);		\
         PUSH(s,X & Y);		\
@@ -125,7 +143,7 @@ return s;
 /**
  * @def Faz a operação lógica "OR" em bitwise entre os dois elementos mais acima do stack
  */
-#define OR(s) {				\
+/*#define OR(s) {				\
 	long Y = POP(s);		\
 	long X = POP(s);		\
         PUSH(s,X | Y);		\
@@ -134,7 +152,7 @@ return s;
 /**
  * @def Faz a operação lógica "XOR" em bitwise entre os dois elementos mais acima do stack
  */
-#define XOR(s) {     		\
+/*#define XOR(s) {     		\
 	long Y = POP(s);		\
 	long X = POP(s);		\
         PUSH(s,X ^ Y);		\
@@ -143,7 +161,7 @@ return s;
 /**
  * @def Faz a operação lógica "NOT" em bitwise ao elemento no topo do stack
  */
-#define NOT(s) {  			\
+/*#define NOT(s) {  			\
 	long Y = POP(s);		\
         PUSH(s,~Y);			\
 }
@@ -151,7 +169,7 @@ return s;
 /**
  * @def Faz a rotação dos 3 elementos mais acima do stack
  */
-#define ROT(s) {			\
+/*#define ROT(s) {			\
 	double X = POP(s);        \
 	double Y = POP(s);		\
 	double Z = POP(s);		\
@@ -163,7 +181,7 @@ return s;
 /**
  * @def Duplica o elemento mais acima do stack
  */
-#define DUP(s) {               \
+/*#define DUP(s) {               \
    double Y = POP(s);            \
    PUSH (s, Y);                \
    PUSH (s, Y);                \
@@ -173,7 +191,7 @@ return s;
 /**
  * @def Troca os dois elementos mais acima do stack
  */
-#define TRD(s) {			  \
+/*#define TRD(s) {			  \
 	double X = POP(s);		  \
 	double Y = POP(s);		  \
 	PUSH (s, X);			  \
@@ -182,15 +200,15 @@ return s;
 
 #define POP1(s){              \
     double X =POP(s);         \
-    X++;               		\
+    X++;               		  \
 }
 
 /**
  * @def Converte o topo do stack para inteiro
  */
-#define TOINT(s){             \
-	int X = POP(s);      \
-	PUSH (s, X);	      \
+/*#define TOINT(s){             \
+	int X = POP(s);      	  \
+	PUSH (s, X);	          \
 }
 
 /**
@@ -198,11 +216,11 @@ return s;
  * @param j Inteiro que se usa para ir mudando a posicao do elemento do stack que se vai imprimir
  */
  
-void output(STACK s){
+/*void output(STACK s){
     for(int j = 0;j<s.i;j++){
 		printf("%lf", s.input[j]);
     }
     printf("\n");
 		}
 
-#endif
+#endif */
