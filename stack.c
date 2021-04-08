@@ -54,6 +54,20 @@ void print_stack(STACK *s) {
 	printf("\n");
 }
 
+DATA tipo(DATA elem){
+	return elem.type;
+}
+
+#define SUM(DATA data, STACK *s){   																	\
+	DATA x = pop(s);																					\
+	DATA y = pop(s);																					\
+	if (tipo(x) == tipo(y) && tipo(x) == LONG) PUSH_LONG(GET_LONG(x) + GET_LONG(y));					\
+	else if (tipo(x) == tipo(y) && tipo(x) == DOUBLE) PUSH_DOUBLE(GET_DOUBLE(x) + GET_DOUBLE(y));		\
+	else if (tipo(x) == tipo(y) && tipo(x) == CHAR) PUSH_CHAR(GET_CHAR(x) + GET_CHAR(y));				\
+	else PUSH_STRING(GET_STRING(x) + GET_STRING(y));													\
+}
+
+
 #define STACK_OPERATION(_type,_name)			\
 	void push_##_name(STACK *s,_type val) { 	\
 		DATA elem;								\

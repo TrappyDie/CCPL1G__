@@ -47,6 +47,7 @@ DATA pop(STACK *s);
 DATA top(STACK *s);
 int is_empty(STACK *s);
 void print_stack(STACK *s);
+DATA tipo(DATA elem);
 
 
 
