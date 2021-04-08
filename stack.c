@@ -10,14 +10,14 @@ STACK *create_stack() {
 	STACK *s = (STACK *) malloc(sizeof(STACK));
 	s->n_elems = 0;
 	s->size = 100;
-	s->stack = (DATA *) calloc(s->stack, s->size * sizeof(DATA));
+	s->stack = (DATA *) calloc(s->stack, sizeof(DATA));
 	return s;
 }
 
 void push(STACK *s, DATA elem) {
 	if (s->size == s->n_elems) {
 		s->size += 100;
-		s->stack = (DATA *) realloc(s->stack,s->size * sizeof(DATA))
+		s->stack = (DATA *) realloc(s->stack,s->size * sizeof(DATA));
 	}
 	s->stack[s->n_elems] = elem;
 	s->n_elems++;
@@ -55,29 +55,30 @@ void print_stack(STACK *s) {
 }
 
 DATA tipo(DATA elem){
-	return elem.type;
+	TYPE type = elem.type;
+return type;
 }
 
-#define SUM(DATA data, STACK *s){   																	\
-	DATA x = pop(s);																					\
-	DATA y = pop(s);																					\
+#define SUM(STACK *s){   												\
+	DATA x = pop(s);													\
+	DATA y = pop(s);													\
 	if (tipo(x) == tipo(y) && tipo(x) == LONG) PUSH_LONG(GET_LONG(x) + GET_LONG(y));					\
-	else if (tipo(x) == tipo(y) && tipo(x) == DOUBLE) PUSH_DOUBLE(GET_DOUBLE(x) + GET_DOUBLE(y));		\
+	else if (tipo(x) == tipo(y) && tipo(x) == DOUBLE) PUSH_DOUBLE(GET_DOUBLE(x) + GET_DOUBLE(y));			\
 	else if (tipo(x) == tipo(y) && tipo(x) == CHAR) PUSH_CHAR(GET_CHAR(x) + GET_CHAR(y));				\
-	else PUSH_STRING(GET_STRING(x) + GET_STRING(y));													\
+	else PUSH_STRING(GET_STRING(x) + GET_STRING(y));									\
 }
 
 
 #define STACK_OPERATION(_type,_name)			\
 	void push_##_name(STACK *s,_type val) { 	\
-		DATA elem;								\
-		elem.type = _name;						\
-		elem._name = val;						\
-		push(s, elem);							\
-	}											\
-	_type pop_##_name(STACK *s) {				\
-		DATA elem = pop(s);						\
-		return elem._name;						\
+		DATA elem;				\
+		elem.type = _name;			\
+		elem._name = val;			\
+		push(s, elem);				\
+	}						\
+	_type pop_##_name(STACK *s) {			\
+		DATA elem = pop(s);			\
+		return elem._name;			\
 	}
 
 STACK_OPERATION(long, LONG)

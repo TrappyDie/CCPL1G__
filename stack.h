@@ -32,8 +32,8 @@ typedef struct data {
  * @param input Array onde se vao guardar os valores do stack
  * @param i Inteiro usado para indicar a posicao de cada elemento do stack
  */
-typedef struct {
- DATA *s;
+typedef struct stack{
+ DATA *stack;
  int size;
  int n_elems;
 }STACK;

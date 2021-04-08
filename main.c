@@ -22,11 +22,11 @@
  * @returns A stack resultante do programa
  */
 
-void stacking(char *val, STACK s){
+void stacking(char *val, STACK *s){
 
 char token[MAX_SIZE];
 char resto[MAX_SIZE];
-char line[MAX_SIZE];
+//char line[MAX_SIZE];
 
 while(sscanf(val, "%s%[^\n]", token, resto) > 0) {
 	strcpy(val, resto); 
@@ -35,14 +35,14 @@ while(sscanf(val, "%s%[^\n]", token, resto) > 0) {
         
         double c;
         long n;
-        if (sscanf(token, "%ld", &n) == 1)
-        	PUSH (s,n);
+        if (sscanf(token, "%ld", &n) == 1)        // ainda falta adaptar a entrada para diferentes tipos
+        	push (s,n);
         else if (sscanf(token, "%lf", &c) == 1)
-        	PUSH (s,c);
+        	push (s,c);
         else
 		switch (*token) { 
 			case '+' : SUM(s);  break;
-			case '-' : LESS(s); break;
+/*			case '-' : LESS(s); break;
 			case '/' : DIV(s);  break;
 			case '*' : MULT(s); break;
 			case '#' : EXP(s);  break;
@@ -54,27 +54,27 @@ while(sscanf(val, "%s%[^\n]", token, resto) > 0) {
 			case '^' : XOR(s);  break;
 			case '~' : NOT(s);  break;
 			case '@' : ROT(s);  break;
-            case '_' : DUP(s);  break;
-            case ';' : POP1(s);  break;
-            case '\\' : TRD(s); break;
-		    case 'i' : TOINT(s); break;
-            case 'l' : assert(fgets(line, MAX_SIZE, stdin) != NULL);
-                       stacking (line, s); break; 
-
+            		case '_' : DUP(s);  break;
+            		case ';' : POP1(s);  break;
+            		case '\\' : TRD(s); break;
+		    	case 'i' : TOINT(s); break;
+            		case 'l' : assert(fgets(line, MAX_SIZE, stdin) != NULL);
+                       		stacking (line, s); break; 
+*/
     		}
    }
 }
 
 
 int main(void) {
-	STACK s = criar_stack();
+	STACK s = create_stack();
     char val[MAX_SIZE];
 
     assert(fgets(val, MAX_SIZE, stdin) != NULL);
 
-    stacking(val, s);
+    stacking(val, *s);
 
-output(s);
+print_stack(*s);
 
 return 0;
 }
