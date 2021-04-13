@@ -7,7 +7,7 @@ int has_type(DATA elem, int mask){
 }
 
 STACK *create_stack() {
-	STACK *s = (STACK *) malloc(sizeof(STACK));
+	STACK *s = (STACK *) calloc(1, sizeof(STACK));
 	s->n_elems = 0;
 	s->size = 100;
 	s->stack = (DATA *) calloc(s->stack, sizeof(DATA));
@@ -56,7 +56,7 @@ void print_stack(STACK *s) {
 
 DATA tipo(DATA elem){
 	TYPE type = elem.type;
-return type;
+return elem.TYPE;
 }
 
 #define SUM(STACK *s){   												\
