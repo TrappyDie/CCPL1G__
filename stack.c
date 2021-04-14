@@ -8,9 +8,8 @@ int has_type(DATA elem, int mask){
 
 STACK *create_stack() {
 	STACK *s = (STACK *) calloc(1, sizeof(STACK));
-	s->n_elems = 0;
 	s->size = 100;
-	s->stack = (DATA *) calloc(s->stack, sizeof(DATA));
+	s->stack = (DATA *) calloc(s->size, sizeof(DATA));
 	return s;
 }
 
@@ -54,18 +53,23 @@ void print_stack(STACK *s) {
 	printf("\n");
 }
 
-DATA tipo(DATA elem){
-	TYPE type = elem.type;
-return elem.TYPE;
+TYPE tipo(DATA elem){
+return elem.type;
 }
-
-#define SUM(STACK *s){   												\
-	DATA x = pop(s);													\
-	DATA y = pop(s);													\
-	if (tipo(x) == tipo(y) && tipo(x) == LONG) PUSH_LONG(GET_LONG(x) + GET_LONG(y));					\
-	else if (tipo(x) == tipo(y) && tipo(x) == DOUBLE) PUSH_DOUBLE(GET_DOUBLE(x) + GET_DOUBLE(y));			\
-	else if (tipo(x) == tipo(y) && tipo(x) == CHAR) PUSH_CHAR(GET_CHAR(x) + GET_CHAR(y));				\
-	else PUSH_STRING(GET_STRING(x) + GET_STRING(y));									\
+double GET_DOUBLE(DATA elem){
+switch(elem.type) {
+	case LONG:
+	return elem.LONG; break;
+	case CHAR:
+	return elem.CHAR; break;
+	
+void SUM(STACK *s){											
+	DATA x = pop(s);													
+	DATA y = pop(s);													
+	if (tipo(x) == tipo(y) && tipo(x) == LONG) push_LONG(s,GET_LONG(x) + GET_LONG(y));					
+	else if (tipo(x) == tipo(y) && tipo(x) == DOUBLE) push_DOUBLE(s,GET_DOUBLE(x) + GET_DOUBLE(y));			
+	else if (tipo(x) == tipo(y) && tipo(x) == CHAR) push_CHAR(s,GET_CHAR(x) + GET_CHAR(y));				
+	else push_STRING(s,GET_STRING(x) + GET_STRING(y));									
 }
 
 
