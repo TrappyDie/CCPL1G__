@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <math.h>
 #include "stack.h"
 
 int has_type(DATA elem, int mask){
@@ -122,6 +123,134 @@ void SUM(STACK *s){
 	else push_DOUBLE(s,GET_DOUBLE(x) + GET_LONG(y));									
 }
 
+void LESS(STACK *s){											
+	DATA x = pop(s);													
+	DATA y = pop(s);													
+	if (tipo(x) == tipo(y) && tipo(x) == LONG) push_LONG(s,GET_LONG(x) - GET_LONG(y));					
+	else if (tipo(x) == tipo(y) && tipo(x) == DOUBLE) push_DOUBLE(s,GET_DOUBLE(x) - GET_DOUBLE(y));			
+	else if (tipo(x) != tipo(y) && tipo(x) == LONG) push_DOUBLE(s,GET_LONG(x) - GET_DOUBLE(y));
+	else push_DOUBLE(s,GET_DOUBLE(x) - GET_LONG(y));									
+}
+
+void DIV(STACK *s){											
+	DATA x = pop(s);													
+	DATA y = pop(s);													
+	if (tipo(x) == tipo(y) && tipo(x) == LONG) push_LONG(s,GET_LONG(y) / GET_LONG(x));					
+	else if (tipo(x) == tipo(y) && tipo(x) == DOUBLE) push_DOUBLE(s,GET_DOUBLE(y) / GET_DOUBLE(x);			
+	else if (tipo(x) != tipo(y) && tipo(x) == LONG) push_DOUBLE(s,GET_LONG(y) / GET_DOUBLE(x));
+	else push_DOUBLE(s,GET_DOUBLE(y) / GET_LONG(x));
+}
+
+void MULT(STACK *s){											
+	DATA x = pop(s);													
+	DATA y = pop(s);													
+	if (tipo(x) == tipo(y) && tipo(x) == LONG) push_LONG(s,GET_LONG(x) * GET_LONG(y));					
+	else if (tipo(x) == tipo(y) && tipo(x) == DOUBLE) push_DOUBLE(s,GET_DOUBLE(x) * GET_DOUBLE(y));			
+	else if (tipo(x) != tipo(y) && tipo(x) == LONG) push_DOUBLE(s,GET_LONG(x) * GET_DOUBLE(y));
+	else push_DOUBLE(s,GET_DOUBLE(x) * GET_LONG(y));									
+}
+
+void EXP(STACK *s){											
+	DATA x = pop(s);													
+	DATA y = pop(s);													
+	if (tipo(x) == tipo(y) && tipo(x) == LONG) push_LONG(s,pow(GET_LONG(y), GET_LONG(x)));					
+	else if (tipo(x) == tipo(y) && tipo(x) == DOUBLE) push_DOUBLE(s,pow(GET_DOUBLE(y), GET_DOUBLE(x)));			
+	else if (tipo(x) != tipo(y) && tipo(x) == LONG) push_DOUBLE(s,pow(GET_LONG(y),GET_DOUBLE(x)));
+	else push_DOUBLE(s,pow(GET_DOUBLE(y),GET_LONG(x)));									
+}
+
+void RES(STACK *s){											
+	DATA x = pop(s);													
+	DATA y = pop(s);													
+	if (tipo(x) == tipo(y) && tipo(x) == LONG) push_LONG(s,GET_LONG(y) % GET_LONG(x));					
+	else if (tipo(x) == tipo(y) && tipo(x) == DOUBLE) push_DOUBLE(s,GET_DOUBLE(y) % GET_DOUBLE(x));			
+	else if (tipo(x) != tipo(y) && tipo(x) == LONG) push_DOUBLE(s,GET_LONG(y) % GET_DOUBLE(x));
+	else push_DOUBLE(s,GET_DOUBLE(y) % GET_LONG(x));									
+}
+
+void INC(STACK *s){											
+	DATA x = pop(s);																										
+	if  (tipo(x) == LONG) push_LONG(s,++GET_LONG(x));					
+	else if (tipo(x) == DOUBLE) push_DOUBLE(s,++GET_DOUBLE(x));									
+}
+
+void INC(STACK *s){											
+	DATA x = pop(s);																										
+	if  (tipo(x) == LONG) push_LONG(s,--GET_LONG(x));					
+	else if (tipo(x) == DOUBLE) push_DOUBLE(s,--GET_DOUBLE(x));									
+}
+
+void AND(STACK *s){											
+	DATA x = pop(s);													
+	DATA y = pop(s);													
+	if (tipo(x) == tipo(y) && tipo(x) == LONG) push_LONG(s,GET_LONG(y) & GET_LONG(x));					
+	else if (tipo(x) == tipo(y) && tipo(x) == DOUBLE) push_DOUBLE(s,GET_DOUBLE(y) & GET_DOUBLE(x));			
+	else if (tipo(x) != tipo(y) && tipo(x) == LONG) push_DOUBLE(s,GET_LONG(y) & GET_DOUBLE(x));
+	else push_DOUBLE(s,GET_DOUBLE(y) & GET_LONG(x));									
+}
+
+void OR(STACK *s){											
+	DATA x = pop(s);													
+	DATA y = pop(s);													
+	if (tipo(x) == tipo(y) && tipo(x) == LONG) push_LONG(s,GET_LONG(y) | GET_LONG(x));					
+	else if (tipo(x) == tipo(y) && tipo(x) == DOUBLE) push_DOUBLE(s,GET_DOUBLE(y) | GET_DOUBLE(x));			
+	else if (tipo(x) != tipo(y) && tipo(x) == LONG) push_DOUBLE(s,GET_LONG(y) | GET_DOUBLE(x));
+	else push_DOUBLE(s,GET_DOUBLE(y) | GET_LONG(x));									
+}
+
+void XOR(STACK *s){											
+	DATA x = pop(s);													
+	DATA y = pop(s);													
+	if (tipo(x) == tipo(y) && tipo(x) == LONG) push_LONG(s,GET_LONG(y) ^ GET_LONG(x));					
+	else if (tipo(x) == tipo(y) && tipo(x) == DOUBLE) push_DOUBLE(s,GET_DOUBLE(y) ^ GET_DOUBLE(x));			
+	else if (tipo(x) != tipo(y) && tipo(x) == LONG) push_DOUBLE(s,GET_LONG(y) ^ GET_DOUBLE(x));
+	else push_DOUBLE(s,GET_DOUBLE(y) ^ GET_LONG(x));									
+}
+
+void NOT(STACK *s){											
+	DATA x = pop(s);																										
+	if  (tipo(x) == LONG) push_LONG(s,~GET_LONG(x));					
+	else if (tipo(x) == DOUBLE) push_DOUBLE(s,~GET_DOUBLE(x));									
+}
+
+void ROT(STACK *s){											
+	DATA x = pop(s);													
+	DATA y = pop(s);
+	DATA z = pop(s);													
+	if (tipo(x) == tipo(y) == tipo(z) && tipo(x) == LONG) push_LONG(s,GET_LONG(y)); push_LONG(s,GET_LONG(x)); push_LONG(s,GET_LONG(z));				
+	else if (tipo(x) == tipo(y) ==tipo(z) && tipo(x) == DOUBLE) push_DOUBLE(s,GET_DOUBLE(y)); push_DOUBLE(s,GET_DOUBLE(x)); push_DOUBLE(s,GET_DOUBLE(z));			
+	else if ((tipo(x) != tipo(y) && tipo(x) != tipo(z)) && tipo(x) == LONG) push_DOUBLE(s,GET_DOUBLE(y)); push_LONG(s,GET_LONG(x)); push_DOUBLE(s,GET_DOUBLE(z));
+	else if ((tipo(x) != tipo(y) && tipo(x) != tipo(z)) && tipo(x) == DOUBLE) push_LONG(s,GET_LONG(y)); push_DOUBLE(s,GET_DOUBLE(x)); push_LONG(s,GET_LONG(z));
+	else if (tipo(x) == tipo(y) != tipo(z) && tipo(x) == DOUBLE) push_DOUBLE(s,GET_DOUBLE(y)); push_DOUBLE(s,GET_DOUBLE(x)); push_LONG(s,GET_LONG(z));
+	else if (tipo(x) != tipo(y) == tipo(z) && tipo(x) == DOUBLE) push_LONG(s,GET_LONG(y)); push_DOUBLE(s,GET_DOUBLE(x)); push_DOUBLE(s,GET_DOUBLE(z));
+	else if (tipo(x) != tipo(y) == tipo(z) && tipo(x) == LONG) push_DOUBLE(s,GET_DOUBLE(y)); push_LONG(s,GET_LONG(x)); push_DOUBLE(s,GET_DOUBLE(z));
+    else if (tipo(x) == tipo(y) != tipo(z) && tipo(x) == LONG) push_LONG(s,GET_LONG(y)); push_LONG(s,GET_LONG(x)); push_DOUBLE(s,GET_DOUBLE(z));
+}
+
+void DUP(STACK *s){											
+	DATA x = pop(s);																										
+	if  (tipo(x) == LONG) push_LONG(s,GET_LONG(x));	push_LONG(s,GET_LONG(x));				
+	else if (tipo(x) == DOUBLE) push_DOUBLE(s,GET_DOUBLE(x)); push_DOUBLE(s,GET_DOUBLE(x));								
+}
+
+void TRD(STACK *s){											
+	DATA x = pop(s);													
+	DATA y = pop(s);													
+	if (tipo(x) == tipo(y) && tipo(x) == LONG) push_LONG(s, GET_LONG(x)); push_LONG(s, GET_LONG(y));				
+	else if (tipo(x) == tipo(y) && tipo(x) == DOUBLE) push_DOUBLE(s, GET_DOUBLE(x)); push_DOUBLE(s, GET_DOUBLE(y));	
+	else if (tipo(x) != tipo(y) && tipo(x) == LONG) push_LONG(s, GET_LONG(x)); push_DOUBLE(s, GET_DOUBLE(y));
+	else push_DOUBLE(s, GET_DOUBLE(x)); push_LONG(s, GET_LONG(y));							
+}
+
+void POP1(STACK *s){											
+	DATA x = pop(s);
+	x++;								
+}
+
+void TOINT(STACK *s){											
+	DATA x = pop(s);																										
+	push_LONG(s,GET_LONG(x));					
+}
 
 #define STACK_OPERATION(_type,_name)			\
 	void push_##_name(STACK *s,_type val) { 	\
