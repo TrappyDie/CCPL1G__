@@ -26,7 +26,7 @@ void stacking(char *val, STACK *s){
 
 char token[MAX_SIZE];
 char resto[MAX_SIZE];
-
+char line[100];
 
 while(sscanf(val, "%s%[^\n]", token, resto) > 0) {
 	strcpy(val, resto); 
@@ -43,10 +43,10 @@ while(sscanf(val, "%s%[^\n]", token, resto) > 0) {
         else
 		switch (*token) { 
 			case '+' : SUM(s);  break;
-/*			case '-' : LESS(s); break;
+			case '-' : LESS(s); break;
 			case '/' : DIV(s);  break;
 			case '*' : MULT(s); break;
-			case '#' : EXP(s);  break;
+			//case '#' : EXP(s);  break;
 			case '%' : RES(s);  break;
 			case ')' : INC(s);  break;
 			case '(' : DEC(s);  break;
@@ -59,9 +59,10 @@ while(sscanf(val, "%s%[^\n]", token, resto) > 0) {
             		case ';' : POP1(s);  break;
             		case '\\' : TRD(s); break;
 		    	case 'i' : TOINT(s); break;
-            		case 'l' : assert(fgets(line, MAX_SIZE, stdin) != NULL);
-                       		stacking (line, s); break; 
-*/
+            		case 'l' : assert(fgets(line, 100, stdin) != NULL);
+				   stacking(line,s); break;
+            		case 'f' : TODOB(s); break;
+
     		}
    }
 }
