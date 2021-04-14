@@ -187,7 +187,7 @@ void TRD(STACK *s);
  * @param x Um dos operandos da operação
  * @param y Um dos operandos da operação
  */
-void POP1(STACK *s);
+double POP1(STACK *s);
 
 /**
  * \brief Converte o topo do stack para inteiro
@@ -202,6 +202,8 @@ void TOINT(STACK *s);
  * @param y Um dos operandos da operação
  */
 void READ(STACK *s);
+
+void TODOB(STACK *s);
 
 
 #define STACK_OPERATION_PROTO(_type, _name)   \
