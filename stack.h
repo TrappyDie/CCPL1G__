@@ -24,11 +24,13 @@ typedef struct data {
 	char CHAR;
 	char *STRING;
 } DATA;
+
+
 /**
  * @struct Stack
  * \brief Struct de stacks
- * @param input Array onde se vao guardar os valores do stack
- * @param i Inteiro usado para indicar a posicao de cada elemento do stack
+ * @param size Tamanho máximo do stack
+ * @param n_elems Numero de elementos dentro do stack
  */
 typedef struct stack{
  DATA *stack;
@@ -37,16 +39,170 @@ typedef struct stack{
 }STACK;
 
 
-//prototipos
+//------------------prototipos-----------------------
+
+
 int has_type(DATA elem, int mask);
 STACK *create_stack();
+
+/**
+ * \brief Coloca um elemento num stack	
+ */
 void push(STACK *s, DATA elem);
+
+/**
+ * \brief Retira um elemento de um stack
+ */
 DATA pop(STACK *s);
+
+/**
+ * \brief Pega no elemento que está no topo do stack
+ * @returns O elemento do topo do stack
+ */
 DATA top(STACK *s);
+
+/**
+ * \brief Verifica se o stack está vazio
+ * @returns  
+ */
 int is_empty(STACK *s);
+
+/**
+ * \brief Dá print a um stack
+ */
 void print_stack(STACK *s);
+
+/**
+ * \brief Recebe um elemento e diz de que tipo ele é
+ * @returns O tipo do elemento
+ */
 TYPE tipo(DATA elem);
+
+/**
+ * \brief Soma os dois elementos que estão mais acima no stack
+ * @param x Um dos operandos da operação
+ * @param y Um dos operandos da operação
+ */
 void SUM(STACK *s);
+
+/**
+ * \brief Subtrai o elemento mais acima no stack pelo elemento abaixo desse
+ * @param x Um dos operandos da operação
+ * @param y Um dos operandos da operação
+ */
+void LESS(STACK *s);
+
+/**
+ * \brief Divide o elemento mais acima no stack pelo elemento abaixo desse
+ * @param x Um dos operandos da operação
+ * @param y Um dos operandos da operação
+ */
+void DIV(STACK *s);
+
+/**
+ * \brief Multiplica os dois elementos que estão mais acima no stack
+ * @param x Um dos operandos da operação
+ * @param y Um dos operandos da operação
+ */
+void MULT(STACK *s);
+
+/**
+ * \brief Coloca o elemento mais acima do stack como base e o elemento abaixo desse como expoente
+ * @param x Um dos operandos da operação
+ * @param y Um dos operandos da operação
+ */
+void EXP(STACK *s);
+
+/**
+ * \brief Calcula o resto da divisão entre o elemento mais acima no stack e o abaixo desse
+ * @param x Um dos operandos da operação
+ * @param y Um dos operandos da operação
+ */
+void RES(STACK *s);
+
+/**
+ * \brief Incrementa um elemento no stack
+ * @param x Um dos operandos da operação
+ * @param y Um dos operandos da operação
+ */
+void INC(STACK *s);
+
+/**
+ * \brief Decrementa um elemento do stack
+ * @param x Um dos operandos da operação
+ * @param y Um dos operandos da operação
+ */
+void DEC(STACK *s);
+
+/**
+ * \brief Faz a operação lógica "AND" em bitwise entre os dois elementos mais acima do stack
+ * @param x Um dos operandos da operação
+ * @param y Um dos operandos da operação
+ */
+void AND(STACK *s);
+
+/**
+ * \brief Faz a operação lógica "OR" em bitwise entre os dois elementos mais acima do stack
+ * @param x Um dos operandos da operação
+ * @param y Um dos operandos da operação
+ */
+void OR(STACK *s);
+
+/**
+ * \brief Faz a operação lógica "XOR" em bitwise entre os dois elementos mais acima do stack
+ * @param x Um dos operandos da operação
+ * @param y Um dos operandos da operação
+ */
+void XOR(STACK *s);
+
+/**
+ * \brief Faz a operação lógica "NOT" em bitwise ao elemento no topo do stack
+ * @param x O operando da operação
+ */
+void NOT(STACK *s);
+
+/**
+ * \brief Faz a rotação dos 3 elementos mais acima do stack
+ * @param x Um dos operandos da operação
+ * @param y Um dos operandos da operação
+ * @param z Um dos operandos da operação
+ */
+void ROT(STACK *s);
+
+/**
+ * \brief Duplica o elemento mais acima do stack
+ * @param x Um dos operandos da operação
+ * @param y Um dos operandos da operação
+ */
+void DUP(STACK *s);
+
+/**
+ * \brief Troca os dois elementos mais acima do stack
+ * @param x Um dos operandos da operação
+ */
+void TRD(STACK *s);
+
+/**
+ * \brief Retira um elemento do topo do stack
+ * @param x Um dos operandos da operação
+ * @param y Um dos operandos da operação
+ */
+void POP1(STACK *s);
+
+/**
+ * \brief Converte o topo do stack para inteiro
+ * @param x Um dos operandos da operação
+ * @param y Um dos operandos da operação
+ */
+void TOINT(STACK *s);
+
+/**
+ * \brief Lê uma linha e adiciona-a ao stack
+ * @param x Um dos operandos da operação
+ * @param y Um dos operandos da operação
+ */
+void READ(STACK *s);
+
 
 #define STACK_OPERATION_PROTO(_type, _name)   \
   void push_##_name(STACK *s, _type val);     \
@@ -58,179 +214,3 @@ STACK_OPERATION_PROTO(char, CHAR)
 STACK_OPERATION_PROTO(char *, STRING)
 
 #endif
-
-
-/**
- * @def Coloca um elemento num stack
- */
-//#define PUSH(s,n)  s.input[s.i++]=n
-
-/**
- * @def Retira um elemento de um stack
- */
-//#define POP(s)     s.input[--s.i]
-
-
-/**
- * @def Soma os dois elementos que estão mais acima no stack
- */
-/*#define SUM(s)   {   			\
-	double Y = POP(s);			\
-	double X = POP(s); 			\
-	PUSH(s,X + Y);				\
-}
-
-/**
- * @def Subtrai o elemento mais acima no stack pelo elemento abaixo desse
- */
-/*#define LESS(s) { 				\
-	double Y = POP(s);			\
-	double X = POP(s); 			\
-	PUSH(s, X - Y);				\
-}
-
-/**
- * @def Divide o elemento mais acima no stack pelo elemento abaixo desse
- */
-/*#define DIV(s)  {   			\
-	double Y = POP(s);			\
-	double X = POP(s); 			\
-	PUSH(s, X / Y);				\
-}
-
-/**
- * @def Multiplica os dois elementos que estão mais acima no stack
- */
-/*#define MULT(s) {				\
-	double Y = POP(s);			\
-	double X = POP(s);			\
-	PUSH(s,X * Y);				\
-}
-
-/**
- * @def Coloca o elemento mais acima do stack como base e o elemento abaixo desse como expoente
- */
-/*#define EXP(s) {				\
-	double Y = POP(s);			\
-	double X = POP(s); 			\
-	PUSH(s, pow(X, Y));			\
-}
-
-/**
- * @def Calcula o resto da divisão entre o elemento mais acima no stack e o abaixo desse
- */
-/*#define RES(s) {				\
-	long Y = POP(s);			\
-	long X = POP(s); 			\
-	PUSH(s,X % Y);				\
-}	
-
-/**
- * @def Incrementa um elemento no stack
- */
-/*#define INC(s) {    			\
-	double Y = POP(s);			\
-	PUSH(s,Y++);	 			\
-}
-
-/**
- * @def Decrementa um elemento do stack
- */
-/*#define DEC(s) {				\
-	double Y = POP(s);			\
-     	PUSH(s,Y--);			\
-}
-
-/**
- * @def Faz a operação lógica "AND" em bitwise entre os dois elementos mais acima do stack
- */
-/*#define AND(s) {			\
-	long Y = POP(s);		\
-	long X = POP(s);		\
-        PUSH(s,X & Y);		\
-}
-
-/**
- * @def Faz a operação lógica "OR" em bitwise entre os dois elementos mais acima do stack
- */
-/*#define OR(s) {				\
-	long Y = POP(s);		\
-	long X = POP(s);		\
-        PUSH(s,X | Y);		\
-}
-
-/**
- * @def Faz a operação lógica "XOR" em bitwise entre os dois elementos mais acima do stack
- */
-/*#define XOR(s) {     		\
-	long Y = POP(s);		\
-	long X = POP(s);		\
-        PUSH(s,X ^ Y);		\
-}
-
-/**
- * @def Faz a operação lógica "NOT" em bitwise ao elemento no topo do stack
- */
-/*#define NOT(s) {  			\
-	long Y = POP(s);		\
-        PUSH(s,~Y);			\
-}
-
-/**
- * @def Faz a rotação dos 3 elementos mais acima do stack
- */
-/*#define ROT(s) {			\
-	double X = POP(s);        \
-	double Y = POP(s);		\
-	double Z = POP(s);		\
-	PUSH (s, Y); 			\
-	PUSH (s, X);			\
-	PUSH (s, Z);			\
-}
-
-/**
- * @def Duplica o elemento mais acima do stack
- */
-/*#define DUP(s) {               \
-   double Y = POP(s);            \
-   PUSH (s, Y);                \
-   PUSH (s, Y);                \
-}
-
-
-/**
- * @def Troca os dois elementos mais acima do stack
- */
-/*#define TRD(s) {			  \
-	double X = POP(s);		  \
-	double Y = POP(s);		  \
-	PUSH (s, X);			  \
-	PUSH (s, Y);		      \
-}
-
-#define POP1(s){              \
-    double X =POP(s);         \
-    X++;               		  \
-}
-
-/**
- * @def Converte o topo do stack para inteiro
- */
-/*#define TOINT(s){             \
-	int X = POP(s);      	  \
-	PUSH (s, X);	          \
-}
-
-/**
- * /brief Funcao que da print a um stack
- * @param j Inteiro que se usa para ir mudando a posicao do elemento do stack que se vai imprimir
- */
- 
-/*void output(STACK s){
-    for(int j = 0;j<s.i;j++){
-		printf("%lf", s.input[j]);
-    }
-    printf("\n");
-		}
-
-#endif */
