@@ -35,10 +35,10 @@ while(sscanf(val, "%s%[^\n]", token, resto) > 0) {
         
         double c;
         long n;
-        if (sscanf(token, "%ld", &n) == 1)      
-        	push_LONG (s,n);
-        else if (sscanf(token, "%lf", &c) == 1)
+        if (sscanf(token, "%lf", &c) == 1)
         	push_DOUBLE (s,c);
+        else if (sscanf(token, "%ld", &n) == 1)      
+        	push_LONG (s,n);	
        	
         else
 		switch (*token) { 
@@ -76,7 +76,6 @@ int main(void) {
     stacking(val, s);
 
 print_stack(s);
-
 
 return 0;
 }
