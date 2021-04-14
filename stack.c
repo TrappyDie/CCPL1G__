@@ -41,13 +41,13 @@ void print_stack(STACK *s) {
 		TYPE type = elem.type;
 		switch(type) {
 			case LONG:
-			printf(" %ld", elem.LONG); break;
+			printf("%ld", elem.LONG); break;
 			case DOUBLE:
-			printf(" %lf", elem.DOUBLE); break;
+			printf("%.1lf", elem.DOUBLE); break;
 			case CHAR:
-			printf(" %c", elem.CHAR); break;
+			printf("%c", elem.CHAR); break;
 			case STRING:
-			printf(" %s", elem.STRING); break;
+			printf("%s", elem.STRING); break;
 		}
 	}
 	printf("\n");
@@ -56,20 +56,70 @@ void print_stack(STACK *s) {
 TYPE tipo(DATA elem){
 return elem.type;
 }
+
 double GET_DOUBLE(DATA elem){
 switch(elem.type) {
 	case LONG:
 	return elem.LONG; break;
 	case CHAR:
 	return elem.CHAR; break;
+	case DOUBLE:
+	return elem.DOUBLE; break;
+	case STRING:
+	return 0; break;
+	}
+return 0;
+}
+
+long GET_LONG(DATA elem){
+switch(elem.type) {
+	case LONG:
+	return elem.LONG; break;
+	case CHAR:
+	return elem.CHAR; break;
+	case DOUBLE:
+	return elem.DOUBLE; break;
+	case STRING:
+	return 0; break;
+	}
+return 0;
+}
+
+char GET_CHAR(DATA elem){
+switch(elem.type) {
+	case LONG:
+	return elem.LONG; break;
+	case CHAR:
+	return elem.CHAR; break;
+	case DOUBLE:
+	return elem.DOUBLE; break;
+	case STRING:
+	return 0; break;
+	}
+return 0;
+}
+
+char * GET_STRING(DATA elem){
+switch(elem.type) {
+	case LONG:
+	return 0; break;
+	case CHAR:
+	return 0; break;
+	case DOUBLE:
+	return 0; break;
+	case STRING:
+	return elem.STRING; break;
+	}
+return 0;	
+}				
 	
 void SUM(STACK *s){											
 	DATA x = pop(s);													
 	DATA y = pop(s);													
 	if (tipo(x) == tipo(y) && tipo(x) == LONG) push_LONG(s,GET_LONG(x) + GET_LONG(y));					
 	else if (tipo(x) == tipo(y) && tipo(x) == DOUBLE) push_DOUBLE(s,GET_DOUBLE(x) + GET_DOUBLE(y));			
-	else if (tipo(x) == tipo(y) && tipo(x) == CHAR) push_CHAR(s,GET_CHAR(x) + GET_CHAR(y));				
-	else push_STRING(s,GET_STRING(x) + GET_STRING(y));									
+	else if (tipo(x) != tipo(y) && tipo(x) == LONG) push_DOUBLE(s,GET_LONG(x) + GET_DOUBLE(y));
+	else push_DOUBLE(s,GET_DOUBLE(x) + GET_LONG(y));									
 }
 
 
