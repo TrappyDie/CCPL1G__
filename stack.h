@@ -1,5 +1,5 @@
 /**
- * @file Funcao onde estao definidos os stacks 
+ * @file Função onde está definido o stack 
  */
 
 
@@ -191,25 +191,33 @@ double POP1(STACK *s);
 
 /**
  * \brief Converte o topo do stack para inteiro
- * @param x Um dos operandos da operação
- * @param y Um dos operandos da operação
+ * @param x O elemento da stack que vai ser convertido
  */
 void TOINT(STACK *s);
 
 /**
- * \brief Lê uma linha e adiciona-a ao stack
- * @param x Um dos operandos da operação
- * @param y Um dos operandos da operação
+ * \brief Converte o topo do stack para double 
+ * @param x O elemento da stack que vai ser convertido
  */
-void READ(STACK *s);
-
 void TODOB(STACK *s);
 
-//void TEST(STACK *s);
-
+/**
+ * \brief Converte o topo do stack para char
+ * @param x O elemento da stack que vai ser convertido
+ */
 void TOCHAR(STACK *s);
 
+/**
+ * \brief Copia n-ésimo elemento para o topo do stack
+ * @param x A posição do elemento que vai ser copiado
+ * @param y O elemento que vai ser copiado
+ */
+void CHANGE(STACK *s);
 
+/**
+ * @def prototipo das funções relacionadas com stacks
+ */
+ 
 #define STACK_OPERATION_PROTO(_type, _name)   \
   void push_##_name(STACK *s, _type val);     \
   _type pop_##_name(STACK *s);
