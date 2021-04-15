@@ -1,5 +1,5 @@
 /**
- * @file Contem a função principal do programa
+ * @file Contém a função principal do programa
  */
 
 #include <stdio.h>
@@ -14,15 +14,18 @@
 #define MAX_SIZE	1000
 
 /**
- * \brief Funcao principal do programa
+ * \brief Função responsável pela colocação dos elementos do input no stack
  * @param val Input do utilizador
- * @param token String que contém os operadores
+ * @param token String que vai conter todos os operadores e operandos um de cada vez ao longo de toda a execução
  * @param resto String que contém o que sobra do Input do utilizador
- * @param n Numero inteiro que é retirado do Input e inserido no stack
- * @param c Double que é retirado do Input e inserido no stack
+ * @param n Char onde vai ser colocada a parte que não tem numeros long da string
+ * @param c Char onde vai ser colocada a parte que não tem numeros double da string
+ * @param line String com o input dado sempre que é lido um 'l'
+ * @param c1 Double que vai ser usado no sscanf para se distinguir o input de um numero e de um char
+ * @param l Long onde é guardado um long dado pelo input
+ * @param f Float onde é guardado um float dado pelo input
  * @returns A stack resultante do programa
  */
-
 void stacking(char *val, STACK *s){
 
 char token[MAX_SIZE];
@@ -66,12 +69,17 @@ while(sscanf(val, "%s%[^\n]", token, resto) > 0) {
     				    stacking(line,s); break;
             		case 'f' : TODOB(s); break;
             		case 'c' : TOCHAR(s); break;
+            		case '$' : CHANGE(s); break;
 
     		}
    }
 }
 
-
+/**
+ * \brief Função principal onde se recebe o input, se cria o stack e se imprime o stack
+ * @param val Array onde vai ser guardado o Input
+ * @param s Stack
+ */
 int main(void) {
 	STACK *s = create_stack();
     char val[MAX_SIZE];
