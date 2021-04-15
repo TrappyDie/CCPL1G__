@@ -24,13 +24,10 @@ STACK *create_stack() {
 }
 
 void push(STACK *s, DATA elem) {
-    if (s->size == s->n_elems) {
+    if (s->size == s->n_elems) 
         s->size += 100;
         s->stack = (DATA *) realloc(s->stack,s->size * sizeof(DATA));
-    }
-    else{
-        printf("Error in push Function, Else is Reached\n");
-    }
+   
     s->stack[s->n_elems] = elem;
     s->n_elems++;
 }
@@ -65,9 +62,6 @@ void print_stack(STACK *s) {
             case STRING:
                 printf("%s", elem.STRING);
                 break;
-            default:
-                printf("Error on print_stack Function, Default is reached\n");
-                break;
         }
     }
     printf("\n");
@@ -91,9 +85,6 @@ switch(elem.type) {
     case STRING:
         return 0;
         break;
-    default:
-        printf("Error on GET_DOUBLE Function, Default is reached\n");
-        break;
     }
 return 0;
 }
@@ -111,9 +102,6 @@ switch(elem.type) {
         break;
     case STRING:
     return 0;
-        break;
-    default:
-        printf("Error on GET_LONG Function, Default is reached\n");
         break;
     }
 return 0;
@@ -133,9 +121,6 @@ switch(elem.type) {
     case STRING:
         return 0;
         break;
-    default:
-        printf("Error on GET_CHAR Function, Default is reached\n");
-        break;
     }
 return 0;
 }
@@ -154,9 +139,6 @@ switch(elem.type) {
     case STRING:
         return elem.STRING;
         break;
-    default:
-        printf("Error on GET_STRING Function, Default is reached\n");
-        break;
     }
 return 0;
 }
@@ -173,12 +155,7 @@ void SUM(STACK *s){
     else if (tipo(x) == LONG && tipo(y) == DOUBLE){
         push_DOUBLE(s,GET_LONG(x) + GET_DOUBLE(y));
     }
-    else if (tipo(x) == DOUBLE && tipo(y) == LONG){
-        push_DOUBLE(s,GET_DOUBLE(x) + GET_LONG(y));
-    }
-    else{
-        printf("Error in SUM Function, Else is reached\n");
-    }
+    else push_DOUBLE(s,GET_DOUBLE(x) + GET_LONG(y));
 }
 
 void LESS(STACK *s){
@@ -193,12 +170,7 @@ void LESS(STACK *s){
     else if (tipo(x) == LONG && tipo(y) == DOUBLE){
         push_DOUBLE(s,GET_LONG(x) - GET_DOUBLE(y));
     }
-    else if (tipo(x) == DOUBLE && tipo(y) == LONG){
-        push_DOUBLE(s,GET_DOUBLE(x) - GET_LONG(y));
-    }
-    else{
-        printf("Error in LESS Function, Else is reached\n");
-    }
+    else push_DOUBLE(s,GET_DOUBLE(x) - GET_LONG(y));
 }
 
 void DIV(STACK *s){
@@ -210,12 +182,7 @@ void DIV(STACK *s){
     else if (tipo(y) == LONG && tipo(x) == LONG){
         push_LONG(s,GET_LONG(y) / GET_LONG(x));
     }
-    else if (tipo(x) == DOUBLE && tipo(y) == DOUBLE){
-        push_DOUBLE(s,GET_DOUBLE(y) / GET_DOUBLE(x));
-    }
-    else{
-        printf("Error in DIV Function, Else is reached\n");
-    }
+    else push_DOUBLE(s,GET_DOUBLE(y) / GET_DOUBLE(x));
 }
 
 void MULT(STACK *s){
@@ -230,12 +197,7 @@ void MULT(STACK *s){
     else if (tipo(x) == LONG && tipo(x) == DOUBLE){
         push_LONG(s,GET_LONG(x) * GET_DOUBLE(y));
     }
-    else if (tipo(x) == DOUBLE && tipo(y) == LONG){
-        push_LONG(s,GET_DOUBLE(x) * GET_LONG(y));
-    }
-    else{
-        printf("Error in MULT Function, Else is reached\n");
-    }
+    else push_LONG(s,GET_DOUBLE(x) * GET_LONG(y));
 }
 
 void EXP(STACK *s){
@@ -250,7 +212,7 @@ void EXP(STACK *s){
     else if (tipo(x) != tipo(y) && tipo(x) == LONG){
         push_DOUBLE(s,pow(GET_LONG(y),GET_DOUBLE(x)));
     }    
-    else if (tipo(x) != tipo(y) && tipo(x) == DOUBLE{
+    else if (tipo(x) != tipo(y) && tipo(x) == DOUBLE){
         push_DOUBLE(s,pow(GET_DOUBLE(y),GET_LONG(x)));
     }
 }
