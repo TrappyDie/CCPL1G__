@@ -238,6 +238,23 @@ void MULT(STACK *s){
     }
 }
 
+void EXP(STACK *s){
+    DATA x = pop(s);
+    DATA y = pop(s);
+    if (tipo(x) == tipo(y) && tipo(x) == LONG){ 
+        push_LONG(s,pow(GET_LONG(y), GET_LONG(x)));
+    }    
+    else if (tipo(x) == tipo(y) && tipo(x) == DOUBLE){
+        push_DOUBLE(s,pow(GET_DOUBLE(y), GET_DOUBLE(x)));
+    }    
+    else if (tipo(x) != tipo(y) && tipo(x) == LONG){
+        push_DOUBLE(s,pow(GET_LONG(y),GET_DOUBLE(x)));
+    }    
+    else if (tipo(x) != tipo(y) && tipo(x) == DOUBLE{
+        push_DOUBLE(s,pow(GET_DOUBLE(y),GET_LONG(x)));
+    }
+}
+
 void RES(STACK *s){
     DATA x = pop(s);
     DATA y = pop(s);
@@ -285,95 +302,29 @@ void XOR(STACK *s){
 
 void NOT(STACK *s){
     DATA x = pop(s);
-    if  (tipo(x) == LONG) push_LONG(s,~GET_LONG(x));
+    push_LONG(s,~GET_LONG(x));
 }
 
 void ROT(STACK *s){
     DATA x = pop(s);
     DATA y = pop(s);
     DATA z = pop(s);
-    if (tipo(x) == tipo(y) && tipo(x) == tipo(z) && tipo(x) == LONG){
-        push_LONG(s,GET_LONG(y));
-        push_LONG(s,GET_LONG(x));
-        push_LONG(s,GET_LONG(z));
-    }
-    else if (tipo(x) == tipo(y) && tipo(x) == tipo(z) && tipo(x) == DOUBLE){
-        push_DOUBLE(s,GET_DOUBLE(y));
-        push_DOUBLE(s,GET_DOUBLE(x));
-        push_DOUBLE(s,GET_DOUBLE(z));
-    }
-    else if ((tipo(x) != tipo(y) && tipo(x) != tipo(z)) && tipo(x) == LONG){
-        push_DOUBLE(s,GET_DOUBLE(y));
-        push_LONG(s,GET_LONG(x));
-        push_DOUBLE(s,GET_DOUBLE(z));
-    }
-    else if ((tipo(x) != tipo(y) && tipo(x) != tipo(z)) && tipo(x) == DOUBLE){
-        push_LONG(s,GET_LONG(y));
-        push_DOUBLE(s,GET_DOUBLE(x));
-        push_LONG(s,GET_LONG(z));
-    }
-    else if (tipo(x) == tipo(y) && tipo(x) != tipo(z) && tipo(x) == DOUBLE){
-        push_DOUBLE(s,GET_DOUBLE(y));
-        push_DOUBLE(s,GET_DOUBLE(x));
-        push_LONG(s,GET_LONG(z));
-    }
-    else if (tipo(x) != tipo(y) && tipo(x) == tipo(z) && tipo(x) == DOUBLE){
-        push_LONG(s,GET_LONG(y));
-        push_DOUBLE(s,GET_DOUBLE(x));
-        push_DOUBLE(s,GET_DOUBLE(z));
-    }
-    else if (tipo(x) != tipo(y) && tipo(x) == tipo(z) && tipo(x) == LONG){
-        push_DOUBLE(s,GET_DOUBLE(y));
-        push_LONG(s,GET_LONG(x));
-        push_DOUBLE(s,GET_DOUBLE(z));
-    }
-    else if (tipo(x) == tipo(y) && tipo(x) != tipo(z) && tipo(x) == LONG){
-        push_LONG(s,GET_LONG(y));
-        push_LONG(s,GET_LONG(x));
-        push_DOUBLE(s,GET_DOUBLE(z));
-    }
-    else{
-        printf("Error in ROT Function, Else is reached");
-    }
+	push(s,y);
+	push(s,x);
+	push(s,z);
 }
 
 void DUP(STACK *s){
     DATA x = pop(s);
-    if(tipo(x) == LONG){
-        push_LONG(s,GET_LONG(x));
-        push_LONG(s,GET_LONG(x));
-    }
-    else if(tipo(x) == DOUBLE){
-        push_DOUBLE(s,GET_DOUBLE(x));
-        push_DOUBLE(s,GET_DOUBLE(x));
-    }
-    else{
-        printf("Error in DUP Function, Else is reached");
-    }
+    push(s,x);
+    push(s,x);
 }
 
 void TRD(STACK *s){
     DATA x = pop(s);
     DATA y = pop(s);
-    if (tipo(x) == tipo(y) && tipo(x) == LONG){
-        push_LONG(s, GET_LONG(x));
-        push_LONG(s, GET_LONG(y));
-    }
-    else if (tipo(x) == tipo(y) && tipo(x) == DOUBLE){
-        push_DOUBLE(s, GET_DOUBLE(x));
-        push_DOUBLE(s, GET_DOUBLE(y));
-    }
-    else if (tipo(x) != tipo(y) && tipo(x) == LONG){
-        push_LONG(s, GET_LONG(x));
-        push_DOUBLE(s, GET_DOUBLE(y));
-    }
-    else if (tipo(x) != tipo(y) && tipo(x) == DOUBLE){
-        push_DOUBLE(s, GET_DOUBLE(x));
-        push_LONG(s, GET_LONG(y));
-    }
-    else{
-        printf("Error in TRD Function, Else is reached");
-    }
+    push(s,x);
+    push(s,y);
 }
 
 double POP1(STACK *s){
@@ -388,7 +339,8 @@ void TOINT(STACK *s){
 
 void TODOB(STACK *s){
     DATA x =  pop(s);
-    push_DOUBLE(s,GET_DOUBLE(x));
+	if (tipo(x) == LONG) push_DOUBLE(s,GET_LONG(x));
+	else push_DOUBLE(s,GET_DOUBLE(x));					
 }
 
 #define STACK_OPERATION(_type,_name)    \
@@ -409,16 +361,3 @@ STACK_OPERATION(char, CHAR)
 STACK_OPERATION(char *, STRING)
 
 //  ---------------------- Code Ending ----------------------
-//  ------------------- Excluded Functions ------------------
-
-
-/*void EXP(STACK *s){
-    DATA x = pop(s);
-    DATA y = pop(s);
-    if (tipo(x) == tipo(y) && tipo(x) == LONG) push_LONG(s,pow(GET_LONG(y), GET_LONG(x)));
-    else if (tipo(x) == tipo(y) && tipo(x) == DOUBLE) push_DOUBLE(s,pow(GET_DOUBLE(y), GET_DOUBLE(x)));
-    else if (tipo(x) != tipo(y) && tipo(x) == LONG) push_DOUBLE(s,pow(GET_LONG(y),GET_DOUBLE(x)));
-    else push_DOUBLE(s,pow(GET_DOUBLE(y),GET_LONG(x)));
-}*/
-
-
