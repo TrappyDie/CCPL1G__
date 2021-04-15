@@ -6,6 +6,7 @@
 #include <string.h>
 #include "stack.h"
 #include <assert.h>
+#include <math.h>
 
 /**
  * @def Tamanho usado nos arrays do programa
@@ -32,21 +33,23 @@ while(sscanf(val, "%s%[^\n]", token, resto) > 0) {
 	strcpy(val, resto); 
 
         *resto = 0;
-        
-        double c;
-        long n;
-        if (sscanf(token, "%lf", &c) == 1)
-        	push_DOUBLE (s,c);
-        else if (sscanf(token, "%ld", &n) == 1)      
-        	push_LONG (s,n);	
-       	
-        else
+        double c1;
+        char *n;
+        char *c;
+        if (sscanf(token, "%lf", &c1) == 1) {
+        	long l = strtol(token, &n, 10);   
+        	float f = strtod(token, &c);
+        		if (strlen(n) == 0) push_LONG(s, l);
+        		else if (strlen(c) == 0) push_DOUBLE(s,f);
+        		}
+        		
+	else
 		switch (*token) { 
 			case '+' : SUM(s);  break;
 			case '-' : LESS(s); break;
 			case '/' : DIV(s);  break;
 			case '*' : MULT(s); break;
-			//case '#' : EXP(s);  break;
+			case '#' : EXP(s);  break;
 			case '%' : RES(s);  break;
 			case ')' : INC(s);  break;
 			case '(' : DEC(s);  break;
@@ -62,6 +65,8 @@ while(sscanf(val, "%s%[^\n]", token, resto) > 0) {
             		case 'l' : assert(fgets(line, 100, stdin) != NULL);
 				   stacking(line,s); break;
             		case 'f' : TODOB(s); break;
+            		case 't' : TEST(s); break;
+            		case 'c' : TOCHAR(s); break;
 
     		}
    }
