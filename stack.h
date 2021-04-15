@@ -205,6 +205,10 @@ void READ(STACK *s);
 
 void TODOB(STACK *s);
 
+//void TEST(STACK *s);
+
+void TOCHAR(STACK *s);
+
 
 #define STACK_OPERATION_PROTO(_type, _name)   \
   void push_##_name(STACK *s, _type val);     \
