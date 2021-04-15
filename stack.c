@@ -342,6 +342,14 @@ void TODOB(STACK *s){
 	if (tipo(x) == LONG) push_DOUBLE(s,GET_LONG(x));
 	else push_DOUBLE(s,GET_DOUBLE(x));					
 }
+	     
+void TOCHAR(STACK *s){
+    DATA x = pop(s);
+    char c;
+	if (tipo (x) == LONG) c = (char) (GET_LONG(x));
+	else c =  (char) (GET_DOUBLE(x));
+    push_CHAR(s,c);
+}  
 
 #define STACK_OPERATION(_type,_name)    \
     void push_##_name(STACK *s,_type val) {\
