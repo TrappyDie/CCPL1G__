@@ -296,24 +296,8 @@ double POP1(STACK *s){
 
 void TOINT(STACK *s){
     DATA x =  pop(s);
-    char c[1];
-    char *c1;
-    long n = strtol(c, &c1, 10);
-    c[100] = GET_STRING(x);
-    switch(x.type) {
-    	case LONG:
-    	push(s,x);
-        break;
-    	case CHAR:
-    	push_LONG(s, n);
-        break;
-    	case DOUBLE:
-    	push_LONG(s, GET_DOUBLE(x));
-        break;
-    	case STRING:
-    	push_LONG(s, atoi(n));
-        break;
-	}
+	if (tipo(x) == LONG) push_LONG(s,GET_LONG(x));
+	else push_LONG(s,GET_DOUBLE(x));					
 }
 
 void READ(STACK *s){
