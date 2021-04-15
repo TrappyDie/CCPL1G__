@@ -24,10 +24,10 @@ STACK *create_stack() {
 }
 
 void push(STACK *s, DATA elem) {
-    if (s->size == s->n_elems) 
+    if (s->size == s->n_elems) {
         s->size += 100;
         s->stack = (DATA *) realloc(s->stack,s->size * sizeof(DATA));
-   
+   }
     s->stack[s->n_elems] = elem;
     s->n_elems++;
 }
@@ -296,8 +296,31 @@ double POP1(STACK *s){
 
 void TOINT(STACK *s){
     DATA x =  pop(s);
-    push_LONG(s,GET_LONG(x));
+    char c[1];
+    char *c1;
+    long n = strtol(c, &c1, 10);
+    c[100] = GET_STRING(x);
+    switch(x.type) {
+    	case LONG:
+    	push(s,x);
+        break;
+    	case CHAR:
+    	push_LONG(s, n);
+        break;
+    	case DOUBLE:
+    	push_LONG(s, GET_DOUBLE(x));
+        break;
+    	case STRING:
+    	push_LONG(s, atoi(n));
+        break;
+	}
 }
+
+void READ(STACK *s){
+    char line[100];
+    assert(fgets(line, 100, stdin) != NULL);
+    push_STRING(s,line);
+}    
 
 void TODOB(STACK *s){
     DATA x =  pop(s);
