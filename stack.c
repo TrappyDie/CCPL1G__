@@ -164,7 +164,7 @@ void SUM(STACK *s){
     else push_DOUBLE(s,GET_DOUBLE(x) + GET_LONG(y));
 }
 
-void LESS(STACK *s){
+void MINUS(STACK *s){
     DATA x = pop(s);
     DATA y = pop(s);
     if (tipo(x) == LONG && tipo(y) == LONG){
@@ -363,9 +363,52 @@ void CHANGE( STACK *s){
     DATA x = pop(s);
     DATA y = s->stack[s->n_elems - GET_LONG(x) - 1];
     push(s, y);
-}    
-     
+}
 
+void EQL(STACK *s){
+
+
+}
+
+void LESS(STACK *s){
+
+
+}     
+
+void HIGH(STACK *s){
+
+
+}
+
+void NAO(STACK *s){
+
+
+}
+
+void AND2(STACK *s){
+
+
+}
+
+void OR2(STACK *s){
+
+
+}
+
+void PUTMEN(STACK *s){
+
+
+}
+
+void PUTMAI(STACK *s){
+
+
+}
+
+void IF(STACK *s){
+
+	
+}
 #define STACK_OPERATION(_type,_name)    \
     void push_##_name(STACK *s,_type val) {\
         DATA elem;\

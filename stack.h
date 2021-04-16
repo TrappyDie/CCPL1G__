@@ -217,7 +217,19 @@ void CHANGE(STACK *s);
 /**
  * @def prototipo das funções relacionadas com stacks
  */
- 
+
+
+void EQL(STACK *s);
+void LESS(STACK *s);
+void HIGH(STACK *s);
+void NAO(STACK *s);
+void AND2(STACK *s);
+void OR2(STACK *s);
+void PUTMEN(STACK *s);
+void PUTMAI(STACK *s);
+void IF(STACK *s);
+
+
 #define STACK_OPERATION_PROTO(_type, _name)   \
   void push_##_name(STACK *s, _type val);     \
   _type pop_##_name(STACK *s);

@@ -49,7 +49,7 @@ while(sscanf(val, "%s%[^\n]", token, resto) > 0) {
 	else
 		switch (*token) { 
 			case '+' : SUM(s);  break;
-			case '-' : LESS(s); break;
+			case '-' : MINUS(s); break;
 			case '/' : DIV(s);  break;
 			case '*' : MULT(s); break;
 			case '#' : EXP(s);  break;
@@ -61,16 +61,24 @@ while(sscanf(val, "%s%[^\n]", token, resto) > 0) {
 			case '^' : XOR(s);  break;
 			case '~' : NOT(s);  break;
 			case '@' : ROT(s);  break;
-            		case '_' : DUP(s);  break;
-            		case ';' : POP1(s);  break;
-            		case '\\' : TRD(s); break;
-		    	case 'i' : TOINT(s); break;
-            		case 'l' : assert(fgets(line, MAX_SIZE, stdin) != NULL);
+            case '_' : DUP(s);  break;
+            case ';' : POP1(s);  break;
+            case '\\' : TRD(s); break;
+		    case 'i' : TOINT(s); break;
+            case 'l' : assert(fgets(line, MAX_SIZE, stdin) != NULL);
     				    stacking(line,s); break;
-            		case 'f' : TODOB(s); break;
-            		case 'c' : TOCHAR(s); break;
-            		case '$' : CHANGE(s); break;
-
+            case 'f' : TODOB(s); break;
+            case 'c' : TOCHAR(s); break;
+            case '$' : CHANGE(s); break;
+            case '=' : EQL(s); break;
+            case '<' : LESS(s); break;
+            case '>' : HIGH(s); break;
+            case '!' : NAO(s); break;
+            case 'e&' : AND2(s); break;
+            case 'e|' : OR2(s); break;
+            case 'e<' : PUTMAI(s); break;
+            case 'e>' : PUTMEN(s); break;
+            case '?' : IF(s); break;
     		}
    }
 }
