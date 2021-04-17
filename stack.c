@@ -148,6 +148,7 @@ switch(elem.type) {
     }
 return 0;
 }
+
     
 void SUM(STACK *s){
     DATA x = pop(s);
@@ -366,48 +367,70 @@ void CHANGE( STACK *s){
 }
 
 void EQL(STACK *s){
-
-
+     DATA X = pop(s);
+     DATA Y = pop(s);
+     if(X==Y) push(s,1);
+     else push(s,0);
 }
 
 void LESS(STACK *s){
-
-
+     DATA X = pop(s);
+     DATA Y = pop(s);
+     if(X<Y) push(s,1);
+     else push(s,0);
 }     
 
 void HIGH(STACK *s){
-
+     DATA X = pop(s);
+     DATA Y = pop(s);
+     if(X>Y) push(s,1);
+     else push(s,0);
 
 }
 
 void NAO(STACK *s){
-
+     DATA X = pop(s);
+     if(X==0) push(s,1);
+     else push(s,0);
 
 }
 
 void AND2(STACK *s){
-
+     DATA X = pop(s);
+     DATA Y = pop(s);
+     if(X!=0 && Y!=0) push(s,1);
+     else push(s,0);
 
 }
 
 void OR2(STACK *s){
-
-
+	 DATA X = pop(s);
+     DATA Y = pop(s);
+     if(X==0 && Y==0) push(s,0);
+     else push(s,1);
 }
 
 void PUTMEN(STACK *s){
-
+     DATA X = pop(s);
+     DATA Y = pop(s);
+     push(s,((X<Y) ? X : Y));
 
 }
 
 void PUTMAI(STACK *s){
-
+     DATA X = pop(s);
+     DATA Y = pop(s);
+     push(s,((X>Y) ? X : Y));
 
 }
 
 void IF(STACK *s){
+     DATA Z = pop(s);
+     DATA Y = pop(s);
+     DATA X = pop(s);
+     if(X!=0) push(s,Y);
+     else push(s,Z);
 
-	
 }
 #define STACK_OPERATION(_type,_name)    \
     void push_##_name(STACK *s,_type val) {\
