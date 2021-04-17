@@ -74,10 +74,10 @@ while(sscanf(val, "%s%[^\n]", token, resto) > 0) {
             case '<' : LESS(s); break;
             case '>' : HIGH(s); break;
             case '!' : NAO(s); break;
-            case 'e&' : AND2(s); break;
-            case 'e|' : OR2(s); break;
-            case 'e<' : PUTMAI(s); break;
-            case 'e>' : PUTMEN(s); break;
+            //case 'e&' : AND2(s); break;
+            //case 'e|' : OR2(s); break;
+            //case 'e<' : PUTMAI(s); break;
+            //case 'e>' : PUTMEN(s); break;
             case '?' : IF(s); break;
     		}
    }
