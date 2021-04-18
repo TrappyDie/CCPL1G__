@@ -5,7 +5,7 @@
 
 
 //  ---------------------------------------------------------
-//  Stack.c Function Library
+//  Stack.c - Function Library
 //  Version 1.0 - Beta
 //  Revision 1.52
 //  Project LAUM2021 CCPL1G03
@@ -17,18 +17,17 @@
 #include "stack.h"
 //  ----------------------- Libraries -----------------------
 //  --------------------- Code Begining ---------------------
-
 int has_type(DATA elem, int mask){
     return (elem.type & mask) != 0;
 }
-
+//  --------------------------------------------------------------------------
 STACK *create_stack() {
     STACK *s = (STACK *) calloc(1, sizeof(STACK));
     s->size = 100;
     s->stack = (DATA *) calloc(s->size, sizeof(DATA));
     return s;
 }
-
+//  --------------------------------------------------------------------------
 void push(STACK *s, DATA elem) {
     if (s->size == s->n_elems) {
         s->size += 100;
@@ -37,20 +36,20 @@ void push(STACK *s, DATA elem) {
     s->stack[s->n_elems] = elem;
     s->n_elems++;
 }
-
+//  --------------------------------------------------------------------------
 DATA pop(STACK *s) {
     s->n_elems--;
     return s->stack[s->n_elems];
 }
-
+//  --------------------------------------------------------------------------
 DATA top(STACK *s) {
     return s->stack[s->n_elems - 1];
 }
-
+//  --------------------------------------------------------------------------
 int is_empty(STACK *s){
     return s->n_elems == 0;
 }
-
+//  --------------------------------------------------------------------------
 void print_stack(STACK *s) {
     for(int k = 0; k < s->n_elems; k++) {
         DATA elem = s->stack[k];
@@ -58,98 +57,97 @@ void print_stack(STACK *s) {
         switch(type) {
             case LONG:
                 printf("%ld", elem.LONG);
-                break;
+                    break;
             case DOUBLE:
                 printf("%.6g", elem.DOUBLE);
-                break;
+                    break;
             case CHAR:
                 printf("%c", elem.CHAR);
-                break;
+                    break;
             case STRING:
                 printf("%s", elem.STRING);
-                break;
+                    break;
         }
     }
     printf("\n");
 }
-
+//  --------------------------------------------------------------------------
 TYPE tipo(DATA elem){
 return elem.type;
 }
-
+//  --------------------------------------------------------------------------
 double GET_DOUBLE(DATA elem){
-switch(elem.type) {
-    case LONG:
-        return elem.LONG;
-        break;
-    case CHAR:
-        return elem.CHAR;
-        break;
-    case DOUBLE:
-        return elem.DOUBLE;
-        break;
-    case STRING:
-        return 0;
-        break;
+    switch(elem.type) {
+        case LONG:
+            return elem.LONG;
+                break;
+        case CHAR:
+            return elem.CHAR;
+                break;
+        case DOUBLE:
+            return elem.DOUBLE;
+                break;
+        case STRING:
+            return 0;
+                break;
     }
 return 0;
 }
-
+//  --------------------------------------------------------------------------
 long GET_LONG(DATA elem){
-switch(elem.type) {
-    case LONG:
-    return elem.LONG;
-        break;
-    case CHAR:
-    return elem.CHAR;
-        break;
-    case DOUBLE:
-    return elem.DOUBLE;
-        break;
-    case STRING:
-    return 0;
-        break;
+    switch(elem.type) {
+        case LONG:
+            return elem.LONG;
+                break;
+        case CHAR:
+            return elem.CHAR;
+                break;
+        case DOUBLE:
+            return elem.DOUBLE;
+                break;
+        case STRING:
+            return 0;
+                break;
     }
 return 0;
 }
-
+//  --------------------------------------------------------------------------
 char GET_CHAR(DATA elem){
-switch(elem.type) {
-    case LONG:
-        return elem.LONG;
-        break;
-    case CHAR:
-        return elem.CHAR;
-        break;
-    case DOUBLE:
-        return elem.DOUBLE;
-        break;
-    case STRING:
-        return 0;
-        break;
+    switch(elem.type) {
+        case LONG:
+            return elem.LONG;
+                break;
+        case CHAR:
+            return elem.CHAR;
+                break;
+        case DOUBLE:
+            return elem.DOUBLE;
+                break;
+        case STRING:
+            return 0;
+                break;
     }
 return 0;
 }
-
+//  --------------------------------------------------------------------------
 char *GET_STRING(DATA elem){
-switch(elem.type) {
-    case LONG:
-        return 0;
-        break;
-    case CHAR:
-        return 0;
-        break;
-    case DOUBLE:
-        return 0;
-        break;
-    case STRING:
-        return elem.STRING;
-        break;
+    switch(elem.type) {
+        case LONG:
+            return 0;
+                break;
+        case CHAR:
+            return 0;
+                break;
+        case DOUBLE:
+            return 0;
+                break;
+        case STRING:
+            return elem.STRING;
+                break;
     }
 return 0;
 }
-
-    
+//  --------------------------------------------------------------------------
 void SUM(STACK *s){
     DATA x = pop(s);
     DATA y = pop(s);
@@ -162,9 +160,11 @@ void SUM(STACK *s){
     else if (tipo(x) == LONG && tipo(y) == DOUBLE){
         push_DOUBLE(s,GET_LONG(x) + GET_DOUBLE(y));
     }
-    else push_DOUBLE(s,GET_DOUBLE(x) + GET_LONG(y));
+    else{
+        push_DOUBLE(s,GET_DOUBLE(x) + GET_LONG(y));
+    }
 }
-
+//  --------------------------------------------------------------------------
 void MINUS(STACK *s){
     DATA x = pop(s);
     DATA y = pop(s);
@@ -177,9 +177,11 @@ void MINUS(STACK *s){
     else if (tipo(x) == LONG && tipo(y) == DOUBLE){
         push_DOUBLE(s,GET_LONG(x) - GET_DOUBLE(y));
     }
-    else push_DOUBLE(s,GET_DOUBLE(x) - GET_LONG(y));
+    else {
+        push_DOUBLE(s,GET_DOUBLE(x) - GET_LONG(y));
+    }
 }
-
+//  --------------------------------------------------------------------------
 void DIV(STACK *s){
     DATA x = pop(s);
     DATA y = pop(s);
@@ -189,9 +191,11 @@ void DIV(STACK *s){
     else if (tipo(y) == LONG && tipo(x) == LONG){
         push_LONG(s,GET_LONG(y) / GET_LONG(x));
     }
-    else push_DOUBLE(s,GET_DOUBLE(y) / GET_DOUBLE(x));
+    else{
+        push_DOUBLE(s,GET_DOUBLE(y) / GET_DOUBLE(x));
+    }
 }
-
+//  --------------------------------------------------------------------------
 void MULT(STACK *s){
     DATA x = pop(s);
     DATA y = pop(s);
@@ -204,13 +208,14 @@ void MULT(STACK *s){
     else if (tipo(x) == LONG && tipo(x) == DOUBLE){
         push_LONG(s,GET_LONG(x) * GET_DOUBLE(y));
     }
-    else push_LONG(s,GET_DOUBLE(x) * GET_LONG(y));
+    else {
+        push_LONG(s,GET_DOUBLE(x) * GET_LONG(y));
+    }
 }
-
+//  --------------------------------------------------------------------------
 void EXP(STACK *s){
     DATA x = pop(s);
     DATA y = pop(s);
- 
     if (tipo(x) == tipo(y) && tipo(x) == LONG){ 
         push_LONG(s,pow(GET_LONG(y), GET_LONG(x)));
     }    
@@ -233,79 +238,77 @@ void EXP(STACK *s){
         push_DOUBLE(s, ex);
     }
 }
-
+//  --------------------------------------------------------------------------
 void RES(STACK *s){
     DATA x = pop(s);
     DATA y = pop(s);
     push_LONG(s,GET_LONG(y) % GET_LONG(x));
 }
-
+//  --------------------------------------------------------------------------
 void INC(STACK *s){
     DATA x = pop(s);
-                                                                                                        
     if  (tipo(x) == LONG){
-     long x1 = GET_LONG(x);
-     x1++;
-     push_LONG(s,x1);
-     }
+        long x1 = GET_LONG(x);
+        x1++;
+        push_LONG(s,x1);
+    }
     else if (tipo(x) == DOUBLE){
-     double x2 = GET_DOUBLE(x);
-     x2++;
-    push_DOUBLE(s,x2);
-   }
+         double x2 = GET_DOUBLE(x);
+         x2++;
+        push_DOUBLE(s,x2);
+    }
     else if (tipo(x) == CHAR) {
-     char x3 = GET_CHAR(x);
-     x3++;
-     push_CHAR(s,x3);
-     }
+         char x3 = GET_CHAR(x);
+         x3++;
+         push_CHAR(s,x3);
+    }
 }
-
+//  --------------------------------------------------------------------------
 void DEC(STACK *s){
-  DATA x = pop(s);
-                                                                                                        
+    DATA x = pop(s);
     if  (tipo(x) == LONG){
-     long x1 = GET_LONG(x);
-     x1--;
-     push_LONG(s,x1);
-     }
+        long x1 = GET_LONG(x);
+        x1--;
+        push_LONG(s,x1);
+    }
     else if (tipo(x) == DOUBLE){
-     double x2 = GET_DOUBLE(x);
-     x2--;
-    push_DOUBLE(s,x2);
-   }
+        double x2 = GET_DOUBLE(x);
+        x2--;
+        push_DOUBLE(s,x2);
+    }
     else if (tipo(x) == CHAR){
-     char x3 = GET_CHAR(x);
-     x3--;
-     push_CHAR(s,x3);
-     }
+        char x3 = GET_CHAR(x);
+        x3--;
+        push_CHAR(s,x3);
+    }
 }
-
+//  --------------------------------------------------------------------------
 void AND(STACK *s){
     DATA x = pop(s);
     DATA y = pop(s);
     push_LONG(s,GET_LONG(y) & GET_LONG(x));
                                     
 }
-
+//  --------------------------------------------------------------------------
 void OR(STACK *s){
     DATA x = pop(s);
     DATA y = pop(s);
     push_LONG(s,GET_LONG(y) | GET_LONG(x));
                                     
 }
-
+//  --------------------------------------------------------------------------
 void XOR(STACK *s){
     DATA x = pop(s);
     DATA y = pop(s);
     push_LONG(s,GET_LONG(y) ^ GET_LONG(x));
                                     
 }
-
+//  --------------------------------------------------------------------------
 void NOT(STACK *s){
     DATA x = pop(s);
     push_LONG(s,~GET_LONG(x));
 }
-
+//  --------------------------------------------------------------------------
 void ROT(STACK *s){
     DATA x = pop(s);
     DATA y = pop(s);
@@ -314,125 +317,152 @@ void ROT(STACK *s){
 	push(s,x);
 	push(s,z);
 }
-
+//  --------------------------------------------------------------------------
 void DUP(STACK *s){
     DATA x = pop(s);
     if (tipo(x) == CHAR){ 
     	push_CHAR(s, GET_CHAR(x));
     	push_CHAR(s, GET_CHAR(x));
-    	}
-    else {	
-    push(s,x);
-    push(s,x);
+    }
+    else {
+        push(s,x);
+        push(s,x);
     }
 }    
-
+//  --------------------------------------------------------------------------
 void TRD(STACK *s){
     DATA x = pop(s);
     DATA y = pop(s);
     push(s,x);
     push(s,y);
 }
-
+//  --------------------------------------------------------------------------
 double POP1(STACK *s){
     pop(s);
     return 0;
 }
-
+//  --------------------------------------------------------------------------
 void TOINT(STACK *s){
     DATA x =  pop(s);
-	if (tipo(x) == LONG) push_LONG(s,GET_LONG(x));
-	else push_LONG(s,GET_DOUBLE(x));					
+    if (tipo(x) == LONG){
+        push_LONG(s,GET_LONG(x));
+    }
+    else{
+        push_LONG(s,GET_DOUBLE(x));
+    }
 }
-
-
+//  --------------------------------------------------------------------------
 void TODOB(STACK *s){
     DATA x =  pop(s);
 	if (tipo(x) == LONG) push_DOUBLE(s,GET_LONG(x));
 	else push_DOUBLE(s,GET_DOUBLE(x));					
 }
-	     
+//  --------------------------------------------------------------------------
 void TOCHAR(STACK *s){
     DATA x = pop(s);
     char c;
-	if (tipo (x) == LONG) c = (char) (GET_LONG(x));
-	else c =  (char) (GET_DOUBLE(x));
+    if (tipo (x) == LONG){
+        c = (char) (GET_LONG(x));
+    }
+    else{
+        c =  (char) (GET_DOUBLE(x));
+    }
     push_CHAR(s,c);
 } 
-
+//  --------------------------------------------------------------------------
 void CHANGE( STACK *s){
     DATA x = pop(s);
     DATA y = s->stack[s->n_elems - GET_LONG(x) - 1];
     push(s, y);
 }
-
+//  --------------------------------------------------------------------------
 void EQL(STACK *s){
      DATA X = pop(s);
      DATA Y = pop(s);
-     if(X==Y) push(s,1);
-     else push(s,0);
+    if(X == Y){
+         push(s,1);
+    }
+    else{
+        push(s,0);
+    }
 }
-
+//  --------------------------------------------------------------------------
 void LESS(STACK *s){
-     DATA X = pop(s);
-     DATA Y = pop(s);
-     if(X<Y) push(s,1);
-     else push(s,0);
+    DATA X = pop(s);
+    DATA Y = pop(s);
+    if(X < Y){
+        push(s,1);
+    }
+    else{
+        push(s,0);
+    }
 }     
-
+//  --------------------------------------------------------------------------
 void HIGH(STACK *s){
-     DATA X = pop(s);
-     DATA Y = pop(s);
-     if(X>Y) push(s,1);
-     else push(s,0);
-
+    DATA X = pop(s);
+    DATA Y = pop(s);
+    if(X > Y){
+        push(s,1);
+    }
+    else{
+        push(s,0);
+    }
 }
-
+//  --------------------------------------------------------------------------
 void NAO(STACK *s){
-     DATA X = pop(s);
-     if(X==0) push(s,1);
-     else push(s,0);
-
+    DATA X = pop(s);
+    if(X == 0){
+        push(s,1);
+    }
+    else{
+        push(s,0);
+    }
 }
-
+//  --------------------------------------------------------------------------
 void AND2(STACK *s){
-     DATA X = pop(s);
-     DATA Y = pop(s);
-     if(X!=0 && Y!=0) push(s,1);
-     else push(s,0);
-
+    DATA X = pop(s);
+    DATA Y = pop(s);
+    if(X != 0 && Y!=0) {
+        push(s,1);
+    }
+    else{
+        push(s,0);
+    }
 }
-
+//  --------------------------------------------------------------------------
 void OR2(STACK *s){
-	 DATA X = pop(s);
-     DATA Y = pop(s);
-     if(X==0 && Y==0) push(s,0);
-     else push(s,1);
+    DATA X = pop(s);
+    DATA Y = pop(s);
+    if(X == 0 && Y==0){
+        push(s,0);
+    }
+    else {
+        push(s,1);
+    }
 }
-
+//  --------------------------------------------------------------------------
 void PUTMEN(STACK *s){
-     DATA X = pop(s);
-     DATA Y = pop(s);
-     push(s,((X<Y) ? X : Y));
-
+    DATA X = pop(s);
+    DATA Y = pop(s);
+    push(s,((X < Y) ? X : Y));
 }
-
+//  --------------------------------------------------------------------------
 void PUTMAI(STACK *s){
-     DATA X = pop(s);
-     DATA Y = pop(s);
-     push(s,((X>Y) ? X : Y));
-
+    DATA X = pop(s);
+    DATA Y = pop(s);
+    push(s,((X > Y) ? X : Y));
 }
-
+//  --------------------------------------------------------------------------
 void IF(STACK *s){
-     DATA Z = pop(s);
-     DATA Y = pop(s);
-     DATA X = pop(s);
-     if(X!=0) push(s,Y);
-     else push(s,Z);
-
+    DATA Z = pop(s);
+    DATA Y = pop(s);
+    DATA X = pop(s);
+    else {
+        push(s,Z);
+    }
 }
-#define STACK_OPERATION(_type,_name)    \
+//  --------------------------------------------------------------------------
+#define STACK_OPERATION(_type,_name)\
     void push_##_name(STACK *s,_type val) {\
         DATA elem;\
         elem.type = _name;\
@@ -443,10 +473,10 @@ void IF(STACK *s){
         DATA elem = pop(s);\
         return elem._name;\
     }
-
+//  --------------------------------------------------------------------------
 STACK_OPERATION(long, LONG)
 STACK_OPERATION(double, DOUBLE)
 STACK_OPERATION(char, CHAR)
 STACK_OPERATION(char *, STRING)
-
+//  --------------------------------------------------------------------------
 //---------------------- Code Ending ----------------------

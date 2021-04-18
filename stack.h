@@ -1,22 +1,27 @@
 /**
  * @file Função onde está definido o stack 
  */
-
-
+//  ---------------------------------------------------------
+//  Stack.h - Stack Function Library
+//  Version 1.0 - Beta
+//  Revision 1.02
+//  Project LAUM2021 CCPL1G03
+//  ---------------------------------------------------------
 #ifndef STACK_H_INCLUDED
 #define STACK_H_INCLUDED
-
+//  ----------------------- Libraries -----------------------
 #include <stdio.h>
 #include <math.h>
 #include <string.h>
 #include <stdlib.h>
 #include <assert.h>
-
+//  ----------------------- Libraries -----------------------
+//  --------------------- Code Begining ---------------------
 typedef enum {LONG = 1, DOUBLE = 2, CHAR = 4, STRING = 8} TYPE;
-
+//  --------------------------------------------------------------------------
 #define INTEGER (LONG | CHAR)
 #define NUMBER  (INTEGER | DOUBLE)
-
+//  --------------------------------------------------------------------------
 typedef struct data {
 	TYPE type;
 	long LONG;
@@ -24,8 +29,7 @@ typedef struct data {
 	char CHAR;
 	char *STRING;
 } DATA;
-
-
+//  --------------------------------------------------------------------------
 /**
  * @struct Stack
  * \brief Struct de stacks
@@ -37,19 +41,14 @@ typedef struct stack{
  int size;
  int n_elems;
 }STACK;
-
-
-//------------------prototipos-----------------------
-
-
+//  --------------------------------------------------------------------------
+//  ------------------ prototipos -----------------------
 int has_type(DATA elem, int mask);
 STACK *create_stack();
-
 /**
  * \brief Coloca um elemento num stack	
  */
 void push(STACK *s, DATA elem);
-
 /**
  * \brief Retira um elemento de um stack
  */
@@ -217,8 +216,6 @@ void CHANGE(STACK *s);
 /**
  * @def prototipo das funções relacionadas com stacks
  */
-
-
 void EQL(STACK *s);
 void LESS(STACK *s);
 void HIGH(STACK *s);
@@ -228,15 +225,12 @@ void OR2(STACK *s);
 void PUTMEN(STACK *s);
 void PUTMAI(STACK *s);
 void IF(STACK *s);
-
-
 #define STACK_OPERATION_PROTO(_type, _name)   \
   void push_##_name(STACK *s, _type val);     \
   _type pop_##_name(STACK *s);
-
 STACK_OPERATION_PROTO(long, LONG)
 STACK_OPERATION_PROTO(double, DOUBLE)
 STACK_OPERATION_PROTO(char, CHAR)
 STACK_OPERATION_PROTO(char *, STRING)
-
 #endif
+//---------------------- Code Ending ----------------------
