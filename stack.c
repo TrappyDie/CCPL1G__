@@ -380,10 +380,10 @@ void EQL(STACK *s){
      DATA X = pop(s);
      DATA Y = pop(s);
     if(X == Y){
-         push(s,1);
+         push(s,DATA 1);
     }
     else{
-        push(s,0);
+        push(s,DATA 0);
     }
 }
 //  --------------------------------------------------------------------------
@@ -391,10 +391,10 @@ void LESS(STACK *s){
     DATA X = pop(s);
     DATA Y = pop(s);
     if(X < Y){
-        push(s,1);
+        push(s,DATA 1);
     }
     else{
-        push(s,0);
+        push(s,DATA 0);
     }
 }     
 //  --------------------------------------------------------------------------
@@ -402,20 +402,20 @@ void HIGH(STACK *s){
     DATA X = pop(s);
     DATA Y = pop(s);
     if(X > Y){
-        push(s,1);
+        push(s,DATA 1);
     }
     else{
-        push(s,0);
+        push(s,DATA 0);
     }
 }
 //  --------------------------------------------------------------------------
 void NAO(STACK *s){
     DATA X = pop(s);
     if(X == 0){
-        push(s,1);
+        push(s,DATA 1);
     }
     else{
-        push(s,0);
+        push(s,DATA 0);
     }
 }
 //  --------------------------------------------------------------------------
@@ -423,10 +423,10 @@ void AND2(STACK *s){
     DATA X = pop(s);
     DATA Y = pop(s);
     if(X != 0 && Y!=0) {
-        push(s,1);
+        push(s,DATA 1);
     }
     else{
-        push(s,0);
+        push(s,DATA 0);
     }
 }
 //  --------------------------------------------------------------------------
@@ -434,10 +434,10 @@ void OR2(STACK *s){
     DATA X = pop(s);
     DATA Y = pop(s);
     if(X == 0 && Y==0){
-        push(s,0);
+        push(s,DATA 0);
     }
     else {
-        push(s,1);
+        push(s,DATA 1);
     }
 }
 //  --------------------------------------------------------------------------
