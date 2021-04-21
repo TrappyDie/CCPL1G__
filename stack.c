@@ -376,17 +376,21 @@ void CHANGE( STACK *s){
     push(s, y);
 }
 //  --------------------------------------------------------------------------
+#define DATA UM = CHAR 1;
+#define DATA ZR = CHAR O;
 void EQL(STACK *s){
      DATA x = pop(s);
      DATA y = pop(s); 
-      if(x == y) push(s,GET_LONG(1));
-      else push(s,GET_LONG(0));}
+      if(x == y) push(s,GET_CHAR(UM));
+      else push(s,GET_CHAR(ZR));}
 }
 //  --------------------------------------------------------------------------
+
+
 void LESS(STACK *s){
     DATA X = pop(s);
     DATA Y = pop(s);
-    if(X < Y) push(s,GET_LONG(1));
+    if(X < Y) push(s,GET_CHAR(1));
     else push(s,GET_LONG(0));
 }     
 //  --------------------------------------------------------------------------
