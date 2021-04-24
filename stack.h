@@ -89,7 +89,7 @@ void SUM(STACK *s);
  * @param x Um dos operandos da operação
  * @param y Um dos operandos da operação
  */
-void LESS(STACK *s);
+void MINUS(STACK *s);
 
 /**
  * \brief Divide o elemento mais acima no stack pelo elemento abaixo desse
