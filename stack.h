@@ -21,17 +21,7 @@ typedef enum {LONG = 1, DOUBLE = 2, CHAR = 4, STRING = 8} TYPE;
 //  ------------------------Defines--------------------------
 #define INTEGER (LONG | CHAR)
 #define NUMBER  (INTEGER | DOUBLE)
-#define VAR(s,'A')	push_LONG(s,10)
-#define VAR(s,'B')	push_LONG(s,11)
-#define VAR(s,'C')	push_LONG(s,12)
-#define VAR(s,'D')	push_LONG(s,13)
-#define VAR(s,'E')	push_LONG(s,14)
-#define VAR(s,'F')	push_LONG(s,15)
-#define VAR(s,'N')	push_CHAR(s,'\n')
-#define VAR(s,'S')	push_CHAR(s,' ')
-#define VAR(s,'X')	push_LONG(s,0)
-#define VAR(s,'Y')	push_LONG(s,1)
-#define VAR(s,'Z')	push_LONG(s,2)
+	
 //  --------------------------------------------------------------------------
 typedef struct data {
 	TYPE type;
@@ -46,7 +36,7 @@ typedef struct data {
  * \brief Struct de stacks
  * @param size Tamanho máximo do stack
  * @param n_elems Numero de elementos dentro do stack
- */                                                                  
+ */
 typedef struct stack{
  DATA *stack;
  int size;
@@ -236,7 +226,8 @@ void OR2(STACK *s);
 void PUTMEN(STACK *s);
 void PUTMAI(STACK *s);
 void IF(STACK *s);
-void VARCHANGE(char c, STACK *s);
+void VAR(STACK *s,char c);
+void VARCHANGE(STACK *s,char c);
 #define STACK_OPERATION_PROTO(_type, _name)   \
   void push_##_name(STACK *s, _type val);     \
   _type pop_##_name(STACK *s);
