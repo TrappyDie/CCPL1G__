@@ -409,6 +409,36 @@ void EQL(STACK *s){
       if (x1 == y1) push_LONG(s,1);
       else push_LONG(s,0);
       }
+      if ((tipo(x) == CHAR) && (tipo(y) == CHAR)){
+      double x1 = GET_CHAR(x);
+      double y1 = GET_CHAR(y);
+      if (y1 == x1) push_LONG(s, 1);
+      else push_LONG(s,0);
+      }
+      if ((tipo(x) == CHAR) && (tipo(y) == LONG)){
+      double x1 = GET_CHAR(x);
+      long y1 = GET_LONG(y);
+      if (y1 == x1) push_LONG(s, 1);
+      else push_LONG(s,0);
+      }
+      if ((tipo(x) == LONG) && (tipo(y) == CHAR)){
+      long x1 = GET_LONG(x);
+      double y1 = GET_CHAR(y);
+      if (y1 == x1) push_LONG(s, 1);
+      else push_LONG(s,0);
+      }
+      if ((tipo(x) == CHAR) && (tipo(y) == DOUBLE)){
+      double x1 = GET_CHAR(x);
+      long y1 = GET_DOUBLE(y);
+      if (y1 == x1) push_LONG(s, 1);
+      else push_LONG(s,0);
+      }
+      if ((tipo(x) == LONG) && (tipo(y) == CHAR)){
+      long x1 = GET_DOUBLE(x);
+      double y1 = GET_CHAR(y);
+      if (y1 == x1) push_LONG(s, 1);
+      else push_LONG(s,0);
+      }
 }
 
 //  --------------------------------------------------------------------------
@@ -441,6 +471,36 @@ void LESS(STACK *s){
       if (y1 < x1) push_LONG(s, 1);
       else push_LONG(s,0);
       }
+      if ((tipo(x) == CHAR) && (tipo(y) == CHAR)){
+      char x1 = GET_CHAR(x);
+      char y1 = GET_CHAR(y);
+      if (y1 < x1) push_LONG(s, 1);
+      else push_LONG(s,0);
+      }
+      if ((tipo(x) == CHAR) && (tipo(y) == LONG)){
+      char x1 = GET_CHAR(x);
+      long y1 = GET_LONG(y);
+      if (y1 < x1) push_LONG(s, 1);
+      else push_LONG(s,0);
+      }
+      if ((tipo(x) == LONG) && (tipo(y) == CHAR)){
+      long x1 = GET_LONG(x);
+      char y1 = GET_CHAR(y);
+      if (y1 < x1) push_LONG(s, 1);
+      else push_LONG(s,0);
+      }
+      if ((tipo(x) == CHAR) && (tipo(y) == DOUBLE)){
+      char x1 = GET_CHAR(x);
+      long y1 = GET_DOUBLE(y);
+      if (y1 < x1) push_LONG(s, 1);
+      else push_LONG(s,0);
+      }
+      if ((tipo(x) == LONG) && (tipo(y) == CHAR)){
+      long x1 = GET_DOUBLE(x);
+      char y1 = GET_CHAR(y);
+      if (y1 < x1) push_LONG(s, 1);
+      else push_LONG(s,0);
+      }
 }
 
 //  --------------------------------------------------------------------------
@@ -468,6 +528,42 @@ void HIGH(STACK *s){
       if ((tipo(x) == LONG) && (tipo(y) == DOUBLE)){
       long x1 = GET_LONG(x);
       double y1 = GET_DOUBLE(y);
+      if (y1 > x1) push_LONG(s, 1);
+      else push_LONG(s,0);
+      }
+      if ((tipo(x) == LONG) && (tipo(y) == LONG)){
+      long x1 = GET_LONG(x);
+      long y1 = GET_LONG(y);
+      if (y1 > x1) push_LONG(s, 1);
+      else push_LONG(s,0);                  
+      }
+      if ((tipo(x) == CHAR) && (tipo(y) == CHAR)){
+      char x1 = GET_CHAR(x);
+      char y1 = GET_CHAR(y);
+      if (y1 > x1) push_LONG(s, 1);
+      else push_LONG(s,0);
+      }
+      if ((tipo(x) == CHAR) && (tipo(y) == LONG)){
+      char x1 = GET_CHAR(x);
+      long y1 = GET_LONG(y);
+      if (y1 > x1) push_LONG(s, 1);
+      else push_LONG(s,0);
+      }
+      if ((tipo(x) == LONG) && (tipo(y) == CHAR)){
+      long x1 = GET_LONG(x);
+      char y1 = GET_CHAR(y);
+      if (y1 > x1) push_LONG(s, 1);
+      else push_LONG(s,0);
+      }
+      if ((tipo(x) == CHAR) && (tipo(y) == DOUBLE)){
+      char x1 = GET_CHAR(x);
+      long y1 = GET_DOUBLE(y);
+      if (y1 > x1) push_LONG(s, 1);
+      else push_LONG(s,0);
+      }
+      if ((tipo(x) == LONG) && (tipo(y) == CHAR)){
+      long x1 = GET_DOUBLE(x);
+      char y1 = GET_CHAR(y);
       if (y1 > x1) push_LONG(s, 1);
       else push_LONG(s,0);
       }
@@ -554,17 +650,17 @@ void PUTMEN(STACK *s){
     if (tipo(X)==tipo(Y) && tipo(X)==DOUBLE){
      double x1 = GET_DOUBLE(X);
      double y1 = GET_DOUBLE(Y);
-     push_LONG(s,((x1 < y1) ? x1 : y1));}
+     push_DOUBLE(s,((x1 < y1) ? x1 : y1));}
     if (tipo(X)!= tipo(Y) && tipo(Y)==DOUBLE){
      long x1 = GET_LONG(X);
      double y1 = GET_DOUBLE(Y);
-     if (x1 > y1) push_LONG(s,x1);
+     if (x1 < y1) push_LONG(s,x1);
      else push_DOUBLE(s,y1);
      }
     if (tipo(X)!=tipo(Y) && tipo(X)==DOUBLE){
      double x1 = GET_DOUBLE(X);
      long y1 = GET_LONG(Y);
-     if (x1 > y1) push_DOUBLE(s,x1);
+     if (x1 < y1) push_DOUBLE(s,x1);
      else push_LONG(s,y1);
      }
 }
