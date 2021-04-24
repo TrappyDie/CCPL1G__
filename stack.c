@@ -479,41 +479,107 @@ void NAO(STACK *s){
     else push_LONG(s,0);
     }
 }    
-    /*
 //  --------------------------------------------------------------------------
 void AND2(STACK *s){
     DATA X = pop(s);
     DATA Y = pop(s);
-    if(X != 0 && Y!=0) {
-        push(s,DATA 1);
-    }
-    else{
-        push(s,DATA 0);
-    }
+    if (tipo(X)==tipo(Y) && tipo(X)==LONG){
+     long x1 = GET_LONG(X);
+     long y1 = GET_LONG(Y);
+      if(x1!= 0 && y2!=0 && x1>y1) {push_LONG(s,x1);}
+      if(x1!= 0 && y2!=0 && x1<y1) {push_LONG(s,y1);}
+      else {push_LONG(s,0);}}
+    if (tipo(X)==tipo(Y) && tipo(X)==DOUBLE){
+     double x1 = GET_DOUBLE(X);
+     double y1 = GET_DOUBLE(Y);
+      if(x1!= 0 && y2!=0 && x1>y1) {push_DOUBLE(s,x1);}
+      if(x1!= 0 && y2!=0 && x1<y1) {push_DOUBLE(s,y1);}
+      else {push_LONG(s,0);}}
+    if (tipo(X)!= tipo(Y) && tipo(Y)==DOUBLE){
+     long x1 = GET_LONG(X);
+     double y1 = GET_DOUBLE(Y);
+      if(x1!= 0 && y2!=0 && x1>y1) {push_LONG(s,x1);}
+      if(x1!= 0 && y2!=0 && x1<y1) {push_DOUBLE(s,y1);}
+      else {push_LONG(s,0);}}
+    if (tipo(X)!=tipo(Y) && tipo(X)==DOUBLE){
+     double x1 = GET_DOUBLE(X);
+     long y1 = GET_LONG(Y);
+      if(x1!= 0 && y2!=0 && x1>y1) {push_DOUBLE(s,x1);}
+      if(x1!= 0 && y2!=0 && x1<y1) {push_LONG(s,y1);}
+      else {push_LONG(s,0);}}
 }
+   
 //  --------------------------------------------------------------------------
 void OR2(STACK *s){
     DATA X = pop(s);
-   DATA Y = pop(s);
-    if(X == 0 && Y==0){
-        push(s,DATA 0);
-    }
-    else {
-        push(s,DATA 1);
-    }
+    DATA Y = pop(s);
+    if (tipo(X)==tipo(Y) && tipo(X)==LONG){
+     long x1 = GET_LONG(X);
+     long y1 = GET_LONG(Y);
+      if(x1==0 && y1==0) {push_LONG(s,0);}
+      if(x1<=y1 || y1==0) {push_LONG(s,x1);}
+      if(x1>y1 || x1==0) {push_LONG(s,y1);}}
+    if (tipo(X)==tipo(Y) && tipo(X)==DOUBLE){
+     double x1 = GET_DOUBLE(X);
+     double y1 = GET_DOUBLE(Y);
+      if(x1==0 && y1==0) {push_LONG(s,0);}
+      if(x1<=y1 || y1==0) {push_DOUBLE(s,x1);}
+      if(x1>y1 || x1==0) {push_DOUBLE(s,y1);}}
+    if (tipo(X)!= tipo(Y) && tipo(Y)==DOUBLE){
+     long x1 = GET_LONG(X);
+     double y1 = GET_DOUBLE(Y);
+      if(x1==0 && y1==0) {push_LONG(s,0);}
+      if(x1<=y1 || y1==0) {push_LONG(s,x1);}
+      if(x1>y1 || x1==0) {push_DOUBLE(s,y1);}}
+    if (tipo(X)!=tipo(Y) && tipo(X)==DOUBLE){
+     double x1 = GET_DOUBLE(X);
+     long y1 = GET_LONG(Y);
+      if(x1==0 && y1==0) {push_LONG(s,0);}
+      if(x1<=y1 || y1==0) {push_DOUBLE(s,x1);}
+      if(x1>y1 || x1==0) {push_LONG(s,y1);}}
 }
 //  --------------------------------------------------------------------------
 void PUTMEN(STACK *s){
     DATA X = pop(s);
     DATA Y = pop(s);
-    push(s,((X < Y) ? X : Y));
+    if (tipo(X)==tipo(Y) && tipo(X)==LONG){
+     long x1 = GET_LONG(X);
+     long y1 = GET_LONG(Y);
+     push_LONG(s,((x1 < y1) ? x1 : y1));}
+    if (tipo(X)==tipo(Y) && tipo(X)==DOUBLE){
+     double x1 = GET_DOUBLE(X);
+     double y1 = GET_DOUBLE(Y);
+     push_LONG(s,((x1 < y1) ? x1 : y1));}
+    if (tipo(X)!= tipo(Y) && tipo(Y)==DOUBLE){
+     long x1 = GET_LONG(X);
+     double y1 = GET_DOUBLE(Y);
+     push_LONG(s,((x1 < y1) ? x1 : y1));}
+    if (tipo(X)!=tipo(Y) && tipo(X)==DOUBLE){
+     double x1 = GET_DOUBLE(X);
+     long y1 = GET_LONG(Y);
+     push_LONG(s,((x1 < y1) ? x1 : y1));}
 }
 //  --------------------------------------------------------------------------
 void PUTMAI(STACK *s){
-   DATA X = pop(s);
+    DATA X = pop(s);
     DATA Y = pop(s);
-    push(s,((X > Y) ? X : Y));
-} */
+    if (tipo(X)==tipo(Y) && tipo(X)==LONG){
+     long x1 = GET_LONG(X);
+     long y1 = GET_LONG(Y);
+     push_LONG(s,((x1 > y1) ? x1 : y1));}
+    if (tipo(X)==tipo(Y) && tipo(X)==DOUBLE){
+     double x1 = GET_DOUBLE(X);
+     double y1 = GET_DOUBLE(Y);
+     push_LONG(s,((x1 > y1) ? x1 : y1));}
+    if (tipo(X)!= tipo(Y) && tipo(Y)==DOUBLE){
+     long x1 = GET_LONG(X);
+     double y1 = GET_DOUBLE(Y);
+     push_LONG(s,((x1 > y1) ? x1 : y1));}
+    if (tipo(X)!=tipo(Y) && tipo(X)==DOUBLE){
+     double x1 = GET_DOUBLE(X);
+     long y1 = GET_LONG(Y);
+     push_LONG(s,((x1 > y1) ? x1 : y1));}
+}
 //  --------------------------------------------------------------------------
 void IF(STACK *s){
     DATA x = pop(s);

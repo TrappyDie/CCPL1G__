@@ -46,7 +46,7 @@ typedef struct data {
  * \brief Struct de stacks
  * @param size Tamanho máximo do stack
  * @param n_elems Numero de elementos dentro do stack
- */
+ */                                                                  
 typedef struct stack{
  DATA *stack;
  int size;
@@ -231,10 +231,10 @@ void EQL(STACK *s);
 void LESS(STACK *s);
 void HIGH(STACK *s);
 void NAO(STACK *s);
-//void AND2(STACK *s); 
-//void OR2(STACK *s);
-//void PUTMEN(STACK *s);
-//void PUTMAI(STACK *s);
+void AND2(STACK *s); 
+void OR2(STACK *s);
+void PUTMEN(STACK *s);
+void PUTMAI(STACK *s);
 void IF(STACK *s);
 void VARCHANGE(char c, STACK *s);
 #define STACK_OPERATION_PROTO(_type, _name)   \
