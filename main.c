@@ -1,135 +1,248 @@
 /**
- * @file Contém a função principal do programa
+ * @file Função onde está definido o stack 
  */
 //  ---------------------------------------------------------
-//  Main.c - Main Code
+//  Stack.h - Stack Function Library
 //  Version 1.0 - Beta
-//  Revision 1.57
+//  Revision 1.02
 //  Project LAUM2021 CCPL1G03
 //  ---------------------------------------------------------
+#ifndef STACK_H_INCLUDED
+#define STACK_H_INCLUDED
 //  ----------------------- Libraries -----------------------
 #include <stdio.h>
-#include <string.h>
-#include "stack.h"
-#include <assert.h>
 #include <math.h>
+#include <string.h>
+#include <stdlib.h>
+#include <assert.h>
 //  ----------------------- Libraries -----------------------
 //  --------------------- Code Begining ---------------------
-/**
- * @def Tamanho usado nos arrays do programa
- */
-#define MAX_SIZE	1000
-/**
- * \brief Função responsável pela colocação dos elementos do input no stack
- * @param val Input do utilizador
- * @param token String que vai conter todos os operadores e operandos um de cada vez ao longo de toda a execução
- * @param resto String que contém o que sobra do Input do utilizador
- * @param n Char onde vai ser colocada a parte que não tem numeros long da string
- * @param c Char onde vai ser colocada a parte que não tem numeros double da string
- * @param line String com o input dado sempre que é lido um 'l'
- * @param c1 Double que vai ser usado no sscanf para se distinguir o input de um numero e de um char
- * @param l Long onde é guardado um long dado pelo input
- * @param f Float onde é guardado um float dado pelo input
- * @returns A stack resultante do programa
- */
-void stacking(char *val, STACK *s){
-    char token[MAX_SIZE];
-    char resto[MAX_SIZE];
-    char line[MAX_SIZE];
-    while(sscanf(val, "%s%[^\n]", token, resto) > 0) {
-        strcpy(val, resto);
-        *resto = 0;
-        double c1;
-        char *n;
-        char *c;
-        if (sscanf(token, "%lf", &c1) == 1) {
-            long l = strtol(token, &n, 10);
-            float f = strtod(token, &c);
-            if (strlen(n) == 0){
-                push_LONG(s, l);
-            }
-            else if (strlen(c) == 0){
-                push_DOUBLE(s,f);
-            }
-            else switch (*token) {
-                case '+' : SUM(s);
-                    break;
-                case '-' : MINUS(s);
-                    break;
-                case '/' : DIV(s);
-                    break;
-                case '*' : MULT(s);
-                    break;
-                case '#' : EXP(s);
-                    break;
-                case '%' : RES(s);
-                    break;
-                case ')' : INC(s);
-                    break;
-                case '(' : DEC(s);
-                    break;
-                case '&' : AND(s);
-                    break;
-                case '|' : OR(s);
-                    break;
-                case '^' : XOR(s);
-                    break;
-                case '~' : NOT(s);
-                    break;
-                case '@' : ROT(s);
-                    break;
-                case '_' : DUP(s);
-                    break;
-                case ';' : POP1(s);
-                    break;
-                case '\\' : TRD(s);
-                    break;
-                case 'i' : TOINT(s);
-                    break;
-                case 'l' : assert(fgets(line, MAX_SIZE, stdin) != NULL);
-                            stacking(line,s);
-                    break;
-                case 'f' : TODOB(s);
-                    break;
-                case 'c' : TOCHAR(s);
-                    break;
-                case '$' : CHANGE(s);
-                    break;
-                case '=' : EQL(s);
-                    break;
-                /*case '<' : LESS(s);
-                   break;
-                case '>' : HIGH(s);
-                    break;
-                case '!' : NAO(s);
-                    break;
-                case "e&" : AND2(s);
-                    break;
-                case "e|" : OR2(s); 
-                    break;
-                case "e<" : PUTMAI(s); 
-                    break;
-                case "e>" : PUTMEN(s); 
-                    break;
-                case '?' : IF(s);
-                    break; */
-            }
-        }
-    }
-}
+typedef enum {LONG = 1, DOUBLE = 2, CHAR = 4, STRING = 8} TYPE;
+//  ------------------------Defines--------------------------
+#define INTEGER (LONG | CHAR)
+#define NUMBER  (INTEGER | DOUBLE)
+#define VAR(s,'A')	push_LONG(s,10)
+#define VAR(s,'B')	push_LONG(s,11)
+#define VAR(s,'C')	push_LONG(s,12)
+#define VAR(s,'D')	push_LONG(s,13)
+#define VAR(s,'E')	push_LONG(s,14)
+#define VAR(s,'F')	push_LONG(s,15)
+#define VAR(s,'N')	push_CHAR(s,'\n')
+#define VAR(s,'S')	push_CHAR(s,' ')
+#define VAR(s,'X')	push_LONG(s,0)
+#define VAR(s,'Y')	push_LONG(s,1)
+#define VAR(s,'Z')	push_LONG(s,2)
+//  --------------------------------------------------------------------------
+typedef struct data {
+	TYPE type;
+	long LONG;
+	double DOUBLE;
+	char CHAR;
+	char *STRING;
+} DATA;
 //  --------------------------------------------------------------------------
 /**
- * \brief Função principal onde se recebe o input, se cria o stack e se imprime o stack
- * @param val Array onde vai ser guardado o Input
- * @param s Stack
+ * @struct Stack
+ * \brief Struct de stacks
+ * @param size Tamanho máximo do stack
+ * @param n_elems Numero de elementos dentro do stack
  */
-int main(void) {
-	STACK *s = create_stack();
-    char val[MAX_SIZE];
-    assert(fgets(val, MAX_SIZE, stdin) != NULL);
-    stacking(val, s);
-    print_stack(s);
-    return 0;
-}
+typedef struct stack{
+ DATA *stack;
+ int size;
+ int n_elems;
+}STACK;
 //  --------------------------------------------------------------------------
+//  ------------------ prototipos -----------------------
+int has_type(DATA elem, int mask);
+STACK *create_stack();
+/**
+ * \brief Coloca um elemento num stack	
+ */
+void push(STACK *s, DATA elem);
+/**
+ * \brief Retira um elemento de um stack
+ */
+DATA pop(STACK *s);
+
+/**
+ * \brief Pega no elemento que está no topo do stack
+ * @returns O elemento do topo do stack
+ */
+DATA top(STACK *s);
+
+/**
+ * \brief Verifica se o stack está vazio
+ * @returns  
+ */
+int is_empty(STACK *s);
+
+/**
+ * \brief Dá print a um stack
+ */
+void print_stack(STACK *s);
+
+/**
+ * \brief Recebe um elemento e diz de que tipo ele é
+ * @returns O tipo do elemento
+ */
+TYPE tipo(DATA elem);
+
+/**
+ * \brief Soma os dois elementos que estão mais acima no stack
+ * @param x Um dos operandos da operação
+ * @param y Um dos operandos da operação
+ */
+void SUM(STACK *s);
+
+/**
+ * \brief Subtrai o elemento mais acima no stack pelo elemento abaixo desse
+ * @param x Um dos operandos da operação
+ * @param y Um dos operandos da operação
+ */
+void MINUS(STACK *s);
+
+/**
+ * \brief Divide o elemento mais acima no stack pelo elemento abaixo desse
+ * @param x Um dos operandos da operação
+ * @param y Um dos operandos da operação
+ */
+void DIV(STACK *s);
+
+/**
+ * \brief Multiplica os dois elementos que estão mais acima no stack
+ * @param x Um dos operandos da operação
+ * @param y Um dos operandos da operação
+ */
+void MULT(STACK *s);
+
+/**
+ * \brief Coloca o elemento mais acima do stack como base e o elemento abaixo desse como expoente
+ * @param x Um dos operandos da operação
+ * @param y Um dos operandos da operação
+ */
+void EXP(STACK *s);
+
+/**
+ * \brief Calcula o resto da divisão entre o elemento mais acima no stack e o abaixo desse
+ * @param x Um dos operandos da operação
+ * @param y Um dos operandos da operação
+ */
+void RES(STACK *s);
+
+/**
+ * \brief Incrementa um elemento no stack
+ * @param x Um dos operandos da operação
+ * @param y Um dos operandos da operação
+ */
+void INC(STACK *s);
+
+/**
+ * \brief Decrementa um elemento do stack
+ * @param x Um dos operandos da operação
+ * @param y Um dos operandos da operação
+ */
+void DEC(STACK *s);
+
+/**
+ * \brief Faz a operação lógica "AND" em bitwise entre os dois elementos mais acima do stack
+ * @param x Um dos operandos da operação
+ * @param y Um dos operandos da operação
+ */
+void AND(STACK *s);
+
+/**
+ * \brief Faz a operação lógica "OR" em bitwise entre os dois elementos mais acima do stack
+ * @param x Um dos operandos da operação
+ * @param y Um dos operandos da operação
+ */
+void OR(STACK *s);
+
+/**
+ * \brief Faz a operação lógica "XOR" em bitwise entre os dois elementos mais acima do stack
+ * @param x Um dos operandos da operação
+ * @param y Um dos operandos da operação
+ */
+void XOR(STACK *s);
+
+/**
+ * \brief Faz a operação lógica "NOT" em bitwise ao elemento no topo do stack
+ * @param x O operando da operação
+ */
+void NOT(STACK *s);
+
+/**
+ * \brief Faz a rotação dos 3 elementos mais acima do stack
+ * @param x Um dos operandos da operação
+ * @param y Um dos operandos da operação
+ * @param z Um dos operandos da operação
+ */
+void ROT(STACK *s);
+
+/**
+ * \brief Duplica o elemento mais acima do stack
+ * @param x Um dos operandos da operação
+ * @param y Um dos operandos da operação
+ */
+void DUP(STACK *s);
+
+/**
+ * \brief Troca os dois elementos mais acima do stack
+ * @param x Um dos operandos da operação
+ */
+void TRD(STACK *s);
+
+/**
+ * \brief Retira um elemento do topo do stack
+ * @param x Um dos operandos da operação
+ * @param y Um dos operandos da operação
+ */
+double POP1(STACK *s);
+
+/**
+ * \brief Converte o topo do stack para inteiro
+ * @param x O elemento da stack que vai ser convertido
+ */
+void TOINT(STACK *s);
+
+/**
+ * \brief Converte o topo do stack para double 
+ * @param x O elemento da stack que vai ser convertido
+ */
+void TODOB(STACK *s);
+
+/**
+ * \brief Converte o topo do stack para char
+ * @param x O elemento da stack que vai ser convertido
+ */
+void TOCHAR(STACK *s);
+
+/**
+ * \brief Copia n-ésimo elemento para o topo do stack
+ * @param x A posição do elemento que vai ser copiado
+ * @param y O elemento que vai ser copiado
+ */
+void CHANGE(STACK *s);
+
+/**
+ * @def prototipo das funções relacionadas com stacks
+ */
+void EQL(STACK *s);
+void LESS(STACK *s);
+void HIGH(STACK *s);
+void NAO(STACK *s);
+//void AND2(STACK *s); 
+//void OR2(STACK *s);
+//void PUTMEN(STACK *s);
+//void PUTMAI(STACK *s);
+void IF(STACK *s);
+void VARCHANGE(char c, STACK *s);
+#define STACK_OPERATION_PROTO(_type, _name)   \
+  void push_##_name(STACK *s, _type val);     \
+  _type pop_##_name(STACK *s);
+STACK_OPERATION_PROTO(long, LONG)
+STACK_OPERATION_PROTO(double, DOUBLE)
+STACK_OPERATION_PROTO(char, CHAR)
+STACK_OPERATION_PROTO(char *, STRING)
+#endif
 //---------------------- Code Ending ----------------------
