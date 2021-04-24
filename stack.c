@@ -376,14 +376,36 @@ void CHANGE( STACK *s){
     push(s, y);
 }
 //  --------------------------------------------------------------------------
-#define DATA UM = CHAR 1;
-#define DATA ZR = CHAR O;
+
 void EQL(STACK *s){
-     DATA x = pop(s);
+     DATA x = pop(s);         
      DATA y = pop(s); 
-      if(x == y) push(s,GET_CHAR(UM));
-      else push(s,GET_CHAR(ZR));}
+      if ((tipo(x) == LONG) && (tipo(y) == LONG)){
+      long x1 = GET_LONG(x);
+      long y1 = GET_LONG(y);
+      if (x1 == y1) push_LONG(s, x1);
+      else push_LONG(s,0);
+      }
+      if ((tipo(x) == DOUBLE) && (tipo(y) == DOUBLE)){
+      double x1 = GET_DOUBLE(x);
+      double y1 = GET_DOUBLE(y);
+      if (x1 == y1) push_DOUBLE(s, x1);
+      else push_LONG(s,0);
+      }
+      if ((tipo(x) == DOUBLE) && (tipo(y) == LONG)){
+      double x1 = GET_DOUBLE(x);
+      long y1 = GET_LONG(y);
+      if (x1 == y1) push_LONG(s, y1);
+      else push_LONG(s,0);
+      }
+      if ((tipo(x) == LONG) && (tipo(y) == DOUBLE)){
+      long x1 = GET_LONG(x);
+      double y1 = GET_DOUBLE(y);
+      if (x1 == y1) push_LONG(s, x1);
+      else push_LONG(s,0);
+      }
 }
+/*
 //  --------------------------------------------------------------------------
 
 
@@ -391,72 +413,74 @@ void LESS(STACK *s){
     DATA X = pop(s);
     DATA Y = pop(s);
     if(X < Y) push(s,GET_CHAR(1));
-    else push(s,GET_LONG(0));
+    else push(s,GET_LONG(0));					
 }     
+
 //  --------------------------------------------------------------------------
-//void HIGH(STACK *s){
-//    DATA X = pop(s);
-//    DATA Y = pop(s);
-//    if(X > Y){
-//        push(s,DATA 1);
-//    }
-//    else{
-//        push(s,DATA 0);
-//    }
-//}
+void HIGH(STACK *s){
+    DATA X = pop(s);
+    DATA Y = pop(s);
+    if(X > Y){
+        push(s,DATA 1);
+    }
+    else{
+        push(s,DATA 0);
+    }
+}
 //  --------------------------------------------------------------------------
-//void NAO(STACK *s){
-//    DATA X = pop(s);
-//    if(X == 0){
-//        push(s,DATA 1);
-//    }
-//    else{
-//        push(s,DATA 0);
-//    }
-//}
+void NAO(STACK *s){
+    DATA X = pop(s);
+    if(X == 0){
+        push(s,DATA 1);
+    }
+    else{
+        push(s,DATA 0);
+    }
+}
 //  --------------------------------------------------------------------------
-//void AND2(STACK *s){
-//    DATA X = pop(s);
-//    DATA Y = pop(s);
-//    if(X != 0 && Y!=0) {
-//        push(s,DATA 1);
-//    }
-//    else{
-//        push(s,DATA 0);
-//    }
-//}
+void AND2(STACK *s){
+    DATA X = pop(s);
+    DATA Y = pop(s);
+    if(X != 0 && Y!=0) {
+        push(s,DATA 1);
+    }
+    else{
+        push(s,DATA 0);
+    }
+}
 //  --------------------------------------------------------------------------
-//void OR2(STACK *s){
-//    DATA X = pop(s);
- //   DATA Y = pop(s);
-//    if(X == 0 && Y==0){
-//        push(s,DATA 0);
-//    }
-//    else {
-//        push(s,DATA 1);
-//    }
-//}
+void OR2(STACK *s){
+    DATA X = pop(s);
+   DATA Y = pop(s);
+    if(X == 0 && Y==0){
+        push(s,DATA 0);
+    }
+    else {
+        push(s,DATA 1);
+    }
+}
 //  --------------------------------------------------------------------------
-//void PUTMEN(STACK *s){
-//    DATA X = pop(s);
-//    DATA Y = pop(s);
-//    push(s,((X < Y) ? X : Y));
-//}
+void PUTMEN(STACK *s){
+    DATA X = pop(s);
+    DATA Y = pop(s);
+    push(s,((X < Y) ? X : Y));
+}
 //  --------------------------------------------------------------------------
-//void PUTMAI(STACK *s){
- //   DATA X = pop(s);
-//    DATA Y = pop(s);
-//    push(s,((X > Y) ? X : Y));
-//}
+void PUTMAI(STACK *s){
+   DATA X = pop(s);
+    DATA Y = pop(s);
+    push(s,((X > Y) ? X : Y));
+}
 //  --------------------------------------------------------------------------
-//void IF(STACK *s){
-//    DATA Z = pop(s);
-//    DATA Y = pop(s);
-//    DATA X = pop(s);
- //   else {
-//        push(s,Z);
-//    }
-//}
+void IF(STACK *s){
+    DATA Z = pop(s);
+    DATA Y = pop(s);
+    DATA X = pop(s);
+   else {
+        push(s,Z);
+    }
+}
+*/
 //  --------------------------------------------------------------------------
 #define STACK_OPERATION(_type,_name)\
     void push_##_name(STACK *s,_type val) {\
