@@ -42,6 +42,7 @@ void stacking(char *val, STACK *s){
         double c1;
         char *n;
         char *c;
+       
         if (sscanf(token, "%lf", &c1) == 1) {
             long l = strtol(token, &n, 10);
             float f = strtod(token, &c);
@@ -53,7 +54,7 @@ void stacking(char *val, STACK *s){
             }
         }
             else if (*token == ':'){
-               VARCHANGE(s, *token + 1);
+               VARCHANGE(s, token[1]);
                }      
             else if (*token >= 'A' && *token <= 'Z'){
             	VAR(s,*token);
@@ -110,14 +111,17 @@ void stacking(char *val, STACK *s){
                     break;
                 case '!' : NAO(s);
                     break;
-               case "e&" : AND2(s);
-                    break;
-                case "e|" : OR2(s); 
-                    break;
-                case "e<" : PUTMAI(s); 
-                    break;
-                case "e>" : PUTMEN(s); 
-                    break;
+                case 'e' : switch (token[1]){
+                	    case '&' : AND2(s);
+                	        break;
+                	    case '|' : OR2(s);
+                	        break;
+                	    case '<' : PUTMEN(s);
+                	    	break;
+                	    case '>' : PUTMAI(s);
+                	    	break;
+                	    }	        
+                           break;
                 case '?' : IF(s);
                     break;    
             }
