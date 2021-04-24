@@ -97,18 +97,22 @@ void stacking(char *val, STACK *s){
                     break;
                 case '=' : EQL(s);
                     break;
-                case '<' : LESS(s);
-                    break;
+                /*case '<' : LESS(s);
+                   break;
                 case '>' : HIGH(s);
                     break;
                 case '!' : NAO(s);
                     break;
-                //case 'e&' : AND2(s); break;
-                //case 'e|' : OR2(s); break;
-                //case 'e<' : PUTMAI(s); break;
-                //case 'e>' : PUTMEN(s); break;
-                case '?' : IF(s);
+                case "e&" : AND2(s);
                     break;
+                case "e|" : OR2(s); 
+                    break;
+                case "e<" : PUTMAI(s); 
+                    break;
+                case "e>" : PUTMEN(s); 
+                    break;
+                case '?' : IF(s);
+                    break; */
             }
         }
     }
