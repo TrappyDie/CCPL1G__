@@ -21,7 +21,6 @@ typedef enum {LONG = 1, DOUBLE = 2, CHAR = 4, STRING = 8} TYPE;
 //  ------------------------Defines--------------------------
 #define INTEGER (LONG | CHAR)
 #define NUMBER  (INTEGER | DOUBLE)
-	
 //  --------------------------------------------------------------------------
 typedef struct data {
 	TYPE type;
@@ -38,14 +37,14 @@ typedef struct data {
  * @param n_elems Numero de elementos dentro do stack
  */
 typedef struct stack{
- DATA *stack;
- int size;
- int n_elems;
+    DATA *stack;
+    int size;
+    int n_elems;
 }STACK;
 //  --------------------------------------------------------------------------
-//  ------------------ prototipos -----------------------
+//  ---------------------------- prototipos ----------------------------------
 int has_type(DATA elem, int mask);
-STACK *create_stack();
+    STACK *create_stack();
 /**
  * \brief Coloca um elemento num stack	
  */

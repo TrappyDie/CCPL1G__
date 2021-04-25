@@ -42,7 +42,6 @@ void stacking(char *val, STACK *s){
         double c1;
         char *n;
         char *c;
-       
         if (sscanf(token, "%lf", &c1) == 1) {
             long l = strtol(token, &n, 10);
             float f = strtod(token, &c);
@@ -53,80 +52,80 @@ void stacking(char *val, STACK *s){
                 push_DOUBLE(s,f);
             }
         }
-            else if (*token == ':'){
-               VARCHANGE(s, token[1]);
-               }      
-            else if (*token >= 'A' && *token <= 'Z'){
-            	VAR(s,*token);
-            	} 		
-            else switch (*token) {
-                case '+' : SUM(s);
+        else if (*token == ':'){
+            VARCHANGE(s, token[1]);
+        }
+        else if (*token >= 'A' && *token <= 'Z'){
+            VAR(s,*token);
+        }
+        else switch (*token) {
+            case '+' : SUM(s);
+                break;
+            case '-' : MINUS(s);
+                break;
+            case '/' : DIV(s);
+                break;
+            case '*' : MULT(s);
+                break;
+            case '#' : EXP(s);
+                break;
+            case '%' : RES(s);
+                break;
+            case ')' : INC(s);
+                break;
+            case '(' : DEC(s);
+                break;
+            case '&' : AND(s);
+                break;
+            case '|' : OR(s);
+                break;
+            case '^' : XOR(s);
+                break;
+            case '~' : NOT(s);
+                break;
+            case '@' : ROT(s);
+                break;
+            case '_' : DUP(s);
+                break;
+            case ';' : POP1(s);
+                break;
+            case '\\' : TRD(s);
+                break;
+            case 'i' : TOINT(s);
+                break;
+            case 'l' : assert(fgets(line, MAX_SIZE, stdin) != NULL);
+                stacking(line,s);
+                break;
+            case 'f' : TODOB(s);
+                break;
+            case 'c' : TOCHAR(s);
+                break;
+            case '$' : CHANGE(s);
+                break;
+            case '=' : EQL(s);
+                break;
+            case '<' : LESS(s);
+                break;
+            case '>' : HIGH(s);
+                break;
+            case '!' : NAO(s);
+                break;
+            case 'e' : switch (token[1]){
+                case '&' : AND2(s);
                     break;
-                case '-' : MINUS(s);
+                case '|' : OR2(s);
                     break;
-                case '/' : DIV(s);
+                case '<' : PUTMEN(s);
                     break;
-                case '*' : MULT(s);
+                case '>' : PUTMAI(s);
                     break;
-                case '#' : EXP(s);
-                    break;
-                case '%' : RES(s);
-                    break;
-                case ')' : INC(s);
-                    break;
-                case '(' : DEC(s);
-                    break;
-                case '&' : AND(s);
-                    break;
-                case '|' : OR(s);
-                    break;
-                case '^' : XOR(s);
-                    break;
-                case '~' : NOT(s);
-                    break;
-                case '@' : ROT(s);
-                    break;
-                case '_' : DUP(s);
-                    break;
-                case ';' : POP1(s);
-                    break;
-                case '\\' : TRD(s);
-                    break;
-                case 'i' : TOINT(s);
-                    break;
-                case 'l' : assert(fgets(line, MAX_SIZE, stdin) != NULL);
-                            stacking(line,s);
-                    break;
-                case 'f' : TODOB(s);
-                    break;
-                case 'c' : TOCHAR(s);
-                    break;
-                case '$' : CHANGE(s);
-                    break;
-                case '=' : EQL(s);
-                    break;
-                case '<' : LESS(s);
-                   break;
-                case '>' : HIGH(s);
-                    break;
-                case '!' : NAO(s);
-                    break;
-                case 'e' : switch (token[1]){
-                	    case '&' : AND2(s);
-                	        break;
-                	    case '|' : OR2(s);
-                	        break;
-                	    case '<' : PUTMEN(s);
-                	    	break;
-                	    case '>' : PUTMAI(s);
-                	    	break;
-                	    }	        
-                           break;
-                case '?' : IF(s);
-                    break;    
             }
+                break;
+            case '?' : IF(s);
+                break;
         }
     }
+}
 //  --------------------------------------------------------------------------
 /**
  * \brief Função principal onde se recebe o input, se cria o stack e se imprime o stack
