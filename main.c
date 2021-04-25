@@ -122,7 +122,7 @@ void stacking(char *val, STACK *s){
             }
                 break;
             case '?' : IF(s);
-                break;
+                break; 
         }
     }
 }
