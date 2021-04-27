@@ -284,7 +284,7 @@ void IF(STACK *s);
  * @param N Variável onde está guardado um char
  * @param S Variável onde está guardado um char
  */
-void VAR(STACK *s,char c);
+void READ(STACK*s);
 
 /**
  * \brief Substitui o elemento guardado numa variável pelo elemento do topo do stack
@@ -295,7 +295,7 @@ void VAR(STACK *s,char c);
  * @param N Variável onde está guardado um char
  * @param S Variável onde está guardado um char
  */
-void VARCHANGE(STACK *s,char c);
+
 
 /**
  * @def prototipo das funções relacionadas com stacks
