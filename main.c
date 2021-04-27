@@ -32,10 +32,38 @@
  * @param f Float onde é guardado um float dado pelo input
  * @returns A stack resultante do programa
  */
-void stacking(char *val, STACK *s){
+ 
+ 
+
+void initarray(STACK *s, DATA *vars){
+long i,f = 10;
+
+
+for(i = 0; i <= 5; i++){
+    push_LONG(s, f);
+    DATA x = pop(s);
+    vars[i] = x;
+    f++;
+}
+f = 0;
+for(i = 23; i <= 25; i++){
+    push_LONG(s, f);
+    DATA x1 = pop(s);
+    vars[i] = x1;
+    f++;
+}
+    push_CHAR(s, ' ');
+    DATA y = pop(s);
+    vars[18] = y;
+    push_CHAR(s, '\n');
+    DATA y1 = pop(s);
+    vars[13] = y1; 
+}
+
+
+void stacking(char *val, STACK *s, DATA *vars){
     char token[MAX_SIZE];
     char resto[MAX_SIZE];
-    char line[MAX_SIZE];
     while(sscanf(val, "%s%[^\n]", token, resto) > 0) {
         strcpy(val, resto);
         *resto = 0;
@@ -53,10 +81,16 @@ void stacking(char *val, STACK *s){
             }
         }
         else if (*token == ':'){
-            VARCHANGE(s, token[1]);
-        }
+            long l = token[1];
+            DATA w = pop(s);
+            vars[l - 65] = w; 
+            push(s,w);
+            }
+        
         else if (*token >= 'A' && *token <= 'Z'){
-            VAR(s,*token);
+            long i = *token;
+            DATA x = vars[i - 65];
+            push(s, x);
         }
         else switch (*token) {
             case '+' : SUM(s);
@@ -93,8 +127,7 @@ void stacking(char *val, STACK *s){
                 break;
             case 'i' : TOINT(s);
                 break;
-            case 'l' : assert(fgets(line, MAX_SIZE, stdin) != NULL);
-                stacking(line,s);
+            case 'l' : READ(s);
                 break;
             case 'f' : TODOB(s);
                 break;
@@ -126,6 +159,7 @@ void stacking(char *val, STACK *s){
         }
     }
 }
+
 //  --------------------------------------------------------------------------
 /**
  * \brief Função principal onde se recebe o input, se cria o stack e se imprime o stack
@@ -133,10 +167,12 @@ void stacking(char *val, STACK *s){
  * @param s Stack
  */
 int main(void) {
+    DATA vars[26];
     STACK *s = create_stack();
+    initarray(s, vars);
     char val[MAX_SIZE];
     assert(fgets(val, MAX_SIZE, stdin) != NULL);
-    stacking(val, s);
+    stacking(val, s, vars);
     print_stack(s);
     return 0;
 }
