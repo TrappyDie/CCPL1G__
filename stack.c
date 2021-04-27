@@ -17,11 +17,7 @@
 #include "stack.h"
 //  ----------------------- Libraries -----------------------
 //  --------------------- Code Begining ---------------------
-long vars[25];
-char N = '\n', S = ' ';
-int f = 10, i;
 
-//  --------------------------------------------------------------------------
 
 /**
  * \brief Atribui o valor por omissão às respetivas variáveis
@@ -29,27 +25,13 @@ int f = 10, i;
  * @param i Posição de vars onde vão ser guardados os valores
  * @param vars Array onde vão ser guardados os valores das variáveis
  */
- 
-void init(int n){
-int f = 10, i;
-for(i = 0; i <= n; i++){
-    vars[i] = f;
-    f++;
-  }
-f = 0;
-for(i = 23; i<= (n*n); i++){
-    vars[i] = f;
-    f++;
-  }
-}
 
 //  --------------------------------------------------------------------------
 int has_type(DATA elem, int mask){
     return (elem.type & mask) != 0;
 }
 //  --------------------------------------------------------------------------
-STACK *create_stack() {
-    init(5);	
+STACK *create_stack() {	
     STACK *s = (STACK *) calloc(1, sizeof(STACK));
     s->size = 100;
     s->stack = (DATA *) calloc(s->size, sizeof(DATA));
@@ -361,31 +343,49 @@ void TRD(STACK *s){
     push(s,x);
     push(s,y);
 }
+
 //  --------------------------------------------------------------------------
 double POP1(STACK *s){
     pop(s);
     return 0;
 }
+
+//  --------------------------------------------------------------------------
+void READ(STACK *s){
+    char line[100];
+    assert(fgets(line, 100, stdin) != NULL);
+    push_STRING(s,line);
+}
+   
+
 //  --------------------------------------------------------------------------
 void TOINT(STACK *s){
     DATA x =  pop(s);
     if (tipo(x) == LONG){
-        push_LONG(s,GET_LONG(x));
+    push(s,x);    
     }
     else if (tipo(x) == DOUBLE){
-    push_LONG(s,GET_DOUBLE(x));
+    push_LONG(s, GET_DOUBLE(x));                                        
     }
-    else if (tipo(x) == CHAR){
-    char c = GET_CHAR(x);
-    long i = c;
-    push_LONG(s,i);
-    }
+    else if (tipo(x) == STRING){
+    char *c = GET_STRING(x);
+    int n = atoi(c);
+    push_LONG(s,n);
+   }
 }
 //  --------------------------------------------------------------------------
 void TODOB(STACK *s){
     DATA x =  pop(s);
-	if (tipo(x) == LONG) push_DOUBLE(s,GET_LONG(x));
-	else push_DOUBLE(s,GET_DOUBLE(x));					
+    if (tipo(x) == LONG){
+    push_DOUBLE(s, GET_DOUBLE(x));   
+    }
+    else if (tipo(x) == DOUBLE){
+    push(s,x);                                      
+    }
+    else if (tipo(x) == STRING){
+    float n = atof(GET_STRING(x));
+    push_DOUBLE(s,n);					
+    }
 }
 //  --------------------------------------------------------------------------
 void TOCHAR(STACK *s){
@@ -987,42 +987,6 @@ void IF(STACK *s){
         }
     }
 }
-
-//  --------------------------------------------------------------------------
-void VAR(STACK *s, char c){
-
-if ((c != 'N') && (c != 'S')){
-long i = c;
-i = vars[i - 65];
-push_LONG(s, i);
-}
-else if (c == 'N'){
-c = N;
-push_CHAR(s, c);
-}
-else if (c == 'S'){
-c = S;
-push_CHAR(s, c);
-}
-}
-
-
-//  --------------------------------------------------------------------------
-void VARCHANGE(STACK *s, char c){
-DATA x = pop(s);
-if ((c != 'N') && (c != 'S')){
-long i = c;
-vars[i - 65] = GET_LONG(x);
-}
-else if (c == 'N'){
-N = GET_CHAR(x);
-}
-else if (c == 'S'){
-S = GET_CHAR(x);
-}
-push(s,x);
-}
-	
 
 //  --------------------------------------------------------------------------
 #define STACK_OPERATION(_type,_name)\
