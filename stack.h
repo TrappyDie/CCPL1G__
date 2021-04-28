@@ -22,6 +22,14 @@ typedef enum {LONG = 1, DOUBLE = 2, CHAR = 4, STRING = 8} TYPE;
 #define INTEGER (LONG | CHAR)
 #define NUMBER  (INTEGER | DOUBLE)
 //  --------------------------------------------------------------------------
+/**
+ * @struct Data
+ * \brief Struct que define tipos
+ * @param LONG Tipo correspondente a long
+ * @param DOUBLE Tipo correspondente a double
+ * @param CHAR Tipo correspondente a char
+ * @param *STRING Tipo correspondente a string 
+ */
 typedef struct data {
 	TYPE type;
 	long LONG;
@@ -285,16 +293,6 @@ void IF(STACK *s);
  * @param S Variável onde está guardado um char
  */
 void READ(STACK*s);
-
-/**
- * \brief Substitui o elemento guardado numa variável pelo elemento do topo do stack
- * @param x Elemento do topo do stack
- * @param c Char recebido do input
- * @param i Valor ASCII do c
- * @param vars Array onde estão guardadas as variáveis
- * @param N Variável onde está guardado um char
- * @param S Variável onde está guardado um char
- */
 
 
 /**
