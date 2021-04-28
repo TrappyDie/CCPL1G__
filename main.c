@@ -1,13 +1,3 @@
-/**
- * @file Contém a função principal do programa
- */
-//  ---------------------------------------------------------
-//  Main.c - Main Code
-//  Version 1.0 - Beta
-//  Revision 1.57
-//  Project LAUM2021 CCPL1G03
-//  ---------------------------------------------------------
-//  ----------------------- Libraries -----------------------
 #include <stdio.h>
 #include <string.h>
 #include "stack.h"
@@ -53,53 +43,9 @@ for(i = 23; i <= 25; i++){
     vars[13] = y1; 
 }
 
-/**
- * \brief Função responsável pela colocação dos elementos do input no stack
- * @param val Input do utilizador
- * @param token String que vai conter todos os operadores e operandos um de cada vez ao longo de toda a execução
- * @param resto String que contém o que sobra do Input do utilizador
- * @param n Char onde vai ser colocada a parte que não tem numeros long da string
- * @param c Char onde vai ser colocada a parte que não tem numeros double da string
- * @param line String com o input dado sempre que é lido um 'l'
- * @param c1 Double que vai ser usado no sscanf para se distinguir o input de um numero e de um char
- * @param l Long onde é guardado um long dado pelo input
- * @param f Float onde é guardado um float dado pelo input
- * @returns A stack resultante do programa
- */
- 
-void stacking(char *val, STACK *s, DATA *vars){
-    char token[MAX_SIZE];
-    char resto[MAX_SIZE];
-    double c1;
-    char *n;
-    char *c;
-    while(sscanf(val, "%s%[^\n]", token, resto) > 0) {
-        strcpy(val, resto);
-        *resto = 0;
-        
-        if (sscanf(token, "%lf", &c1) == 1) {
-            long l = strtol(token, &n, 10);
-            float f = strtod(token, &c);
-            if (strlen(n) == 0){
-                push_LONG(s, l);
-            }
-            else if (strlen(c) == 0){
-                push_DOUBLE(s,f);
-            }
-        }
-        else if (*token == ':'){
-            long l = token[1];
-            DATA w = pop(s);
-            vars[l - 65] = w; 
-            push(s,w);
-            }
-        
-        else if (*token >= 'A' && *token <= 'Z'){
-            long i = *token;
-            DATA x = vars[i - 65];
-            push(s, x);
-        }
-        else switch (*token) {
+
+void operacoes(char *token, STACK *s){
+      switch (*token) {
             case '+' : SUM(s);
                 break;
             case '-' : MINUS(s);
@@ -165,7 +111,57 @@ void stacking(char *val, STACK *s, DATA *vars){
                 break; 
         }
     }
-}
+
+
+/**
+ * \brief Função responsável pela colocação dos elementos do input no stack
+ * @param val Pointer para o input do utilizador
+ * @param token String que vai conter todos os operadores e operandos um de cada vez ao longo de toda a execução
+ * @param resto String que contém o que sobra do Input do utilizador
+ * @param n Char onde vai ser colocada a parte que não tem numeros long da string
+ * @param c Char onde vai ser colocada a parte que não tem numeros double da string
+ * @param line String com o input dado sempre que é lido um 'l'
+ * @param c1 Double que vai ser usado no sscanf para se distinguir o input de um numero e de um char
+ * @param l Long onde é guardado um long dado pelo input
+ * @param f Float onde é guardado um float dado pelo input
+ * @param vars Array de variáveis
+ * @returns A stack resultante do programa
+ */
+ 
+void stacking(char *val, STACK *s, DATA *vars){
+    char token[MAX_SIZE];
+    char resto[MAX_SIZE];
+    double c1;
+    char *n;
+    char *c;
+    while(sscanf(val, "%s%[^\n]", token, resto) > 0) {
+        strcpy(val, resto);
+        *resto = 0;
+         if (sscanf(token, "%lf", &c1) == 1) {
+            long l = strtol(token, &n, 10);
+            float f = strtod(token, &c);
+            if (strlen(n) == 0){
+                push_LONG(s, l);
+            }
+            else if (strlen(c) == 0){
+                push_DOUBLE(s,f);
+            }
+        }
+        else if (*token == ':'){
+            long l = token[1];
+            DATA w = pop(s);
+            vars[l - 65] = w; 
+            push(s,w);
+            }
+        
+        else if (*token >= 'A' && *token <= 'Z'){
+            long i = *token;
+            DATA x = vars[i - 65];
+            push(s, x);
+        }
+        else operacoes(token, s);
+    }
+}        
 
 //  --------------------------------------------------------------------------
 /**
