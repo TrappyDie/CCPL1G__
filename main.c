@@ -19,21 +19,14 @@
  * @def Tamanho usado nos arrays do programa
  */
 #define MAX_SIZE	1000
+ 
 /**
- * \brief Função responsável pela colocação dos elementos do input no stack
- * @param val Input do utilizador
- * @param token String que vai conter todos os operadores e operandos um de cada vez ao longo de toda a execução
- * @param resto String que contém o que sobra do Input do utilizador
- * @param n Char onde vai ser colocada a parte que não tem numeros long da string
- * @param c Char onde vai ser colocada a parte que não tem numeros double da string
- * @param line String com o input dado sempre que é lido um 'l'
- * @param c1 Double que vai ser usado no sscanf para se distinguir o input de um numero e de um char
- * @param l Long onde é guardado um long dado pelo input
- * @param f Float onde é guardado um float dado pelo input
- * @returns A stack resultante do programa
- */
- 
- 
+ * \brief Função que inicializa o array de variáveis
+ * @param i Variável usada nos ciclos que indica posições do array usar
+ * @param f Variável usada nos ciclos que indica o que colocar no array
+ * @param x Variável que tem o que vai ser guardado no array com tipo DATA
+ * @param x Variável que tem o que vai ser guardado no array com tipo DATA
+ */ 
 
 void initarray(STACK *s, DATA *vars){
 long i,f = 10;
@@ -60,16 +53,30 @@ for(i = 23; i <= 25; i++){
     vars[13] = y1; 
 }
 
-
+/**
+ * \brief Função responsável pela colocação dos elementos do input no stack
+ * @param val Input do utilizador
+ * @param token String que vai conter todos os operadores e operandos um de cada vez ao longo de toda a execução
+ * @param resto String que contém o que sobra do Input do utilizador
+ * @param n Char onde vai ser colocada a parte que não tem numeros long da string
+ * @param c Char onde vai ser colocada a parte que não tem numeros double da string
+ * @param line String com o input dado sempre que é lido um 'l'
+ * @param c1 Double que vai ser usado no sscanf para se distinguir o input de um numero e de um char
+ * @param l Long onde é guardado um long dado pelo input
+ * @param f Float onde é guardado um float dado pelo input
+ * @returns A stack resultante do programa
+ */
+ 
 void stacking(char *val, STACK *s, DATA *vars){
     char token[MAX_SIZE];
     char resto[MAX_SIZE];
+    double c1;
+    char *n;
+    char *c;
     while(sscanf(val, "%s%[^\n]", token, resto) > 0) {
         strcpy(val, resto);
         *resto = 0;
-        double c1;
-        char *n;
-        char *c;
+        
         if (sscanf(token, "%lf", &c1) == 1) {
             long l = strtol(token, &n, 10);
             float f = strtod(token, &c);
