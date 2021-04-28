@@ -17,9 +17,16 @@
 #include <assert.h>
 //  ----------------------- Libraries -----------------------
 //  --------------------- Code Begining ---------------------
+
 typedef enum {LONG = 1, DOUBLE = 2, CHAR = 4, STRING = 8} TYPE;
 //  ------------------------Defines--------------------------
+/**
+ * @def Foi definido o tipo INTEGER como LONG ou CHAR 
+ */
 #define INTEGER (LONG | CHAR)
+/**
+ * @def Foi definido o tipo NUMBER como INTEGER ou DOUBLE
+ */
 #define NUMBER  (INTEGER | DOUBLE)
 //  --------------------------------------------------------------------------
 /**
@@ -51,8 +58,16 @@ typedef struct stack{
 }STACK;
 //  --------------------------------------------------------------------------
 //  ---------------------------- prototipos ----------------------------------
+
+/**
+ * \brief Verifica se um elemento tem certo tipo
+ */
 int has_type(DATA elem, int mask);
-    STACK *create_stack();
+
+/**
+ * \brief Função que inicializa um stack
+ */
+STACK *create_stack();
 /**
  * \brief Coloca um elemento num stack	
  */
@@ -79,6 +94,22 @@ int is_empty(STACK *s);
  */
 void print_stack(STACK *s);
 
+/**
+ * \brief Recebe um elemento DOUBLE e devolve o elemento
+ */
+double GET_DOUBLE(DATA elem);
+/**
+ * \brief Recebe um elemento LONG e devolve o elemento
+ */
+long GET_LONG(DATA elem);
+/**
+ * \brief Recebe um elemento CHAR e devolve o elemento
+ */
+char GET_CHAR(DATA elem);
+/**
+ * \brief Recebe um elemento STRING e devolve o elemento
+ */
+char *GET_STRING(DATA elem);
 /**
  * \brief Recebe um elemento e diz de que tipo ele é
  * @returns O tipo do elemento
@@ -220,7 +251,10 @@ void TOCHAR(STACK *s);
  * @param y O elemento que vai ser copiado
  */
 void CHANGE(STACK *s);
-
+/**
+ * \brief Recebe um elemento DATA e retorna o elemento no tipo double
+ */
+double get(DATA x)
 /**
  * \brief Compara dois elementos, se a comparação (igual) for verdadeira devolve 1 e se for falsa devolve 0
  * @param x Um dos elementos que se vai comparar
