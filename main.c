@@ -1,3 +1,15 @@
+/**
+ * @file Contém a função principal do programa
+ */
+ 
+ 
+//  ---------------------------------------------------------
+//  Main.c - Main Code
+//  Version 1.0 - Beta
+//  Revision 1.57
+//  Project LAUM2021 CCPL1G03
+//  ---------------------------------------------------------
+//  ----------------------- Libraries -----------------------
 #include <stdio.h>
 #include <string.h>
 #include "stack.h"
