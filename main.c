@@ -30,10 +30,8 @@
  * @param x Variável que tem o que vai ser guardado no array com tipo DATA
  */ 
 
-void initarray(STACK *s, DATA *vars){
+void initvars(STACK *s, DATA *vars){
 long i,f = 10;
-
-
 for(i = 0; i <= 5; i++){
     push_LONG(s, f);
     DATA x = pop(s);
@@ -55,9 +53,56 @@ for(i = 23; i <= 25; i++){
     vars[13] = y1; 
 }
 
+void ARRAY(char *resto, DATA *vars, STACK *s){
+    char val[MAX_SIZE];
+    int i;
+    STACK *array = create_stack();
+    for (i = 0; *resto != ']'; i++){
+       val[i] = *resto;
+       *resto++;
+    }
+    while (array->size != 0){                                   
+    stacking(val,array,vars);
+    *resto+=2;
+    switch (*resto) {
+          case '~' : PUTS(s,array);        
+          	break;
+          case '+' : CONCAT(s, array);
+          	break;
+          case '*' : CONCAT2(s, array);
+          	break;
+          case ',' : SIZE(s, array);
+          	break;
+          case '=' : INDICE(s, array);
+          	break;
+          case '<' : GETI(s, array);
+          	break;
+          case '>' : GETF(s, array);
+          	break;
+          case '(' : REMOVEI(s, array);
+          	break;
+          case ')' : REMOVEF(s, array);
+          	break;
+          case '#' : GETSUB(s, array);
+          	break;
+          case 't' : READ2(s, array);
+          	break;
+          case '/' : SUB(s, array);
+          	break;		
+          case 'S' : WHITE(s, array);
+          	break;
+          case 'N' : NEW(s, array);
+          	break;
+          	
+          }
+      }    	    
+}
 
-void operacoes(char *token, STACK *s){
+//  ---------------------------------------------------------
+
+void operacoes(char *token, STACK *s, char *resto, DATA *vars){
       switch (*token) {
+            case '[' : ARRAY(resto, vars, s);
             case '+' : SUM(s);
                 break;
             case '-' : MINUS(s);
@@ -124,7 +169,7 @@ void operacoes(char *token, STACK *s){
         }
     }
 
-
+//  ---------------------------------------------------------
 /**
  * \brief Função responsável pela colocação dos elementos do input no stack
  * @param val Pointer para o input do utilizador
@@ -150,7 +195,7 @@ void stacking(char *val, STACK *s, DATA *vars){
         strcpy(val, resto);
         *resto = 0;
          if (sscanf(token, "%lf", &c1) == 1) {
-            long l = strtol(token, &n, 10);
+            long l = strtol(token, &n, 10);                                                   
             float f = strtod(token, &c);
             if (strlen(n) == 0){
                 push_LONG(s, l);
@@ -171,7 +216,7 @@ void stacking(char *val, STACK *s, DATA *vars){
             DATA x = vars[i - 65];
             push(s, x);
         }
-        else operacoes(token, s);
+        else operacoes(token, s, val, vars);
     }
 }        
 
@@ -184,7 +229,7 @@ void stacking(char *val, STACK *s, DATA *vars){
 int main(void) {
     DATA vars[26];
     STACK *s = create_stack();
-    initarray(s, vars);
+    initvars(s, vars);
     char val[MAX_SIZE];
     assert(fgets(val, MAX_SIZE, stdin) != NULL);
     stacking(val, s, vars);
