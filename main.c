@@ -102,7 +102,11 @@ void ARRAY(char *resto, DATA *vars, STACK *s){
 
 void operacoes(char *token, STACK *s, char *resto, DATA *vars){
       switch (*token) {
-            case '[' : ARRAY(resto, vars, s);
+            case '[' :{char *line = get_delimited(val, token, resto);
+                       STACK *s1 = create_stack();
+                       stacking(line, s1, vars);
+                       push_ARRAY(s,s1);}
+                break;
             case '+' : SUM(s);
                 break;
             case '-' : MINUS(s);
@@ -165,7 +169,8 @@ void operacoes(char *token, STACK *s, char *resto, DATA *vars){
             }
                 break;
             case '?' : IF(s);
-                break; 
+                break;
+            case ',' : SIZE(s);
         }
     }
 

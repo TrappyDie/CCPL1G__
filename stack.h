@@ -37,12 +37,14 @@ typedef enum {LONG = 1, DOUBLE = 2, CHAR = 4, STRING = 8} TYPE;
  * @param CHAR Tipo correspondente a char
  * @param *STRING Tipo correspondente a string 
  */
+struct stack;
 typedef struct data {
 	TYPE type;
 	long LONG;
 	double DOUBLE;
 	char CHAR;
 	char *STRING;
+	struct *ARRAY;
 } DATA;
 //  --------------------------------------------------------------------------
 /**
@@ -329,6 +331,9 @@ void IF(STACK *s);
 void READ(STACK*s);
 
 
+void SIZE(s);
+
+
 /**
  * @def prototipo das funções relacionadas com stacks
  */
@@ -342,6 +347,7 @@ STACK_OPERATION_PROTO(long, LONG)
 STACK_OPERATION_PROTO(double, DOUBLE)
 STACK_OPERATION_PROTO(char, CHAR)
 STACK_OPERATION_PROTO(char *, STRING)
+STACK_OPERATION_PROTO(struct *, ARRAY)
 
 
 #endif

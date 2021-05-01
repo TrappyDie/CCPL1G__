@@ -506,6 +506,20 @@ void IF(STACK *s){
     else push(s,x);
 }
 
+char get_delimited(char val, char token, char resto){ 
+sscanf(val, "%s%[^]]%[^\"]", token, resto);
+return val;
+}
+
+void SIZE(STACK *s){
+   DATA x = pop(s);
+   if (tipo(x) == ARRAY){
+   STACK *s1 = GET_ARRAY(x);
+   push_LONG(s, s1->n_elems);
+   }
+}
+
+
 //  --------------------------------------------------------------------------
 #define STACK_OPERATION(_type,_name)\
     void push_##_name(STACK *s,_type val) {\
@@ -523,5 +537,6 @@ STACK_OPERATION(long, LONG)
 STACK_OPERATION(double, DOUBLE)
 STACK_OPERATION(char, CHAR)
 STACK_OPERATION(char *, STRING)
+STACK_OPERATION(struct *, ARRAY)
 //  --------------------------------------------------------------------------
 //---------------------- Code Ending ----------------------
