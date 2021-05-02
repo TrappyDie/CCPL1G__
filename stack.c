@@ -59,19 +59,18 @@ void print_stack(STACK *s) {
         TYPE type = elem.type;
         switch(type) {
             case LONG:
-                printf("long");
+                printf("%ld", elem.LONG);
                     break;
             case DOUBLE:
-                printf("double");
+                printf("%.6g", elem.DOUBLE);
                     break;
             case CHAR:
-                printf("char");
+                printf("%c", elem.CHAR);
                     break;
             case STRING:
-                printf("string");
+                printf("%s", elem.STRING);
                     break;
             case ARRAY:
-                printf("array");
                 break;       
         }
     }
