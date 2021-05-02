@@ -53,60 +53,57 @@ for(i = 23; i <= 25; i++){
     vars[13] = y1; 
 }
 
-void ARRAY(char *resto, DATA *vars, STACK *s){
-    char val[MAX_SIZE];
-    int i;
-    STACK *array = create_stack();
-    for (i = 0; *resto != ']'; i++){
-       val[i] = *resto;
-       *resto++;
-    }
-    while (array->size != 0){                                   
-    stacking(val,array,vars);
-    *resto+=2;
-    switch (*resto) {
-          case '~' : PUTS(s,array);        
-          	break;
-          case '+' : CONCAT(s, array);
-          	break;
-          case '*' : CONCAT2(s, array);
-          	break;
-          case ',' : SIZE(s, array);
-          	break;
-          case '=' : INDICE(s, array);
-          	break;
-          case '<' : GETI(s, array);
-          	break;
-          case '>' : GETF(s, array);
-          	break;
-          case '(' : REMOVEI(s, array);
-          	break;
-          case ')' : REMOVEF(s, array);
-          	break;
-          case '#' : GETSUB(s, array);
-          	break;
-          case 't' : READ2(s, array);
-          	break;
-          case '/' : SUB(s, array);
-          	break;		
-          case 'S' : WHITE(s, array);
-          	break;
-          case 'N' : NEW(s, array);
-          	break;
-          	
-          }
-      }    	    
-}
-
 //  ---------------------------------------------------------
 
-void operacoes(char *token, STACK *s, char *resto, DATA *vars){
-      switch (*token) {
-            case '[' :{char *line = get_delimited(val, token, resto);
-                       STACK *s1 = create_stack();
-                       stacking(line, s1, vars);
-                       push_ARRAY(s,s1);}
-                break;
+
+//  ---------------------------------------------------------
+/**
+ * \brief Função responsável pela colocação dos elementos do input no stack
+ * @param val Pointer para o input do utilizador
+ * @param token String que vai conter todos os operadores e operandos um de cada vez ao longo de toda a execução
+ * @param resto String que contém o que sobra do Input do utilizador
+ * @param n Char onde vai ser colocada a parte que não tem numeros long da string
+ * @param c Char onde vai ser colocada a parte que não tem numeros double da string
+ * @param line String com o input dado sempre que é lido um 'l'
+ * @param c1 Double que vai ser usado no sscanf para se distinguir o input de um numero e de um char
+ * @param l Long onde é guardado um long dado pelo input
+ * @param f Float onde é guardado um float dado pelo input
+ * @param vars Array de variáveis
+ * @returns A stack resultante do programa
+ */
+ 
+void stacking(char *val, STACK *s, DATA *vars){
+    char token[MAX_SIZE];
+    char resto[MAX_SIZE];
+    double c1;
+    char *n;
+    char *c;
+    while(sscanf(val, "%s%[^\n]", token, resto) > 0) {
+        strcpy(val, resto);
+        *resto = 0;
+         if (sscanf(token, "%lf", &c1) == 1) {
+            long l = strtol(token, &n, 10);                                                   
+            float f = strtod(token, &c);
+            if (strlen(n) == 0){
+                push_LONG(s, l);
+            }
+            else if (strlen(c) == 0){
+                push_DOUBLE(s,f);
+            }
+        }
+        else if (*token == ':'){
+            long l = token[1];
+            DATA w = pop(s);
+            vars[l - 65] = w; 
+            push(s,w);
+            }
+        
+        else if (*token >= 'A' && *token <= 'Z'){
+            long i = *token;
+            DATA x = vars[i - 65];
+            push(s, x);
+        }
+        else switch (*token) {
             case '+' : SUM(s);
                 break;
             case '-' : MINUS(s);
@@ -170,60 +167,60 @@ void operacoes(char *token, STACK *s, char *resto, DATA *vars){
                 break;
             case '?' : IF(s);
                 break;
-            case ',' : SIZE(s);
-        }
-    }
+            case '[' : {char *line = get_delimited(val, token, resto);
+                       STACK *s1 = create_stack();
+                       stacking(line, s1, vars);
+                       push_ARRAY(s,s1);}
+          	break;
+          	
+           case ',' : SIZE(s);
+    		break; 		       
+    	
+     
+               }
+         }
+}
 
-//  ---------------------------------------------------------
-/**
- * \brief Função responsável pela colocação dos elementos do input no stack
- * @param val Pointer para o input do utilizador
- * @param token String que vai conter todos os operadores e operandos um de cada vez ao longo de toda a execução
- * @param resto String que contém o que sobra do Input do utilizador
- * @param n Char onde vai ser colocada a parte que não tem numeros long da string
- * @param c Char onde vai ser colocada a parte que não tem numeros double da string
- * @param line String com o input dado sempre que é lido um 'l'
- * @param c1 Double que vai ser usado no sscanf para se distinguir o input de um numero e de um char
- * @param l Long onde é guardado um long dado pelo input
- * @param f Float onde é guardado um float dado pelo input
- * @param vars Array de variáveis
- * @returns A stack resultante do programa
- */
- 
-void stacking(char *val, STACK *s, DATA *vars){
-    char token[MAX_SIZE];
-    char resto[MAX_SIZE];
-    double c1;
-    char *n;
-    char *c;
-    while(sscanf(val, "%s%[^\n]", token, resto) > 0) {
-        strcpy(val, resto);
-        *resto = 0;
-         if (sscanf(token, "%lf", &c1) == 1) {
-            long l = strtol(token, &n, 10);                                                   
-            float f = strtod(token, &c);
-            if (strlen(n) == 0){
-                push_LONG(s, l);
-            }
-            else if (strlen(c) == 0){
-                push_DOUBLE(s,f);
-            }
-        }
-        else if (*token == ':'){
-            long l = token[1];
-            DATA w = pop(s);
-            vars[l - 65] = w; 
-            push(s,w);
-            }
-        
-        else if (*token >= 'A' && *token <= 'Z'){
-            long i = *token;
-            DATA x = vars[i - 65];
-            push(s, x);
-        }
-        else operacoes(token, s, val, vars);
-    }
-}        
+
+          /*case ',' : SIZE(s, array);
+    		break;                                  
+    	    case '~' : PUTS(s,array);                     
+          	break;                         
+            case '+' : CONCAT(s, array);
+          	break;
+           case '~' : PUTS(s,array);        
+          	break;
+          case '+' : CONCAT(s, array);
+          	break;
+          case '*' : CONCAT2(s, array);
+          	break;
+          case '=' : INDICE(s, array);
+          	break;
+          case '<' : GETI(s, array);
+          	break;
+          case '>' : GETF(s, array);
+          	break;
+          case '(' : REMOVEI(s, array);
+          	break;
+          case ')' : REMOVEF(s, array);
+          	break;
+          case '#' : GETSUB(s, array);
+          	break;
+          case 't' : READ2(s, array);
+          	break;
+          case '/' : SUB(s, array);
+          	break;		
+          case 'S' : switch(resto[1]){
+          		   case '/' : WHITE(s, array);
+          		   break;
+          		}   
+          	break;
+          case 'N' : switch(resto[1]){
+          		   case '/' : NEW(s, array);
+          		   break;
+          		}   
+          	break; */
+          	        
 
 //  --------------------------------------------------------------------------
 /**
