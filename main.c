@@ -18,7 +18,8 @@
 //  ----------------------- Libraries -----------------------
 //  --------------------- Code Begining ---------------------
 /**
- * @def Tamanho usado nos arrays do programa
+ * @def MAX_SIZE
+ * Usado como tamanho máximo para os arrays
  */
 #define MAX_SIZE	1000
  
@@ -54,8 +55,75 @@ for(i = 23; i <= 25; i++){
 }
 
 //  ---------------------------------------------------------
-
-
+void operacoes(char *token, STACK *s){
+switch (*token){
+       case '+' : SUM(s);
+           break;
+       case '-' : MINUS(s);
+           break;
+       case '/' : DIV(s);
+           break;
+       case '*' : MULT(s);
+           break;
+       case '#' : EXP(s);
+           break;
+       case '%' : RES(s);
+           break;
+       case ')' : INC(s);
+           break;
+       case '(' : DEC(s);
+           break;
+       case '&' : AND(s);
+           break;
+       case '|' : OR(s);
+           break;
+       case '^' : XOR(s);
+           break;
+       case '~' : NOT(s);
+           break;
+       case '@' : ROT(s);
+           break;
+       case '_' : DUP(s);
+           break;
+       case ';' : POP1(s);
+           break;
+       case '\\' : TRD(s);
+           break;
+       case 'i' : TOINT(s);
+           break;
+       case 'l' : READ(s);
+           break;
+       case 'f' : TODOB(s);
+           break;
+       case 'c' : TOCHAR(s);
+           break;
+       case '$' : CHANGE(s);
+           break;
+       case '=' : EQL(s);
+           break;
+       case '<' : LESS(s);
+           break;
+       case '>' : HIGH(s);
+           break;
+       case '!' : NAO(s);
+           break;
+       case 'e' : switch (token[1]){
+           case '&' : AND2(s);
+               break;
+           case '|' : OR2(s);
+               break;
+           case '<' : PUTMEN(s);
+               break;
+           case '>' : PUTMAI(s);
+               break;
+       }
+           break;
+       case '?' : IF(s);
+           break;
+       case ',' : SIZE(s);
+           break;
+}
+}
 //  ---------------------------------------------------------
 /**
  * \brief Função responsável pela colocação dos elementos do input no stack
@@ -80,7 +148,6 @@ void stacking(char *val, STACK *s, DATA *vars){
     char *c;
     while(sscanf(val, "%s%[^\n]", token, resto) > 0) {
         strcpy(val, resto);
-        *resto = 0;
          if (sscanf(token, "%lf", &c1) == 1) {
             long l = strtol(token, &n, 10);                                                   
             float f = strtod(token, &c);
@@ -103,89 +170,18 @@ void stacking(char *val, STACK *s, DATA *vars){
             DATA x = vars[i - 65];
             push(s, x);
         }
-        else switch (*token) {
-            case '+' : SUM(s);
-                break;
-            case '-' : MINUS(s);
-                break;
-            case '/' : DIV(s);
-                break;
-            case '*' : MULT(s);
-                break;
-            case '#' : EXP(s);
-                break;
-            case '%' : RES(s);
-                break;
-            case ')' : INC(s);
-                break;
-            case '(' : DEC(s);
-                break;
-            case '&' : AND(s);
-                break;
-            case '|' : OR(s);
-                break;
-            case '^' : XOR(s);
-                break;
-            case '~' : NOT(s);
-                break;
-            case '@' : ROT(s);
-                break;
-            case '_' : DUP(s);
-                break;
-            case ';' : POP1(s);
-                break;
-            case '\\' : TRD(s);
-                break;
-            case 'i' : TOINT(s);
-                break;
-            case 'l' : READ(s);
-                break;
-            case 'f' : TODOB(s);
-                break;
-            case 'c' : TOCHAR(s);
-                break;
-            case '$' : CHANGE(s);
-                break;
-            case '=' : EQL(s);
-                break;
-            case '<' : LESS(s);
-                break;
-            case '>' : HIGH(s);
-                break;
-            case '!' : NAO(s);
-                break;
-            case 'e' : switch (token[1]){
-                case '&' : AND2(s);
-                    break;
-                case '|' : OR2(s);
-                    break;
-                case '<' : PUTMEN(s);
-                    break;
-                case '>' : PUTMAI(s);
-                    break;
-            }
-                break;
-            case '?' : IF(s);
-                break;
-            case '[' : {char *line = get_delimited(val, token, resto);
+        else if (*token == '[') {char *line = get_delimited(val, token, resto);
                        STACK *s1 = create_stack();
                        stacking(line, s1, vars);
                        push_ARRAY(s,s1);}
-          	break;
-          	
-           case ',' : SIZE(s);
-    		break; 		       
-    	
-     
-               }
+        else operacoes(token,s);
+         strcpy(val, resto);
+         *resto = 0;
          }
 }
 
 
-          /*case ',' : SIZE(s, array);
-    		break;                                  
-    	    case '~' : PUTS(s,array);                     
-          	break;                         
+          /*                                                        
             case '+' : CONCAT(s, array);
           	break;
            case '~' : PUTS(s,array);        
