@@ -59,17 +59,20 @@ void print_stack(STACK *s) {
         TYPE type = elem.type;
         switch(type) {
             case LONG:
-                printf("%ld", elem.LONG);
+                printf("long");
                     break;
             case DOUBLE:
-                printf("%.6g", elem.DOUBLE);
+                printf("double");
                     break;
             case CHAR:
-                printf("%c", elem.CHAR);
+                printf("char");
                     break;
             case STRING:
-                printf("%s", elem.STRING);
+                printf("string");
                     break;
+            case ARRAY:
+                printf("array");
+                break;       
         }
     }
     printf("\n");
@@ -93,6 +96,9 @@ double GET_DOUBLE(DATA elem){
         case STRING:
             return 0;
                 break;
+         case ARRAY:
+            return 0;
+                break;         
     }
 return 0;
 }
@@ -111,6 +117,9 @@ long GET_LONG(DATA elem){
         case STRING:
             return 0;
                 break;
+        case ARRAY:
+           return 0;
+               break;
     }
 return 0;
 }
@@ -127,6 +136,9 @@ char GET_CHAR(DATA elem){
             return elem.DOUBLE;
                 break;
         case STRING:
+            return 0;
+                break;
+        case ARRAY:
             return 0;
                 break;
     }
@@ -147,12 +159,38 @@ char *GET_STRING(DATA elem){
         case STRING:
             return elem.STRING;
                 break;
+        case ARRAY:
+            return 0;
+                break;        
     }
 return 0;
 }
 
-
 //  --------------------------------------------------------------------------
+
+STACK *GET_ARRAY(DATA elem){
+     switch(elem.type){
+        case LONG:
+            return 0;
+                break;
+        case CHAR:
+            return 0;
+                break;
+        case DOUBLE:
+            return 0;
+                break;
+        case STRING:
+            return 0;
+                break;
+        case ARRAY:
+            return elem.ARRAY;
+                break;        
+    }
+return 0;
+}    
+
+
+
 void SUM(STACK *s){
     DATA x = pop(s);
     DATA y = pop(s);
@@ -414,7 +452,10 @@ double get(DATA x){
                 break;
         case STRING:
             return 0;
-                break;        
+                break;
+        case ARRAY:
+            return 0;
+                break;               
        }
 return 0;      
 }          
@@ -504,22 +545,38 @@ void IF(STACK *s){
     DATA z = pop(s);  
     if (get(z) != 0) push(s,y);
     else push(s,x);
-}
+}   
 
-char get_delimited(char val, char token, char resto){ 
-sscanf(val, "%s%[^]]%[^\"]", token, resto);
-return val;
+
+/*
+
+void PUTS(STACK *s){
+   int i = 0;
+   while (array->n_elems != i){
+       DATA x = array->stack[i];
+       push(s,x);
+       i++;
+       }
+
+} 
+*/
+
+char *get_delimited(char *val, char *token, char *resto){
+sscanf(val, "%[^]]%s", token, resto);
+return token;
 }
 
 void SIZE(STACK *s){
    DATA x = pop(s);
    if (tipo(x) == ARRAY){
-   STACK *s1 = GET_ARRAY(x);
+   STACK *s1 = GET_ARRAY(x); 
    push_LONG(s, s1->n_elems);
    }
 }
 
-
+          
+       
+      
 //  --------------------------------------------------------------------------
 #define STACK_OPERATION(_type,_name)\
     void push_##_name(STACK *s,_type val) {\
@@ -537,6 +594,6 @@ STACK_OPERATION(long, LONG)
 STACK_OPERATION(double, DOUBLE)
 STACK_OPERATION(char, CHAR)
 STACK_OPERATION(char *, STRING)
-STACK_OPERATION(struct *, ARRAY)
+STACK_OPERATION(struct stack *, ARRAY)
 //  --------------------------------------------------------------------------
 //---------------------- Code Ending ----------------------
