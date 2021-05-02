@@ -18,7 +18,7 @@
 //  ----------------------- Libraries -----------------------
 //  --------------------- Code Begining ---------------------
 
-typedef enum {LONG = 1, DOUBLE = 2, CHAR = 4, STRING = 8} TYPE;
+typedef enum {LONG = 1, DOUBLE = 2, CHAR = 4, STRING = 8, ARRAY = 16} TYPE;
 //  ------------------------Defines--------------------------
 /**
  * @def Foi definido o tipo INTEGER como LONG ou CHAR 
@@ -44,7 +44,7 @@ typedef struct data {
 	double DOUBLE;
 	char CHAR;
 	char *STRING;
-	struct *ARRAY;
+	struct stack *ARRAY;	
 } DATA;
 //  --------------------------------------------------------------------------
 /**
@@ -59,6 +59,9 @@ typedef struct stack{
     int n_elems;
 }STACK;
 //  --------------------------------------------------------------------------
+
+
+
 //  ---------------------------- prototipos ----------------------------------
 
 /**
@@ -328,11 +331,20 @@ void IF(STACK *s);
  * @param N Variável onde está guardado um char
  * @param S Variável onde está guardado um char
  */
-void READ(STACK*s);
+void READ(STACK *s);
 
+/**
+ * \brief Coloca o array dentro do stack
+ * 
+ */
+void SIZE(STACK *s);
 
-void SIZE(s);
+/**
+ * \brief coloca os elementos do array no stack
+ */
+//void PUTS(STACK *s, STACK *array);
 
+char *get_delimited(char *val, char *token, char *resto);
 
 /**
  * @def prototipo das funções relacionadas com stacks
@@ -347,8 +359,7 @@ STACK_OPERATION_PROTO(long, LONG)
 STACK_OPERATION_PROTO(double, DOUBLE)
 STACK_OPERATION_PROTO(char, CHAR)
 STACK_OPERATION_PROTO(char *, STRING)
-STACK_OPERATION_PROTO(struct *, ARRAY)
-
+STACK_OPERATION_PROTO(struct stack *, ARRAY)
 
 #endif
 //---------------------- Code Ending ----------------------
