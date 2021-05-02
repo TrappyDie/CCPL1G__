@@ -52,7 +52,9 @@ DATA top(STACK *s) {
 int is_empty(STACK *s){
     return s->n_elems == 0;
 }
+
 //  --------------------------------------------------------------------------
+
 void print_stack(STACK *s) {
     for(int k = 0; k < s->n_elems; k++) {
         DATA elem = s->stack[k];
@@ -76,6 +78,7 @@ void print_stack(STACK *s) {
     }
     printf("\n");
 }
+
 //  --------------------------------------------------------------------------
 TYPE tipo(DATA elem){
 return elem.type;
@@ -189,10 +192,40 @@ return 0;
 }    
 
 
+void PUTS(STACK *s, STACK *array){
+int i;
+for(i = 0; i < array->n_elems; i++){
+push(s,array->stack[i]);
+}
+}
+
+void CONCAT(STACK *s , DATA x, DATA y){
+if (tipo(x) == ARRAY && tipo(y) == ARRAY) {
+    STACK *arrayx = GET_ARRAY(x);
+    STACK *arrayy = GET_ARRAY(y);
+    int i;
+    for (i = 0; i < arrayx->n_elems; i++){
+    push(arrayy, arrayx->stack[i]);
+    }
+    push_ARRAY(s, arrayy);
+    }
+else if (tipo(x) == ARRAY && tipo(y) != ARRAY) {
+    STACK *arrayx = GET_ARRAY(x);
+    push(arrayx, y);
+    push_ARRAY(s, arrayx);        
+    }
+else if (tipo(x) != ARRAY && tipo(y) == ARRAY) {
+    STACK *arrayy = GET_ARRAY(y);
+    push(arrayy, x);
+    push_ARRAY(s, arrayy);        
+    }    
+}
 
 void SUM(STACK *s){
     DATA x = pop(s);
     DATA y = pop(s);
+    if ((has_type(x, ARRAY)) || (has_type(y, ARRAY))) CONCAT(s, x, y);
+    else {
     if (tipo(x) == LONG && tipo(y) == LONG){
         push_LONG(s,GET_LONG(x) + GET_LONG(y));
     }
@@ -205,6 +238,7 @@ void SUM(STACK *s){
     else{
         push_DOUBLE(s,GET_DOUBLE(x) + GET_LONG(y));
     }
+  }  
 }
 //  --------------------------------------------------------------------------
 void MINUS(STACK *s){
@@ -345,7 +379,8 @@ void XOR(STACK *s){
 //  --------------------------------------------------------------------------
 void NOT(STACK *s){
     DATA x = pop(s);
-    push_LONG(s,~GET_LONG(x));
+    if (has_type(x, ARRAY)) PUTS(s, GET_ARRAY(x));
+    else push_LONG(s,~GET_LONG(x));
 }
 //  --------------------------------------------------------------------------
 void ROT(STACK *s){
@@ -546,22 +581,8 @@ void IF(STACK *s){
     else push(s,x);
 }   
 
-
-/*
-
-void PUTS(STACK *s){
-   int i = 0;
-   while (array->n_elems != i){
-       DATA x = array->stack[i];
-       push(s,x);
-       i++;
-       }
-
-} 
-*/
-
 char *get_delimited(char *val, char *token, char *resto){
-sscanf(val, "%[^]]%s", token, resto);
+sscanf(val, "%[^]%[^\n]]%s", token, resto);
 return token;
 }
 
@@ -571,7 +592,23 @@ void SIZE(STACK *s){
    STACK *s1 = GET_ARRAY(x); 
    push_LONG(s, s1->n_elems);
    }
-}
+   else if (tipo(x) == LONG){
+   long y = GET_LONG(x);
+   long i = 0;
+   while (i != y) {
+     push_LONG(s,i);
+     i++;
+     }
+   }
+  else if (tipo(x) == DOUBLE){
+   double y = GET_DOUBLE(x);
+   long i = 0;
+   while (i != y) {
+     push_DOUBLE(s,i);
+     i++;
+     }
+   }
+}   
 
           
        
