@@ -1,5 +1,5 @@
 /**
- * @file Função onde está definido o stack 
+ * @file Contém as structs uzadas pelo programa 
  */
 //  ---------------------------------------------------------
 //  Stack.h - Stack Function Library
@@ -17,15 +17,20 @@
 #include <assert.h>
 //  ----------------------- Libraries -----------------------
 //  --------------------- Code Begining ---------------------
-
+/**
+ * @struct Type
+ * \brief Define o TYPE usado na struct data, atribuindo valores aos tipos
+ */
 typedef enum {LONG = 1, DOUBLE = 2, CHAR = 4, STRING = 8, ARRAY = 16} TYPE;
 //  ------------------------Defines--------------------------
 /**
- * @def Foi definido o tipo INTEGER como LONG ou CHAR 
+ * @def INTEGER
+ * Foi definido o tipo INTEGER como LONG ou CHAR 
  */
 #define INTEGER (LONG | CHAR)
 /**
- * @def Foi definido o tipo NUMBER como INTEGER ou DOUBLE
+ * @def NUMBER
+ * Foi definido o tipo NUMBER como INTEGER ou DOUBLE
  */
 #define NUMBER  (INTEGER | DOUBLE)
 //  --------------------------------------------------------------------------
@@ -35,7 +40,8 @@ typedef enum {LONG = 1, DOUBLE = 2, CHAR = 4, STRING = 8, ARRAY = 16} TYPE;
  * @param LONG Tipo correspondente a long
  * @param DOUBLE Tipo correspondente a double
  * @param CHAR Tipo correspondente a char
- * @param *STRING Tipo correspondente a string 
+ * @param STRING Tipo correspondente a string 
+ * @param ARRAY Tipo correspondente a array
  */
 struct stack;
 typedef struct data {
@@ -50,6 +56,7 @@ typedef struct data {
 /**
  * @struct Stack
  * \brief Struct de stacks
+ * @param stack Onde vao ser armazenados os elementos do stack
  * @param size Tamanho máximo do stack
  * @param n_elems Numero de elementos dentro do stack
  */
@@ -89,8 +96,7 @@ DATA pop(STACK *s);
 DATA top(STACK *s);
 
 /**
- * \brief Verifica se o stack está vazio
- * @returns  
+ * \brief Verifica se o stack está vazio 
  */
 int is_empty(STACK *s);
 
@@ -115,6 +121,12 @@ char GET_CHAR(DATA elem);
  * \brief Recebe um elemento STRING e devolve o elemento
  */
 char *GET_STRING(DATA elem);
+
+/**
+ * \brief Recebe um elemento ARRAY e devolve o elemento
+ */
+STACK *GET_ARRAY(DATA elem);
+
 /**
  * \brief Recebe um elemento e diz de que tipo ele é
  * @returns O tipo do elemento
@@ -334,22 +346,33 @@ void IF(STACK *s);
 void READ(STACK *s);
 
 /**
- * \brief Coloca o array dentro do stack
- * 
+ * \brief Coloca no stack o tamanho do array
+ * @param s1 Stack onde está o array
+ * @param x Array retirado do stack
+ * @param y Long ou Double retirado do stack
+ * @param i Long usado na condição do while
  */
 void SIZE(STACK *s);
 
 /**
- * \brief coloca os elementos do array no stack
+ * \brief Coloca os elementos do array no stack
+ * @param i Int usado para aceder a elementos especificos do stack
  */
-//void PUTS(STACK *s, STACK *array);
+void PUTS(STACK *s, STACK *array);
 
+/**
+ * \brief Separa os elementos do array/string do resto do input
+ */
 char *get_delimited(char *val, char *token, char *resto);
 
 /**
+ * \brief Concatena 2 elementos de um stack
+ */
+void CONCAT(STACK *s , DATA x, DATA y);
+/**
  * @def prototipo das funções relacionadas com stacks
  */
-
+ 
 #define STACK_OPERATION_PROTO(_type, _name)   \
   void push_##_name(STACK *s, _type val);     \
   _type pop_##_name(STACK *s);
