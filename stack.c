@@ -614,6 +614,11 @@ void SIZE(STACK *s){
        
       
 //  --------------------------------------------------------------------------
+/**
+ * @def prototipo das funções relacionadas com stacks
+ * @param push_##_name Função do push
+ * @param pop_##_name Função do pop
+ */
 #define STACK_OPERATION(_type,_name)\
     void push_##_name(STACK *s,_type val) {\
         DATA elem;\
