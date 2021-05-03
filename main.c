@@ -55,6 +55,9 @@ for(i = 23; i <= 25; i++){
 }
 
 //  ---------------------------------------------------------
+/**
+ * \brief Função onde são chamadas as funções relativas a cada operação
+ */
 void operacoes(char *token, STACK *s){
 switch (*token){
        case '+' : SUM(s);
