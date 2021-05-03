@@ -18,7 +18,7 @@
 //  ----------------------- Libraries -----------------------
 //  --------------------- Code Begining ---------------------
 /**
- * @struct Type
+ * @struct TYPE
  * \brief Define o TYPE usado na struct data, atribuindo valores aos tipos
  */
 typedef enum {LONG = 1, DOUBLE = 2, CHAR = 4, STRING = 8, ARRAY = 16} TYPE;
@@ -35,8 +35,9 @@ typedef enum {LONG = 1, DOUBLE = 2, CHAR = 4, STRING = 8, ARRAY = 16} TYPE;
 #define NUMBER  (INTEGER | DOUBLE)
 //  --------------------------------------------------------------------------
 /**
- * @struct Data
+ * @struct data
  * \brief Struct que define tipos
+ * @param type Tipo correspondente a TYPE
  * @param LONG Tipo correspondente a long
  * @param DOUBLE Tipo correspondente a double
  * @param CHAR Tipo correspondente a char
@@ -54,7 +55,7 @@ typedef struct data {
 } DATA;
 //  --------------------------------------------------------------------------
 /**
- * @struct Stack
+ * @struct stack
  * \brief Struct de stacks
  * @param stack Onde vao ser armazenados os elementos do stack
  * @param size Tamanho máximo do stack
@@ -371,6 +372,8 @@ char *get_delimited(char *val, char *token, char *resto);
 void CONCAT(STACK *s , DATA x, DATA y);
 /**
  * @def prototipo das funções relacionadas com stacks
+ * @param push_##_name Função do push
+ * @param pop_##_name Função do pop
  */
  
 #define STACK_OPERATION_PROTO(_type, _name)   \
