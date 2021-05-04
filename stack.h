@@ -31,8 +31,9 @@ typedef enum {LONG = 1, DOUBLE = 2, CHAR = 4, STRING = 8, ARRAY = 16} TYPE;
  */
 #define NUMBER  (INTEGER | DOUBLE)
 //  --------------------------------------------------------------------------
-/** Struct que define tipos */
-struct stack;                                                                                                          
+/** Struct stack */
+struct stack;
+/** Struct que define tipos*/                                                                                                          
 typedef struct data {
 /** Tipo correspondente a TYPE */
 	TYPE type;
@@ -44,7 +45,8 @@ typedef struct data {
 	char CHAR;
 /** Tipo correspondente a string */ 	 
 	char *STRING;
-/** Tipo correspondente a array */ 	
+/** Tipo correspondente a array */
+/** Stack onde se vai ter os arrays */  	
 	struct stack *ARRAY;	
 } DATA;
 //  --------------------------------------------------------------------------
@@ -96,6 +98,11 @@ int is_empty(STACK *s);
  * \brief Dá print a um stack
  */
 void print_stack(STACK *s);
+
+/**
+ * \brief Dá print a um array
+ */
+void print_array(STACK *s);
 
 /**
  * \brief Recebe um elemento DOUBLE e devolve o elemento
@@ -368,6 +375,8 @@ void CONCAT(STACK *s);
 
 /**
  * \brief Concatena multiplas vezes um array
+ * @param array Stack com o array que se vai concatenar
+ * @param i Numero de vezes que se vai ter o array
  */
 void CONTAT2(STACK *s, DATA x, DATA y);
 
