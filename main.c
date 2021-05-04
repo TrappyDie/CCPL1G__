@@ -158,7 +158,7 @@ void stacking(char *val, STACK *s, DATA *vars){
                 push_LONG(s, l);
             }
             else if (strlen(c) == 0){
-                push_DOUBLE(s,f);
+                push_DOUBLE(s,f);       
             }
         }
         else if (*token == ':'){
@@ -173,7 +173,8 @@ void stacking(char *val, STACK *s, DATA *vars){
             DATA x = vars[i - 65];
             push(s, x);
         }
-        else if (*token == '[') {char *line = get_delimited(val, token, resto);
+        else if (*token == '[') {
+                       char *line = get_delimited(val, token, resto);
                        STACK *s1 = create_stack();
                        stacking(line, s1, vars);
                        push_ARRAY(s,s1);}
