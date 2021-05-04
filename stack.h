@@ -348,11 +348,16 @@ void READ(STACK *s);
  * \brief Coloca no stack o tamanho do array
  * @param s1 Stack onde está o array
  * @param x Array retirado do stack
- * @param y Long ou Double retirado do stack
- * @param i Long usado na condição do while
  */
 void SIZE(STACK *s);
 
+/**
+ * \brief Coloca todos os numeros de 0 até ao long/ double (x - 1)
+ * @param s1 array onde se vão colocar os valores
+ * @param x Long ou Double retirado do stack
+ * @param i Long usado na condição do while
+ */
+void SIZENUMBER(STACK *s, DATA x);
 /**
  * \brief Coloca os elementos do array no stack
  * @param i Int usado para aceder a elementos especificos do stack
