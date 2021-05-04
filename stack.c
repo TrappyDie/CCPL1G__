@@ -55,7 +55,7 @@ int is_empty(STACK *s){
 
 //  --------------------------------------------------------------------------
 
-void print_stack(STACK *s) {
+void print_array(STACK *s) {
     for(int k = 0; k < s->n_elems; k++) {
         DATA elem = s->stack[k];
         TYPE type = elem.type;
@@ -76,7 +76,33 @@ void print_stack(STACK *s) {
                 break;       
         }
     }
-    printf("\n");
+}
+
+//  --------------------------------------------------------------------------
+
+void print_stack(STACK *s) {
+    for(int k = 0; k < s->n_elems; k++) {
+        DATA elem = s->stack[k];
+        TYPE type = elem.type;
+        switch(type) {
+            case LONG:
+                printf("%ld", elem.LONG);
+                    break;
+            case DOUBLE:
+                printf("%.6g", elem.DOUBLE);
+                    break;
+            case CHAR:
+                printf("%c", elem.CHAR);
+                    break;
+            case STRING:
+                printf("%s", elem.STRING);
+                    break;
+            case ARRAY:
+                print_array( elem.ARRAY );
+                break;       
+        }
+        printf("\n");
+    }
 }
 
 //  --------------------------------------------------------------------------
@@ -200,7 +226,7 @@ push(s,array->stack[i]);
 }
 
 void CONCAT(STACK *s , DATA x, DATA y){
-if (tipo(x) == ARRAY && tipo(y) == ARRAY) {
+if (tipo(x) == ARRAY && tipo(y) == ARRAY) {        
     STACK *arrayx = GET_ARRAY(x);
     STACK *arrayy = GET_ARRAY(y);
     int i;
@@ -582,7 +608,8 @@ void IF(STACK *s){
 }   
 
 char *get_delimited(char *val, char *token, char *resto){
-sscanf(val, "%[^]%[^\n]]%s", token, resto);
+sscanf(val, "%[^]]%[^\n]]", token, resto);
+resto++;
 return token;
 }
 
