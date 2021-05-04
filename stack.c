@@ -712,14 +712,8 @@ return token;
 }
 
 //  --------------------------------------------------------------------------
-
-void SIZE(STACK *s){
-   DATA x = pop(s);
-   if (tipo(x) == ARRAY){
-   STACK *s1 = GET_ARRAY(x); 
-   push_LONG(s, s1->n_elems);
-   }
-   else if (tipo(x) == LONG){
+void SIZENUMBER(STACK *s, DATA x){
+   if (tipo(x) == LONG){
    STACK *array = create_stack();
    long y = GET_LONG(x);
    long i = 0;
@@ -739,10 +733,19 @@ void SIZE(STACK *s){
      }
      push_ARRAY(s, array);
    }
-}   
 
-          
-       
+}
+
+//  --------------------------------------------------------------------------
+
+void SIZE(STACK *s){
+   DATA x = pop(s);
+   if (tipo(x) == ARRAY){
+   STACK *s1 = GET_ARRAY(x); 
+   push_LONG(s, s1->n_elems);
+   }
+   else SIZENUMBER(s, x);
+}   
       
 //  --------------------------------------------------------------------------
 /**
