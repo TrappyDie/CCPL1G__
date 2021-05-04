@@ -186,24 +186,6 @@ void stacking(char *val, STACK *s, DATA *vars){
 
 
           /*                                                        
-            case '+' : CONCAT(s, array);
-          	break;
-           case '~' : PUTS(s,array);        
-          	break;
-          case '+' : CONCAT(s, array);
-          	break;
-          case '*' : CONCAT2(s, array);
-          	break;
-          case '=' : INDICE(s, array);
-          	break;
-          case '<' : GETI(s, array);
-          	break;
-          case '>' : GETF(s, array);
-          	break;
-          case '(' : REMOVEI(s, array);
-          	break;
-          case ')' : REMOVEF(s, array);
-          	break;
           case '#' : GETSUB(s, array);
           	break;
           case 't' : READ2(s, array);
