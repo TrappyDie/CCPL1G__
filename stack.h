@@ -17,12 +17,9 @@
 #include <assert.h>
 //  ----------------------- Libraries -----------------------
 //  --------------------- Code Begining ---------------------
-/**
- * @struct TYPE
- * \brief Define o TYPE usado na struct data, atribuindo valores aos tipos
- */
+/** Define o TYPE usado na struct data, atribuindo valores aos tipos */
 typedef enum {LONG = 1, DOUBLE = 2, CHAR = 4, STRING = 8, ARRAY = 16} TYPE;
-//  ------------------------Defines--------------------------
+//  --------------------------------------------------------------------------
 /**
  * @def INTEGER
  * Foi definido o tipo INTEGER como LONG ou CHAR 
@@ -34,36 +31,30 @@ typedef enum {LONG = 1, DOUBLE = 2, CHAR = 4, STRING = 8, ARRAY = 16} TYPE;
  */
 #define NUMBER  (INTEGER | DOUBLE)
 //  --------------------------------------------------------------------------
-/**
- * @struct data
- * \brief Struct que define tipos
- * @param type Tipo correspondente a TYPE
- * @param LONG Tipo correspondente a long
- * @param DOUBLE Tipo correspondente a double
- * @param CHAR Tipo correspondente a char
- * @param STRING Tipo correspondente a string 
- * @param ARRAY Tipo correspondente a array
- */
-struct stack;
+/** Struct que define tipos */
+struct stack;                                                                                                          
 typedef struct data {
+/** Tipo correspondente a TYPE */
 	TYPE type;
-	long LONG;
+/** Tipo correspondente a long */	
+	long LONG;                          
+/** Tipo correspondente a double */	
 	double DOUBLE;
+/** Tipo correspondente a char */	
 	char CHAR;
+/** Tipo correspondente a string */ 	 
 	char *STRING;
+/** Tipo correspondente a array */ 	
 	struct stack *ARRAY;	
 } DATA;
 //  --------------------------------------------------------------------------
-/**
- * @struct stack
- * \brief Struct de stacks
- * @param stack Onde vao ser armazenados os elementos do stack
- * @param size Tamanho máximo do stack
- * @param n_elems Numero de elementos dentro do stack
- */
+/** Struct de stacks */
 typedef struct stack{
+/** Pointer onde temos um elemento do stack */
     DATA *stack;
+/** Inteiro com o tamanho do stack */ 
     int size;
+/** Inteiro com o numero de elementos que estão no stack */    
     int n_elems;
 }STACK;
 //  --------------------------------------------------------------------------
@@ -367,14 +358,45 @@ void PUTS(STACK *s, STACK *array);
 char *get_delimited(char *val, char *token, char *resto);
 
 /**
+ * \brief Vai buscar o elemento de indice n a um array
+ */
+void INDICE(STACK *s, DATA x, DATA y);
+/**
  * \brief Concatena 2 elementos de um stack
  */
-void CONCAT(STACK *s , DATA x, DATA y);
+void CONCAT(STACK *s);
+
 /**
- * @def prototipo das funções relacionadas com stacks
- * @param push_##_name Função do push
- * @param pop_##_name Função do pop
+ * \brief Concatena multiplas vezes um array
  */
+void CONTAT2(STACK *s, DATA x, DATA y);
+
+/**
+ * \brief Vai ao array e devolve os seus elementos desde o inicio até ao elemento indice x
+ */
+void GETI(STACK *s, DATA x, DATA y);
+ 
+/**
+* \brief Vai ao array e devolve os seus elementos desde o final até ao elemento indice x
+*/
+void GETF(STACK *s, DATA x, DATA y);
+
+/**
+ * \brief Remove o elemento do inicio do array e coloca no stack depois do array
+ */
+
+void REMOVEI(STACK *s, DATA x);
+
+/**
+ * \brief Remove o elemento do final do array e coloca no stack depois do array
+ */
+
+
+void REMOVEF(STACK *s, DATA x);
+
+/**
+* \brief Define que faz as funções de push e pop usadas para cada tipo nos stacks
+*/
  
 #define STACK_OPERATION_PROTO(_type, _name)   \
   void push_##_name(STACK *s, _type val);     \
