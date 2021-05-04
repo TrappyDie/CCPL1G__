@@ -101,8 +101,8 @@ void print_stack(STACK *s) {
                 print_array( elem.ARRAY );
                 break;       
         }
-        printf("\n");
     }
+    printf("\n");
 }
 
 //  --------------------------------------------------------------------------
@@ -225,7 +225,9 @@ push(s,array->stack[i]);
 }
 }
 
-void CONCAT(STACK *s , DATA x, DATA y){
+void CONCAT(STACK *s){
+DATA x = pop(s);
+DATA y = pop(s);
 if (tipo(x) == ARRAY && tipo(y) == ARRAY) {        
     STACK *arrayx = GET_ARRAY(x);
     STACK *arrayy = GET_ARRAY(y);
@@ -238,7 +240,7 @@ if (tipo(x) == ARRAY && tipo(y) == ARRAY) {
 else if (tipo(x) == ARRAY && tipo(y) != ARRAY) {
     STACK *arrayx = GET_ARRAY(x);
     push(arrayx, y);
-    push_ARRAY(s, arrayx);        
+    push_ARRAY(s, arrayx);  
     }
 else if (tipo(x) != ARRAY && tipo(y) == ARRAY) {
     STACK *arrayy = GET_ARRAY(y);
@@ -247,10 +249,86 @@ else if (tipo(x) != ARRAY && tipo(y) == ARRAY) {
     }    
 }
 
+//  --------------------------------------------------------------------------
+
+void CONCAT2(STACK *s, DATA x, DATA y){
+STACK *array = GET_ARRAY(y);
+long i = get(x);
+  while (i > 0){
+  push_ARRAY(s, array);
+  i--;
+  }
+i = i/2;      
+  while(i > 0){
+  CONCAT(s);
+  i--;
+  }  
+}
+
+//  --------------------------------------------------------------------------
+
+void INDICE(STACK *s, DATA x, DATA y){
+  STACK *s1 = GET_ARRAY(y);
+  long i = get(x);
+  DATA z = s1->stack[i];
+  push(s, z);
+}
+
+//  --------------------------------------------------------------------------
+
+void GETF(STACK *s, DATA x, DATA y){               
+long n = get(x);
+STACK *array = GET_ARRAY(y);
+long m = (array->n_elems) - n;
+while ( m != array->n_elems ){
+push(s, array->stack[m]);
+m++; 
+}
+}
+
+//  --------------------------------------------------------------------------
+
+void GETI(STACK *s, DATA x, DATA y){
+long n = get(x);
+STACK *array = GET_ARRAY(y);
+long m = 0;
+while (m != n){
+push(s, array->stack[m]);
+m++; 
+}
+}
+
+//  --------------------------------------------------------------------------
+
+void REMOVEI(STACK *s, DATA x){
+  STACK *s1 = GET_ARRAY(x);
+  STACK *array = create_stack();
+  int i;
+  for (i = 1; i <= s1->n_elems; i++){                                   
+      push(array, s1->stack[i]); 
+  } 
+push_ARRAY(s, array); 
+push(s, s1->stack[0]);
+}
+
+//  --------------------------------------------------------------------------
+          
+void REMOVEF(STACK *s, DATA x){
+  STACK *s1 = GET_ARRAY(x);
+  STACK *array = create_stack();
+  int i;
+  push(s, s1->stack[s1->n_elems - 1 ]);
+  for (i = 0; i < s1->n_elems - 1; i++){                                   
+      push(array, s1->stack[i]); 
+  } 
+push_ARRAY(s, array);     
+}       
+//  --------------------------------------------------------------------------
+
 void SUM(STACK *s){
     DATA x = pop(s);
     DATA y = pop(s);
-    if ((has_type(x, ARRAY)) || (has_type(y, ARRAY))) CONCAT(s, x, y);
+    if ((has_type(x, ARRAY)) || (has_type(y, ARRAY))) CONCAT(s);
     else {
     if (tipo(x) == LONG && tipo(y) == LONG){
         push_LONG(s,GET_LONG(x) + GET_LONG(y));
@@ -266,7 +344,9 @@ void SUM(STACK *s){
     }
   }  
 }
+
 //  --------------------------------------------------------------------------
+
 void MINUS(STACK *s){
     DATA x = pop(s);
     DATA y = pop(s);
@@ -301,6 +381,8 @@ void DIV(STACK *s){
 void MULT(STACK *s){
     DATA x = pop(s);
     DATA y = pop(s);
+    if (has_type(y, ARRAY)) CONCAT2(s, x, y);
+    else {
     if (tipo(x) == tipo(y) && tipo(x) == LONG){
         push_LONG(s,GET_LONG(x) * GET_LONG(y));
     }
@@ -313,6 +395,7 @@ void MULT(STACK *s){
     else {
         push_LONG(s,GET_DOUBLE(x) * GET_LONG(y));
     }
+  }
 }
 //  --------------------------------------------------------------------------
 void EXP(STACK *s){
@@ -349,6 +432,8 @@ void RES(STACK *s){
 //  --------------------------------------------------------------------------
 void INC(STACK *s){
     DATA x = pop(s);
+    if (has_type(x, ARRAY)) REMOVEF(s, x);
+    else {
     if  (tipo(x) == LONG){
         long x1 = GET_LONG(x);
         x1++;
@@ -364,10 +449,13 @@ void INC(STACK *s){
          x3++;
          push_CHAR(s,x3);
     }
-}
+  }
+} 
 //  --------------------------------------------------------------------------
 void DEC(STACK *s){
     DATA x = pop(s);
+    if (has_type(x, ARRAY)) REMOVEI(s, x); 
+    else {
     if  (tipo(x) == LONG){
         long x1 = GET_LONG(x);
         x1--;
@@ -383,6 +471,7 @@ void DEC(STACK *s){
         x3--;
         push_CHAR(s,x3);
     }
+   } 
 }
 //  --------------------------------------------------------------------------
 void AND(STACK *s){
@@ -523,27 +612,34 @@ return 0;
 //  --------------------------------------------------------------------------
 void EQL(STACK *s){
     DATA x = pop(s);
-    DATA y = pop(s);
-    if (get(x) == get(y)) push_LONG(s,1);
-    else push_LONG(s,0); 
+    DATA y = pop(s);            
+    if (has_type(y, ARRAY)) INDICE(s, x, y);     
+    else {if (get(x) == get(y)) push_LONG(s,1);
+    else push_LONG(s,0);
+    } 
 }
 //  --------------------------------------------------------------------------
 
 void LESS(STACK *s){
     DATA x = pop(s);
     DATA y = pop(s);
+    if (has_type(y, ARRAY)) GETI(s, x, y);
+    else{
     if (get(y) < get(x)) push_LONG(s,1);
     else push_LONG(s,0);
+   }
 }
-
 //  --------------------------------------------------------------------------
 
 
 void HIGH(STACK *s){
     DATA x = pop(s);
     DATA y = pop(s);
+    if (has_type(y, ARRAY)) GETF(s, x, y);
+    else{
     if (get(y) > get(x)) push_LONG(s,1);
     else push_LONG(s,0);
+    }
 }
 
 //  --------------------------------------------------------------------------
@@ -607,11 +703,15 @@ void IF(STACK *s){
     else push(s,x);
 }   
 
+//  --------------------------------------------------------------------------
+
 char *get_delimited(char *val, char *token, char *resto){
 sscanf(val, "%[^]]%[^\n]]", token, resto);
 resto++;
 return token;
 }
+
+//  --------------------------------------------------------------------------
 
 void SIZE(STACK *s){
    DATA x = pop(s);
@@ -620,20 +720,24 @@ void SIZE(STACK *s){
    push_LONG(s, s1->n_elems);
    }
    else if (tipo(x) == LONG){
+   STACK *array = create_stack();
    long y = GET_LONG(x);
    long i = 0;
    while (i != y) {
-     push_LONG(s,i);
+     push_LONG(array,i);
      i++;
      }
+     push_ARRAY(s, array);
    }
   else if (tipo(x) == DOUBLE){
+   STACK *array = create_stack();
    double y = GET_DOUBLE(x);
    long i = 0;
    while (i != y) {
-     push_DOUBLE(s,i);
+     push_DOUBLE(array,i);
      i++;
      }
+     push_ARRAY(s, array);
    }
 }   
 
