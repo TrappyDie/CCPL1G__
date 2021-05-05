@@ -159,8 +159,6 @@ void stacking(char *val, STACK *s, DATA *vars){
     double c1;
     char *n;
     char *c;
-    char *line2;
-    int i = 1;
     while(sscanf(val, "%s%[^\n]", token, resto) > 0) {
         strcpy(val, resto);
          if (sscanf(token, "%lf", &c1) == 1) {
@@ -184,15 +182,16 @@ void stacking(char *val, STACK *s, DATA *vars){
                        stacking(line1, s1, vars);
                        push_ARRAY(s,s1);}
         else if (*token == '\"'){
-                       int i;
                        STACK *s1 = create_stack();
+                       int f = strlen(token);
                        char token2[MAX_SIZE];
                        while (token[strlen(token + 1)] != '\"'){
                        strcat(token, " " );   
-                       (sscanf(val, "%s%[^\n]", token2, resto) > 0);
-                       strcat(token, token2);    
+                       (sscanf(val, "%s%[^\n]", token2, resto));
+                       strcat(token, token2);
+                        
                        }
-                        for(i = 1; i < strlen(token) - 1; i++){
+                        for(int i = 1; i < f - 1; i++){
                             push_CHAR(s1, token[i]);
                         }
                         push_ARRAY(s,s1);
