@@ -73,7 +73,7 @@ void print_array(STACK *s) {
                 printf("%s", elem.STRING);
                     break;
             case ARRAY:
-                break;       
+                    break;       
         }
     }
 }
@@ -95,7 +95,7 @@ void print_stack(STACK *s) {
                 printf("%c", elem.CHAR);
                     break;
             case STRING:
-                printf("%s", elem.STRING);
+                printf("%s", elem.STRING);      
                     break;
             case ARRAY:
                 print_array( elem.ARRAY );
@@ -718,9 +718,10 @@ void IF(STACK *s){
 
 char *get_delimited(char *val, char *token, char *resto){
 if (*token == '[')    sscanf(val, "%[^]]%[^\n]]", token, resto);
-if (*token == '\"')   sscanf(val, "%[^\"]%[^\n]]", token, resto);
+if (*token == '\"')   {token++;}
     resto++;
-return token;
+    printf("%s\n", token);
+return token; 
 }
 
 //  --------------------------------------------------------------------------

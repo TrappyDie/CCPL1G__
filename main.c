@@ -54,11 +54,19 @@ for(i = 23; i <= 25; i++){
     vars[13] = y1; 
 }
 
+void VARS1(STACK *s,DATA *vars,char token){
+    long l = token;
+    DATA w = pop(s);
+    vars[l - 65] = w; 
+    push(s,w);
+}
+
+
 //  ---------------------------------------------------------
 /**
  * \brief Função onde são chamadas as funções relativas a cada operação
  */
-void operacoes(char *token, STACK *s){
+void operacoes(char *token, STACK *s, DATA *vars){
 switch (*token){
        case '+' : SUM(s);
            break;
@@ -125,6 +133,8 @@ switch (*token){
            break;
        case ',' : SIZE(s);
            break;
+       case ':' : VARS1(s,vars,token[1]);
+           break;    
 }
 }
 //  ---------------------------------------------------------
@@ -160,14 +170,7 @@ void stacking(char *val, STACK *s, DATA *vars){
             else if (strlen(c) == 0){
                 push_DOUBLE(s,f);       
             }
-        }
-        else if (*token == ':'){
-            long l = token[1];
-            DATA w = pop(s);
-            vars[l - 65] = w; 
-            push(s,w);
-            }
-        
+        }        
         else if (*token >= 'A' && *token <= 'Z'){
             long i = *token;
             DATA x = vars[i - 65];
@@ -180,11 +183,11 @@ void stacking(char *val, STACK *s, DATA *vars){
                        push_ARRAY(s,s1);}
         else if (*token == '\"'){
                        char *line2 = get_delimited(val, token, resto);
-                       STACK *s2 = create_stack();
-                       stacking(line2, s2, vars);
-                       push_STRING(s,s2);}
+                       token[strlen(token) - 1] = '\0';
+                       char *string = strdup(line2);    
+                       push_STRING(s,line2);}
 
-        else operacoes(token,s);
+        else operacoes(token,s,vars);
          strcpy(val, resto);
          *resto = 0;
          }

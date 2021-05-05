@@ -395,8 +395,7 @@ void CONCAT(STACK *s);
  * @param x Valor recebido pela função
  * @param y Valor recebido na função
  * @param s Stack onde sera colocado o resultado
-
- */
+*/
 void CONCAT2(STACK *s, DATA x, DATA y);
 
 /**
