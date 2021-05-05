@@ -252,9 +252,10 @@ else if (tipo(x) != ARRAY && tipo(y) == ARRAY) {
 //  --------------------------------------------------------------------------
 
 void CONCAT2(STACK *s, DATA x, DATA y){
-STACK *array = GET_ARRAY(y);
 long i = get(x);
-  while (i > 0){
+ if(has_type(y, ARRAY)){ 
+STACK *array = GET_ARRAY(y);
+ while (i > 0){
   push_ARRAY(s, array);
   i--;
   }
@@ -262,8 +263,18 @@ i = i/2;
   while(i > 0){
   CONCAT(s);
   i--;
-  }  
-}
+  }}
+ if(has_type(y, STRING)){ 
+char *str = GET_STRING(y);
+ while (i > 0){
+  push_STRING(s, str);
+  i--;
+  }
+i = i/2;      
+  while(i > 0){
+  CONCAT(s);
+  i--;
+  }}}
 
 //  --------------------------------------------------------------------------
 
@@ -381,7 +392,7 @@ void DIV(STACK *s){
 void MULT(STACK *s){
     DATA x = pop(s);
     DATA y = pop(s);
-    if (has_type(y, ARRAY)) CONCAT2(s, x, y);
+    if (has_type(y, ARRAY) || has_type(y, STRING)) CONCAT2(s, x, y);
     else {
     if (tipo(x) == tipo(y) && tipo(x) == LONG){
         push_LONG(s,GET_LONG(x) * GET_LONG(y));
@@ -747,6 +758,9 @@ void SIZE(STACK *s){
    }
    else SIZENUMBER(s, x);
 }   
+
+
+
       
 //  --------------------------------------------------------------------------
 /**
