@@ -422,6 +422,14 @@ void REMOVEI(STACK *s, DATA x);
 void REMOVEF(STACK *s, DATA x);
 
 /**
+ * \brief Função que recebe um string e o coloca no stack
+ * @param s Stack onde se vão colocar a string
+ * @param token String do input
+ * @param resto O que vai sobrar do string do input 
+ */
+void STRINGET(STACK *s, char *token, char *resto);
+
+/**
 * \brief Define que faz as funções de push e pop usadas para cada tipo nos stacks
 */
  

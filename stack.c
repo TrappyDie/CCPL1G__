@@ -724,6 +724,24 @@ return token;
 }
 
 //  --------------------------------------------------------------------------
+
+void STRINGET(STACK *s, char *token, char *resto){
+STACK *s1 = create_stack();
+int f = strlen(token);
+char token2[1000];
+while (token[strlen(token + 1)] != '\"'){
+strcat(token, " " );   
+(sscanf(resto, "%s%[^\n]", token2, resto));
+strcat(token, token2);
+                        
+}
+for(int i = 1; i < f - 1; i++){
+    push_CHAR(s1, token[i]);
+}
+push_ARRAY(s,s1);
+}
+
+//  --------------------------------------------------------------------------
 void SIZENUMBER(STACK *s, DATA x){
    if (tipo(x) == LONG){
    STACK *array = create_stack();

@@ -53,7 +53,12 @@ for(i = 23; i <= 25; i++){
     DATA y1 = pop(s);
     vars[13] = y1; 
 }
-
+/**
+ * \brief Função onde se atribui valores às variáveis
+ * @param s Stack onde estão os valores que precisamos
+ * @param vars Array onde estão as variáveis
+ * @param token variável que temos de mudar
+ */
 void VARS1(STACK *s,DATA *vars,char token){
     long l = token;
     DATA w = pop(s);
@@ -61,25 +66,14 @@ void VARS1(STACK *s,DATA *vars,char token){
     push(s,w);
 }
 
-
-//  ---------------------------------------------------------
 /**
- * \brief Função onde são chamadas as funções relativas a cada operação
+ * \brief Função onde são chamadas as funções relativas a cada operação lógica
+ * @param s Stack onde estão os valores que precisamos
+ * @param token operando que vamos executar
  */
-void operacoes(char *token, STACK *s, DATA *vars){
-switch (*token){
-       case '+' : SUM(s);
-           break;
-       case '-' : MINUS(s);
-           break;
-       case '/' : DIV(s);
-           break;
-       case '*' : MULT(s);
-           break;
-       case '#' : EXP(s);
-           break;
-       case '%' : RES(s);
-           break;
+void operacoeslogicas(char *token, STACK *s){
+    switch (*token)
+    {
        case ')' : INC(s);
            break;
        case '(' : DEC(s);
@@ -91,24 +85,6 @@ switch (*token){
        case '^' : XOR(s);
            break;
        case '~' : NOT(s);
-           break;
-       case '@' : ROT(s);
-           break;
-       case '_' : DUP(s);
-           break;
-       case ';' : POP1(s);
-           break;
-       case '\\' : TRD(s);
-           break;
-       case 'i' : TOINT(s);
-           break;
-       case 'l' : READ(s);
-           break;
-       case 'f' : TODOB(s);
-           break;
-       case 'c' : TOCHAR(s);
-           break;
-       case '$' : CHANGE(s);
            break;
        case '=' : EQL(s);
            break;
@@ -130,13 +106,62 @@ switch (*token){
        }
            break;
        case '?' : IF(s);
+           break;    
+    }
+}
+
+
+//  ---------------------------------------------------------
+/**
+ * \brief Função onde são chamadas as funções relativas a cada operação
+ */
+void operacoes(char *token, STACK *s, DATA *vars, char *resto, char *val){
+if (*token >= 'A' && *token <= 'Z'){
+            long i = *token;
+            DATA x = vars[i - 65];
+            push(s, x);}               
+switch (*token){
+       case '+' : SUM(s);
+           break;
+       case '-' : MINUS(s);
+           break;
+       case '/' : DIV(s);
+           break;
+       case '*' : MULT(s);
+           break;
+       case '#' : EXP(s);
+           break;
+       case '%' : RES(s); 
+           break;   
+       case '@' : ROT(s);
+           break;
+       case '_' : DUP(s);
+           break;
+       case ';' : POP1(s);
+           break;
+       case '\\' : TRD(s);
+           break;
+       case 'i' : TOINT(s);
+           break;
+       case 'l' : READ(s);
+           break;
+       case 'f' : TODOB(s);
+           break;
+       case 'c' : TOCHAR(s);
+           break;
+       case '$' : CHANGE(s);
            break;
        case ',' : SIZE(s);
            break;
        case ':' : VARS1(s,vars,token[1]);
-           break;    
+           break;
+       case '\"' : {STRINGET(s, token, resto);strcpy(val, resto);}
+           break;
+       default : operacoeslogicas(token, s);
+           break;       
 }
 }
+
 //  ---------------------------------------------------------
 /**
  * \brief Função responsável pela colocação dos elementos do input no stack
@@ -171,35 +196,13 @@ void stacking(char *val, STACK *s, DATA *vars){
                 push_DOUBLE(s,f);       
             }
         }      
-        else if (*token >= 'A' && *token <= 'Z'){
-            long i = *token;
-            DATA x = vars[i - 65];
-            push(s, x);
-        }
         else if (*token == '[') {
                        char *line1 = get_delimited(val, token, resto);
                        STACK *s1 = create_stack();
                        stacking(line1, s1, vars);
-                       push_ARRAY(s,s1);}
-        else if (*token == '\"'){
-                       STACK *s1 = create_stack();
-                       int f = strlen(token);
-                       char token2[MAX_SIZE];
-                       while (token[strlen(token + 1)] != '\"'){
-                       strcat(token, " " );   
-                       (sscanf(val, "%s%[^\n]", token2, resto));
-                       strcat(token, token2);
-                        
-                       }
-                        for(int i = 1; i < f - 1; i++){
-                            push_CHAR(s1, token[i]);
-                        }
-                        push_ARRAY(s,s1);
-                        strcpy(val, resto);
-        } 
-        
-
-        else operacoes(token,s,vars);
+                       push_ARRAY(s,s1);
+        }
+        else operacoes(token,s,vars,resto,val);
          strcpy(val, resto);
          *resto = 0;
          }
