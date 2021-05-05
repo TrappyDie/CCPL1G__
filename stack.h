@@ -392,8 +392,12 @@ void CONCAT(STACK *s);
  * \brief Concatena multiplas vezes um array
  * @param array Stack com o array que se vai concatenar
  * @param i Numero de vezes que se vai ter o array
+ * @param x Valor recebido pela função
+ * @param y Valor recebido na função
+ * @param s Stack onde sera colocado o resultado
+
  */
-void CONTAT2(STACK *s, DATA x, DATA y);
+void CONCAT2(STACK *s, DATA x, DATA y);
 
 /**
  * \brief Vai ao array e devolve os seus elementos desde o inicio até ao elemento indice x
