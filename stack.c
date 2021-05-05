@@ -720,7 +720,6 @@ char *get_delimited(char *val, char *token, char *resto){
 if (*token == '[')    sscanf(val, "%[^]]%[^\n]]", token, resto);
 if (*token == '\"')   {token++;}
     resto++;
-    printf("%s\n", token);
 return token; 
 }
 

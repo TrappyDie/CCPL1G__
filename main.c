@@ -159,6 +159,8 @@ void stacking(char *val, STACK *s, DATA *vars){
     double c1;
     char *n;
     char *c;
+    char *line2;
+    int i = 1;
     while(sscanf(val, "%s%[^\n]", token, resto) > 0) {
         strcpy(val, resto);
          if (sscanf(token, "%lf", &c1) == 1) {
@@ -170,7 +172,7 @@ void stacking(char *val, STACK *s, DATA *vars){
             else if (strlen(c) == 0){
                 push_DOUBLE(s,f);       
             }
-        }        
+        }      
         else if (*token >= 'A' && *token <= 'Z'){
             long i = *token;
             DATA x = vars[i - 65];
@@ -182,10 +184,21 @@ void stacking(char *val, STACK *s, DATA *vars){
                        stacking(line1, s1, vars);
                        push_ARRAY(s,s1);}
         else if (*token == '\"'){
-                       char *line2 = get_delimited(val, token, resto);
-                       token[strlen(token) - 1] = '\0';
-                       char *string = strdup(line2);    
-                       push_STRING(s,line2);}
+                       int i;
+                       STACK *s1 = create_stack();
+                       char token2[MAX_SIZE];
+                       while (token[strlen(token + 1)] != '\"'){
+                       strcat(token, " " );   
+                       (sscanf(val, "%s%[^\n]", token2, resto) > 0);
+                       strcat(token, token2);    
+                       }
+                        for(i = 1; i < strlen(token) - 1; i++){
+                            push_CHAR(s1, token[i]);
+                        }
+                        push_ARRAY(s,s1);
+                        strcpy(val, resto);
+        } 
+        
 
         else operacoes(token,s,vars);
          strcpy(val, resto);
