@@ -174,10 +174,16 @@ void stacking(char *val, STACK *s, DATA *vars){
             push(s, x);
         }
         else if (*token == '[') {
-                       char *line = get_delimited(val, token, resto);
+                       char *line1 = get_delimited(val, token, resto);
                        STACK *s1 = create_stack();
-                       stacking(line, s1, vars);
+                       stacking(line1, s1, vars);
                        push_ARRAY(s,s1);}
+        else if (*token == '\"'){
+                       char *line2 = get_delimited(val, token, resto);
+                       STACK *s2 = create_stack();
+                       stacking(line2, s2, vars);
+                       push_STRING(s,s2);}
+
         else operacoes(token,s);
          strcpy(val, resto);
          *resto = 0;
