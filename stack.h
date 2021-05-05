@@ -18,7 +18,17 @@
 //  ----------------------- Libraries -----------------------
 //  --------------------- Code Begining ---------------------
 /** Define o TYPE usado na struct data, atribuindo valores aos tipos */
-typedef enum {LONG = 1, DOUBLE = 2, CHAR = 4, STRING = 8, ARRAY = 16} TYPE;
+typedef enum {
+    /** inteiro */
+    LONG = 1,
+    /** real */
+    DOUBLE = 2,
+    /** caracteres */
+    CHAR = 4,
+    /** lista de caracteres */
+    STRING = 8,
+    /** array */
+    ARRAY = 16} TYPE;
 //  --------------------------------------------------------------------------
 /**
  * @def INTEGER
