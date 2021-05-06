@@ -559,6 +559,11 @@ void TOINT(STACK *s){
     else if (tipo(x) == DOUBLE){
     push_LONG(s, GET_DOUBLE(x));                                        
     }
+    else if (tipo(x) == CHAR){
+    char c = GET_CHAR(x);
+    long n = c;
+    push_LONG(s,n);    
+    }
     else if (tipo(x) == STRING){
     char *c = GET_STRING(x);
     int n = atoi(c);
