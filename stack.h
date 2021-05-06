@@ -430,8 +430,17 @@ void REMOVEF(STACK *s, DATA x);
 void STRINGET(STACK *s, char *token, char *resto);
 
 /**
+ * \brief Recebe um string e um delimitador e separa a string colocando cada parte desta num array
+ * @param s Stack onde se vai colocar o array final
+ * @param x Delimitadores
+ * @param y String que vai ser delimitada
+ */ 
+void GETSUB(STACK *s, DATA x, DATA y);
+
+/**
 * \brief Define que faz as funções de push e pop usadas para cada tipo nos stacks
 */
+
  
 #define STACK_OPERATION_PROTO(_type, _name)   \
   void push_##_name(STACK *s, _type val);     \

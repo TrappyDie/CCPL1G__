@@ -329,47 +329,50 @@ STACK *substring = GET_ARRAY(x);
 STACK *string = GET_ARRAY(y);
 STACK *finalstring = create_stack();
 STACK *arraystrings = create_stack();
-char stringarray[1000];
 int i,j = 0,g = 0,m = 0,f = 0;
 for(i = 0; i <= string->n_elems; i++){ 
     if (i == string->n_elems) {
+        char string2[1000];
         while (m < finalstring->n_elems){
-            stringarray[m] = GET_CHAR(finalstring->stack[m]);
+            string2[m] = GET_CHAR(finalstring->stack[m]);
             m++;
             }
-            push_STRING(arraystrings, stringarray);
+            char *strcopia = strdup(string2);
+            push_STRING(arraystrings, string2);
             }  
-    else if (get(string->stack[i]) != get(substring->stack[0]))  {push_CHAR(finalstring, GET_CHAR(string->stack[i]));printf("%s\n",finalstring);}
+    else if (get(string->stack[i]) != get(substring->stack[0]))  {push_CHAR(finalstring, GET_CHAR(string->stack[i]));}
     else {
         g = i;
-        while (get(string->stack[i]) == get(substring->stack[0]) && (j < substring->n_elems)){
+        while ((get(string->stack[i]) == get(substring->stack[0])) && (j < substring->n_elems)){
             g++;
             j++;            
         }
-        if (j == substring->n_elems) {
-            while (m < finalstring->n_elems){                                                             //"andre123costa"  g->5  "123"   "costa"    ["andre"]
-                stringarray[m] = GET_CHAR(finalstring->stack[m]);
-                m++;
+
+        if (j == substring->n_elems) {    
+            char string2[1000];                                                        
+            for (m = 0; m < finalstring->n_elems; m++){                                                              
+                string2[m] = GET_CHAR(finalstring->stack[m]);
             }
-            push_STRING(arraystrings, stringarray);i = g - 1;g = 0;j=0;finalstring->size = 0;m = 0;
-            while (stringarray[f] != '\0'){
-                stringarray[f] = '\0';
+            char *stringcopia = strdup(string2);
+            push_STRING(arraystrings, stringcopia);
+            i = g - 1;
+            g = 0;
+            j = 0;
+            m = 0;
+            while (finalstring->n_elems > 0){
+                pop(finalstring);
+            }
+            while (string2[f] != '\0'){
+                string2[f] = '\0';
                 f++;
             }
-            print_stack(arraystrings);
-            printf("<- stack");
             f = 0;
 }
         else {push(finalstring, string->stack[i]);g = 0;j=0;
     } 
                                              
 }
-}
-/*while (m < finalstring->n_elems){
-                stringarray[m] = GET_CHAR(finalstring->stack[m]);
-                m++;
-            }
-push_STRING(arraystrings, stringarray);  */          
+}         
 push_ARRAY(s, arraystrings);
 }
 
