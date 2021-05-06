@@ -210,11 +210,11 @@ void stacking(char *val, STACK *s, DATA *vars){
 
 
           /*                                                        
-          case '#' : GETSUB(s, array);
+          case '#' : GETINDICE(s, array);
           	break;
           case 't' : READ2(s, array);
           	break;
-          case '/' : SUB(s, array);
+          case '/' : GETSUB(s, array);
           	break;		
           case 'S' : switch(resto[1]){
           		   case '/' : WHITE(s, array);

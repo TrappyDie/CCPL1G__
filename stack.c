@@ -253,7 +253,6 @@ else if (tipo(x) != ARRAY && tipo(y) == ARRAY) {
 
 void CONCAT2(STACK *s, DATA x, DATA y){
 long i = get(x);
- if(has_type(y, ARRAY)){ 
 STACK *array = GET_ARRAY(y);
  while (i > 0){
   push_ARRAY(s, array);
@@ -264,17 +263,6 @@ i = i/2;
   CONCAT(s);
   i--;
   }}
- if(has_type(y, STRING)){ 
-char *str = GET_STRING(y);
- while (i > 0){
-  push_STRING(s, str);
-  i--;
-  }
-i = i/2;      
-  while(i > 0){
-  CONCAT(s);
-  i--;
-  }}}
 
 //  --------------------------------------------------------------------------
 
@@ -336,10 +324,33 @@ push_ARRAY(s, array);
 }       
 //  --------------------------------------------------------------------------
 
+void GETSUB(STACK *s, DATA x, DATA y){
+STACK *substring = GET_ARRAY(x);
+STACK *string = GET_ARRAY(y);
+STACK *finalstring = create_stack();
+int i,j = 0,g = 0;
+for(i = 0; i < string->n_elems; i++){ 
+    if (get(string->stack[i]) != get(substring->stack[0]))  push_CHAR(finalstring, GET_CHAR(string->stack[i]));
+    else {
+        g = i;
+        while (get(string->stack[i]) == get(substring->stack[0]) && (j < substring->n_elems)){
+            g++;
+            j++;            
+        }
+        if (j == substring->n_elems) {push_CHAR(finalstring, ' ');i = g - 1;g = 0;j=0;}
+        else {push(finalstring, string->stack[i]);g = 0;j=0;
+    }                                      
+}
+}
+push_ARRAY(s, finalstring);
+}
+
+//  --------------------------------------------------------------------------
+
 void SUM(STACK *s){
     DATA x = pop(s);
     DATA y = pop(s);
-    if ((has_type(x, ARRAY)) || (has_type(y, ARRAY))) CONCAT(s);
+    if ((has_type(x, ARRAY)) || (has_type(y, ARRAY))) {push(s,y);push(s,x);CONCAT(s);}
     else {
     if (tipo(x) == LONG && tipo(y) == LONG){
         push_LONG(s,GET_LONG(x) + GET_LONG(y));
@@ -378,7 +389,8 @@ void MINUS(STACK *s){
 void DIV(STACK *s){
     DATA x = pop(s);
     DATA y = pop(s);
-    if (((GET_LONG(y) / GET_LONG(x)) < 1) && tipo(x) == LONG && tipo(y) == LONG){
+    if (tipo(x) == tipo(y) && tipo(x) == ARRAY) GETSUB(s,x,y);
+    else if (((GET_LONG(y) / GET_LONG(x)) < 1) && tipo(x) == LONG && tipo(y) == LONG){
         push_LONG(s,0);
     }
     else if (tipo(y) == LONG && tipo(x) == LONG){
@@ -392,7 +404,7 @@ void DIV(STACK *s){
 void MULT(STACK *s){
     DATA x = pop(s);
     DATA y = pop(s);
-    if (has_type(y, ARRAY) || has_type(y, STRING)) CONCAT2(s, x, y);
+    if (has_type(y, ARRAY)) CONCAT2(s, x, y);
     else {
     if (tipo(x) == tipo(y) && tipo(x) == LONG){
         push_LONG(s,GET_LONG(x) * GET_LONG(y));
@@ -412,7 +424,7 @@ void MULT(STACK *s){
 void EXP(STACK *s){
     DATA x = pop(s);
     DATA y = pop(s);
-    if (tipo(x) == tipo(y) && tipo(x) == LONG){ 
+     if (tipo(x) == tipo(y) && tipo(x) == LONG){ 
         long y1 = GET_LONG(y);
         long x1 = GET_LONG(x);
         long ex = pow(y1,x1);
@@ -647,7 +659,7 @@ return 0;
 void EQL(STACK *s){
     DATA x = pop(s);
     DATA y = pop(s);            
-    if (has_type(y, ARRAY)) INDICE(s, x, y);     
+    if (has_type(y, ARRAY) && tipo(x) == LONG) INDICE(s, x, y);     
     else {if (get(x) == get(y)) push_LONG(s,1);
     else push_LONG(s,0);
     } 
