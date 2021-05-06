@@ -328,24 +328,50 @@ void GETSUB(STACK *s, DATA x, DATA y){
 STACK *substring = GET_ARRAY(x);
 STACK *string = GET_ARRAY(y);
 STACK *finalstring = create_stack();
-int i,j = 0,g = 0;
-for(i = 0; i < string->n_elems; i++){ 
-    if (get(string->stack[i]) != get(substring->stack[0]))  push_CHAR(finalstring, GET_CHAR(string->stack[i]));
+STACK *arraystrings = create_stack();
+char stringarray[1000];
+int i,j = 0,g = 0,m = 0,f = 0;
+for(i = 0; i <= string->n_elems; i++){ 
+    if (i == string->n_elems) {
+        while (m < finalstring->n_elems){
+            stringarray[m] = GET_CHAR(finalstring->stack[m]);
+            m++;
+            }
+            push_STRING(arraystrings, stringarray);
+            }  
+    else if (get(string->stack[i]) != get(substring->stack[0]))  {push_CHAR(finalstring, GET_CHAR(string->stack[i]));printf("%s\n",finalstring);}
     else {
         g = i;
         while (get(string->stack[i]) == get(substring->stack[0]) && (j < substring->n_elems)){
             g++;
             j++;            
         }
-        if (j == substring->n_elems) {push_CHAR(finalstring, ' ');i = g - 1;g = 0;j=0;}
+        if (j == substring->n_elems) {
+            while (m < finalstring->n_elems){                                                             //"andre123costa"  g->5  "123"   "costa"    ["andre"]
+                stringarray[m] = GET_CHAR(finalstring->stack[m]);
+                m++;
+            }
+            push_STRING(arraystrings, stringarray);i = g - 1;g = 0;j=0;finalstring->size = 0;m = 0;
+            while (stringarray[f] != '\0'){
+                stringarray[f] = '\0';
+                f++;
+            }
+            print_stack(arraystrings);
+            printf("<- stack");
+            f = 0;
+}
         else {push(finalstring, string->stack[i]);g = 0;j=0;
-    }                                      
+    } 
+                                             
 }
 }
-push_ARRAY(s, finalstring);
+/*while (m < finalstring->n_elems){
+                stringarray[m] = GET_CHAR(finalstring->stack[m]);
+                m++;
+            }
+push_STRING(arraystrings, stringarray);  */          
+push_ARRAY(s, arraystrings);
 }
-
-//  --------------------------------------------------------------------------
 
 void SUM(STACK *s){
     DATA x = pop(s);
@@ -424,7 +450,7 @@ void MULT(STACK *s){
 void EXP(STACK *s){
     DATA x = pop(s);
     DATA y = pop(s);
-     if (tipo(x) == tipo(y) && tipo(x) == LONG){ 
+    if (tipo(x) == tipo(y) && tipo(x) == LONG){ 
         long y1 = GET_LONG(y);
         long x1 = GET_LONG(x);
         long ex = pow(y1,x1);
