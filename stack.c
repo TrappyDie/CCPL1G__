@@ -413,7 +413,10 @@ void EXP(STACK *s){
     DATA x = pop(s);
     DATA y = pop(s);
     if (tipo(x) == tipo(y) && tipo(x) == LONG){ 
-        push_LONG(s,pow(GET_LONG(y), GET_LONG(x)));
+        long y1 = GET_LONG(y);
+        long x1 = GET_LONG(x);
+        long ex = pow(y1,x1);
+        push_LONG(s,ex);
     }    
     else if (tipo(x) == tipo(y) && tipo(x) == DOUBLE){
         float y1 = GET_DOUBLE(y);
@@ -438,7 +441,10 @@ void EXP(STACK *s){
 void RES(STACK *s){
     DATA x = pop(s);
     DATA y = pop(s);
-    push_LONG(s,GET_LONG(y) % GET_LONG(x));
+    long y1 = GET_LONG(y);
+    long x1 = GET_LONG(x);
+    long res = y1 % x1;
+    push_LONG(s,res);
 }
 //  --------------------------------------------------------------------------
 void INC(STACK *s){
@@ -488,25 +494,37 @@ void DEC(STACK *s){
 void AND(STACK *s){
     DATA x = pop(s);
     DATA y = pop(s);
-    push_LONG(s,GET_LONG(y) & GET_LONG(x));
+    long y1 = GET_LONG(y);
+    long x1 = GET_LONG(x);
+    long and = y1 & x1;
+    push_LONG(s,and);
 }
 //  --------------------------------------------------------------------------
 void OR(STACK *s){
     DATA x = pop(s);
     DATA y = pop(s);
-    push_LONG(s,GET_LONG(y) | GET_LONG(x));
+    long y1 = GET_LONG(y);
+    long x1 = GET_LONG(x);
+    long or = y1 | x1;
+    push_LONG(s,or);
 }
 //  --------------------------------------------------------------------------
 void XOR(STACK *s){
     DATA x = pop(s);
     DATA y = pop(s);
-    push_LONG(s,GET_LONG(y) ^ GET_LONG(x));
+    long y1 = GET_LONG(y);
+    long x1 = GET_LONG(x);
+    long xor = y1 ^ x1;
+    push_LONG(s,xor);
 }
 //  --------------------------------------------------------------------------
 void NOT(STACK *s){
     DATA x = pop(s);
     if (has_type(x, ARRAY)) PUTS(s, GET_ARRAY(x));
-    else push_LONG(s,~GET_LONG(x));
+    else {
+    long x1 = GET_LONG(x);
+    long not = ~x1;
+    push_LONG(s,not);}
 }
 //  --------------------------------------------------------------------------
 void ROT(STACK *s){
