@@ -427,7 +427,7 @@ void REMOVEF(STACK *s, DATA x);
  * @param token String do input
  * @param resto O que vai sobrar do string do input 
  */
-void STRINGET(STACK *s, char *token, char *resto);
+void STRINGET(STACK *s, char *token, char *resto, char *val);
 
 /**
  * \brief Recebe um string e um delimitador e separa a string colocando cada parte desta num array
@@ -436,6 +436,17 @@ void STRINGET(STACK *s, char *token, char *resto);
  * @param y String que vai ser delimitada
  */ 
 void GETSUB(STACK *s, DATA x, DATA y);
+
+/**
+ * \brief Lê todo o input e coloca-o numa string
+ * @param s Stack onde vai colocar o string
+ */ 
+void READ2(STACK *s);
+/**
+ * \brief Separa um string pelos seus espaços e coloca-o separado num array
+ * @param s Stack onde vai colocar o array
+ */ 
+void WHITE(STACK *s);
 
 /**
 * \brief Define que faz as funções de push e pop usadas para cada tipo nos stacks

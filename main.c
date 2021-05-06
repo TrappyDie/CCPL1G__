@@ -59,19 +59,29 @@ for(i = 23; i <= 25; i++){
  * @param vars Array onde estão as variáveis
  * @param token variável que temos de mudar
  */
-void VARS1(STACK *s,DATA *vars,char token){
-    long l = token;
-    DATA w = pop(s);
-    vars[l - 65] = w; 
-    push(s,w);
-}
+
+
+void operacoesvars(char *token, DATA *vars, STACK *s){
+    if (*token >= 'A' && *token <= 'Z'){
+            long i = *token;
+            DATA x = vars[i - 65];
+            push(s, x);}
+    else if (*token == ':'){
+            long l = token[1];
+            DATA w = pop(s);
+            vars[l - 65] = w; 
+            push(s,w);
+    }
+}          
+
+
 
 /**
  * \brief Função onde são chamadas as funções relativas a cada operação lógica
  * @param s Stack onde estão os valores que precisamos
  * @param token operando que vamos executar
  */
-void operacoeslogicas(char *token, STACK *s){
+void operacoeslogicas(char *token, STACK *s, DATA *vars){
     switch (*token)
     {
        case ')' : INC(s);
@@ -106,7 +116,9 @@ void operacoeslogicas(char *token, STACK *s){
        }
            break;
        case '?' : IF(s);
-           break;    
+           break; 
+       default : operacoesvars(token, vars, s); 
+           break;  
     }
 }
 
@@ -115,11 +127,7 @@ void operacoeslogicas(char *token, STACK *s){
 /**
  * \brief Função onde são chamadas as funções relativas a cada operação
  */
-void operacoes(char *token, STACK *s, DATA *vars, char *resto, char *val){
-if (*token >= 'A' && *token <= 'Z'){
-            long i = *token;
-            DATA x = vars[i - 65];
-            push(s, x);}               
+void operacoes(char *token, STACK *s, DATA *vars, char *resto, char *val){              
 switch (*token){
        case '+' : SUM(s);
            break;
@@ -153,12 +161,14 @@ switch (*token){
            break;
        case ',' : SIZE(s);
            break;
-       case ':' : VARS1(s,vars,token[1]);
+       case '\"' : {STRINGET(s, token + 1, resto,val);strcpy(val, resto);}
            break;
-       case '\"' : {STRINGET(s, token, resto);strcpy(val, resto);}
+       case 't' : READ2(s);
            break;
-       default : operacoeslogicas(token, s);
-           break;       
+       case 'S' : if (token[1] == '/') WHITE(s);
+           break;      
+       default : operacoeslogicas(token, s, vars);
+           break;           
 }
 }
 
@@ -209,11 +219,7 @@ void stacking(char *val, STACK *s, DATA *vars){
 }
 
 
-          /*                                                        
-          case '#' : GETINDICE(s, array);
-          	break;
-          case 't' : READ2(s, array);
-          	break;		
+          /*                                                        		
           case 'S' : switch(resto[1]){
           		   case '/' : WHITE(s, array);
           		   break;

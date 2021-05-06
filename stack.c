@@ -338,12 +338,12 @@ for(i = 0; i <= string->n_elems; i++){
             m++;
             }
             char *strcopia = strdup(string2);
-            push_STRING(arraystrings, string2);
+            push_STRING(arraystrings, strcopia);
             }  
     else if (get(string->stack[i]) != get(substring->stack[0]))  {push_CHAR(finalstring, GET_CHAR(string->stack[i]));}
     else {
         g = i;
-        while ((get(string->stack[i]) == get(substring->stack[0])) && (j < substring->n_elems)){
+        while ((get(string->stack[g]) == get(substring->stack[j])) && (j < substring->n_elems)){
             g++;
             j++;            
         }
@@ -375,6 +375,30 @@ for(i = 0; i <= string->n_elems; i++){
 }         
 push_ARRAY(s, arraystrings);
 }
+
+void GETINDICE(STACK *s, DATA x, DATA y){   
+STACK *substring = GET_ARRAY(x);
+STACK *string = GET_ARRAY(y);
+int i, g, j = 0, r = -1;
+    for(i = 0; i < string->n_elems; i++){ 
+    if (get(string->stack[i]) != get(substring->stack[0]));
+    else {
+        g = i;
+        if (get(string->stack[i]) != get(substring->stack[0]));
+        else {
+            g = i;
+            while ((get(string->stack[g]) == get(substring->stack[j])) && (j < substring->n_elems)){
+                g++;
+                j++;            
+            }
+            if (j == substring->n_elems) {r = i;i = string->n_elems;}
+
+        }
+    }
+}
+push_LONG(s,r);
+}    
+
 
 void SUM(STACK *s){
     DATA x = pop(s);
@@ -453,7 +477,8 @@ void MULT(STACK *s){
 void EXP(STACK *s){
     DATA x = pop(s);
     DATA y = pop(s);
-    if (tipo(x) == tipo(y) && tipo(x) == LONG){ 
+    if ((has_type(x, ARRAY)) || (has_type(y, ARRAY))) {GETINDICE(s,x,y);}
+    else if (tipo(x) == tipo(y) && tipo(x) == LONG){ 
         long y1 = GET_LONG(y);
         long x1 = GET_LONG(x);
         long ex = pow(y1,x1);
@@ -683,14 +708,28 @@ double get(DATA x){
        }
 return 0;      
 }          
-            
+
+char *FromAtoS(STACK *s){
+char string2[1000];                                                        
+for (int m = 0; m < s->n_elems; m++){                                                              
+string2[m] = GET_CHAR(s->stack[m]);
+}
+char *string = strdup(string2);
+return string;
+}            
 //  --------------------------------------------------------------------------
 void EQL(STACK *s){
     DATA x = pop(s);
     DATA y = pop(s);            
-    if (has_type(y, ARRAY) && tipo(x) == LONG) INDICE(s, x, y);     
+    if (has_type(y, ARRAY) && tipo(x) == LONG) INDICE(s, x, y);
+    else if (has_type(y, ARRAY) && has_type(x, ARRAY)){
+        char *ys = FromAtoS(GET_ARRAY(y));
+        char *xs = FromAtoS(GET_ARRAY(x));
+        if (ys == xs) push_LONG(s,1);
+        else push_LONG(s,0);
+    }  
     else {if (get(x) == get(y)) push_LONG(s,1);
-    else push_LONG(s,0);
+          else push_LONG(s,0);
     } 
 }
 //  --------------------------------------------------------------------------
@@ -789,18 +828,27 @@ return token;
 
 //  --------------------------------------------------------------------------
 
-void STRINGET(STACK *s, char *token, char *resto){
+void STRINGET(STACK *s, char *token, char *resto, char *val){
+printf("%s TOKEN",token);
+printf("%s RESTO",resto);   
 STACK *s1 = create_stack();
-int f = strlen(token);
+int f = strlen(token);                                             //"andre costa"    TOKEN -> andre    RESTO -> costa"   token2 -> 
 char token2[1000];
-while (token[strlen(token + 1)] != '\"'){
-strcat(token, " " );   
-(sscanf(resto, "%s%[^\n]", token2, resto));
-strcat(token, token2);
-                        
+char token3[1000];
+int n = 0;
+while (n <= strlen(token) - 1){
+    token2[n] = *token;
+    token++;
+    n++;
+}
+if (token2[n] == '\"'){
+    strcat(token2, " " );   
+    (sscanf(val, "%s%[^\n]", token3, resto));
+    strcpy(val,resto);
+    strcat(token2, token3);                       
 }
 for(int i = 1; i < f - 1; i++){
-    push_CHAR(s1, token[i]);
+    push_CHAR(s1, token2[i]);
 }
 push_ARRAY(s,s1);
 }
@@ -839,12 +887,61 @@ void SIZE(STACK *s){
    push_LONG(s, s1->n_elems);
    }
    else SIZENUMBER(s, x);
-}   
+}
 
+//  --------------------------------------------------------------------------
 
+void READ2(STACK *s){
+    char line[1000];
+    assert(fgets(line, 100, stdin) != NULL);
+    char *line3 = strdup(line);             //line3 = "andre\n"
+    while (strlen(line) != 1){
+        fgets(line, 100, stdin);
+        char *line2 = strdup(line);
+        strcat(line3,line2);
+    }
+    push_STRING(s, line3);  
+}
 
+//  --------------------------------------------------------------------------
+
+void WHITE(STACK *s){
+    DATA x = pop(s);
+    char *line;
+    char gettingline[1000];
+    int n = 0, f = 0, m = 0;
+    STACK *array = create_stack();
+    if (tipo(x) == ARRAY) {line = FromAtoS(GET_ARRAY(x));}                      // tres tristes tigres
+    else {
+    line = GET_STRING(x);}
+    printf("%s",line);
+    int g = strlen(line);
+    for(int i = 0; i < g; i++){
+        while (*line != ' '){ 
+           gettingline[n] = *line;
+           line++;
+           n++; 
+        }
+        n = 0;
+        char *newline = strdup(gettingline);
+        push_STRING(array, newline);
+        while (gettingline[f] != '\0'){
+                gettingline[f] = '\0';
+                f++;
+            }
+            f = 0; 
+        while (gettingline[m] != '\0'){
+                gettingline[m] = '\0';
+                m++;
+            }
+            m = 0;        
+    }
+    push_ARRAY(s, array);
+
+}
       
 //  --------------------------------------------------------------------------
+
 /**
 * \brief Define que faz as funções de push e pop usadas para cada tipo nos stacks
 */
