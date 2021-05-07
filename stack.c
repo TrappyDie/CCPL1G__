@@ -952,6 +952,7 @@ void WHITE(STACK *s){
     while (stringinit[i] != '\0'){
         while ((stringinit[i] != ' ') || (stringinit[i] != '\0')) {
             stringtemp[n] = stringinit[i];
+            printf("%s",stringtemp);
             i++;
             n++;
         }
