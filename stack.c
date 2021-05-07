@@ -246,8 +246,21 @@ else if (tipo(x) != ARRAY && tipo(y) == ARRAY) {
     STACK *arrayy = GET_ARRAY(y);
     push(arrayy, x);
     push_ARRAY(s, arrayy);        
-    }    
-}
+    }
+else if (tipo(x) != ARRAY && tipo(y) != ARRAY) {
+    char *stringy = GET_STRING(y);
+    char *stringx = GET_STRING(x);
+    char string[1000];
+    STACK *array = create_stack();
+    strcat(stringx, stringy);
+    strcpy(string,stringx);
+    int f = strlen(string);
+    for(int i = 0; i < f; i++){
+        push_CHAR(array,string[i]);
+    }
+    push_ARRAY(s, array);        
+    }   
+}                   
 
 //  --------------------------------------------------------------------------
 
@@ -824,14 +837,26 @@ void OR2(STACK *s){
 void PUTMEN(STACK *s){
     DATA x = pop(s);
     DATA y = pop(s);
-    if (get(x) < get(y)) push(s,x);
+    if ((tipo(x) == ARRAY) && (tipo(y) == ARRAY)) {
+        char *ys = FromAtoS(GET_ARRAY(y));
+        char *xs = FromAtoS(GET_ARRAY(x));
+        if (strcmp(ys,xs) < 0) push_STRING(s,ys);
+        else push_STRING(s,xs);
+    }
+    else if (get(x) < get(y)) push(s,x);
     else push(s,y); 
 }
 //  --------------------------------------------------------------------------
 void PUTMAI(STACK *s){
     DATA x = pop(s);
     DATA y = pop(s);
-    if (get(x) > get(y)) push(s,x);
+    if ((tipo(x) == ARRAY) && (tipo(y) == ARRAY)) {
+        char *ys = FromAtoS(GET_ARRAY(y));
+        char *xs = FromAtoS(GET_ARRAY(x));
+        if (strcmp(ys,xs) > 0) push_STRING(s,ys);
+        else push_STRING(s,xs);
+    }    
+    else if (get(x) > get(y)) push(s,x);
     else push(s,y); 
 }
 //  --------------------------------------------------------------------------
@@ -926,6 +951,8 @@ void SIZE(STACK *s){
 
 void READ2(STACK *s){
     char line[1000];
+    char lineend[1000];
+    STACK *lastread = create_stack();
     assert(fgets(line, 100, stdin) != NULL);
     char *line3 = strdup(line);     
     while (strlen(line) != 1){
@@ -933,7 +960,12 @@ void READ2(STACK *s){
         char *line2 = strdup(line);
         strcat(line3,line2);
     }
-    push_STRING(s, line3);  
+    strcpy(lineend, line3);
+    int f = strlen(lineend);
+    for(int i = 0; i < f; i++){
+        push_CHAR(lastread,lineend[i]);
+    }
+    push_ARRAY(s, lastread);  
 }
 
 //  --------------------------------------------------------------------------
