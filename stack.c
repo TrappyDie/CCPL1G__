@@ -628,13 +628,16 @@ double POP1(STACK *s){
 }
 
 //  --------------------------------------------------------------------------
+
 void READ(STACK *s){
     char line[1000];
     assert(fgets(line, 100, stdin) != NULL);
     char *line2 = strdup(line);
     push_STRING(s,line2);   
 }
+
 //  --------------------------------------------------------------------------
+
 void TOINT(STACK *s){
     DATA x =  pop(s);
     if (tipo(x) == LONG){
@@ -654,7 +657,9 @@ void TOINT(STACK *s){
     push_LONG(s,n);
    }
 }
+
 //  --------------------------------------------------------------------------
+
 void TODOB(STACK *s){
     DATA x =  pop(s);
     if (tipo(x) == LONG){
@@ -668,7 +673,9 @@ void TODOB(STACK *s){
     push_DOUBLE(s,n);					
     }
 }
-//  --------------------------------------------------------------------------
+
+//  --------------------------------------------------------------------------´
+
 void TOCHAR(STACK *s){
     DATA x = pop(s);
     char c;
@@ -679,14 +686,17 @@ void TOCHAR(STACK *s){
         c =  (char) (GET_DOUBLE(x));
     }
     push_CHAR(s,c);
-} 
+}
+
 //  --------------------------------------------------------------------------
+
 void CHANGE( STACK *s){
     DATA x = pop(s);
     DATA y = s->stack[s->n_elems - GET_LONG(x) - 1];
     push(s, y);
 }
 
+//  --------------------------------------------------------------------------
 
 double get(DATA x){
  switch(x.type) {
@@ -707,7 +717,9 @@ double get(DATA x){
                 break;               
        }
 return 0;      
-}          
+}
+
+//  --------------------------------------------------------------------------
 
 char *FromAtoS(STACK *s){
 char string2[1000];                                                        
@@ -716,8 +728,10 @@ string2[m] = GET_CHAR(s->stack[m]);
 }
 char *string = strdup(string2);
 return string;
-}            
+}
+
 //  --------------------------------------------------------------------------
+
 void EQL(STACK *s){
     DATA x = pop(s);
     DATA y = pop(s);            
@@ -829,28 +843,35 @@ return token;
 //  --------------------------------------------------------------------------
 
 void STRINGET(STACK *s, char *token, char *resto, char *val){
-printf("%s TOKEN",token);
-printf("%s RESTO",resto);   
-STACK *s1 = create_stack();
-int f = strlen(token);                                             //"andre costa"    TOKEN -> andre    RESTO -> costa"   token2 -> 
-char token2[1000];
-char token3[1000];
-int n = 0;
-while (n <= strlen(token) - 1){
-    token2[n] = *token;
-    token++;
-    n++;
+    char string[1000];
+    char tokenend[1000] = {'\0'};
+    int i = 0, f = 0;
+    char j = 0;
+    STACK *array = create_stack();
+    while (j != '\"'){
+        strcpy(string, token);
+        if (string[strlen(string) - 1] == '\"') {
+            j = '\"';
+            string[strlen(string) - 1] = '\0';
+            strcat(tokenend,string);
+            for (i = 0; tokenend[i] != '\0'; i++){
+                push_CHAR(array, tokenend[i]);
+            }
+        }
+        else if (string[strlen(string) - 1] != '\"') {
+            strcat(tokenend, string);
+            strcat(tokenend, " ");
+            strcpy(val, resto);
+            while (resto[f] != '\0'){
+                resto[f] = '\0';
+                f++;
+            }
+            f = 0;
+            sscanf(val, "%s%[^\n]", token, resto);
+            j = 0; 
+        }    
 }
-if (token2[n] == '\"'){
-    strcat(token2, " " );   
-    (sscanf(val, "%s%[^\n]", token3, resto));
-    strcpy(val,resto);
-    strcat(token2, token3);                       
-}
-for(int i = 1; i < f - 1; i++){
-    push_CHAR(s1, token2[i]);
-}
-push_ARRAY(s,s1);
+push_ARRAY(s, array); 
 }
 
 //  --------------------------------------------------------------------------
@@ -908,38 +929,36 @@ void READ2(STACK *s){
 void WHITE(STACK *s){
     DATA x = pop(s);
     char *line;
-    char gettingline[1000];
-    int n = 0, f = 0, m = 0;
-    STACK *array = create_stack();
-    if (tipo(x) == ARRAY) {line = FromAtoS(GET_ARRAY(x));}                      // tres tristes tigres
+    char stringinit[1000];
+    if (tipo(x) == ARRAY) {line = FromAtoS(GET_ARRAY(x));}
     else {
     line = GET_STRING(x);}
-    printf("%s",line);
-    int g = strlen(line);
-    for(int i = 0; i < g; i++){
-        while (*line != ' '){ 
-           gettingline[n] = *line;
-           line++;
-           n++; 
+    strcpy(stringinit,line);
+    int i = 0, n = 0, f = 0, g = 0;
+    char stringtemp[1000];
+    STACK *array = create_stack();
+    char copy[1000];
+    while (stringinit[i] != '\0'){
+        while ((stringinit[i] != ' ') || (stringinit[i] != '\0')) {
+            stringtemp[n] = stringinit[i];
+            i++;
+            n++;
         }
-        n = 0;
-        char *newline = strdup(gettingline);
-        push_STRING(array, newline);
-        while (gettingline[f] != '\0'){
-                gettingline[f] = '\0';
+        push_STRING(array, stringtemp);
+        while (stringtemp[f] != '\0'){
+                stringtemp[f] = '\0';
                 f++;
             }
-            f = 0; 
-        while (gettingline[m] != '\0'){
-                gettingline[m] = '\0';
-                m++;
+            f = 0;
+        while (stringtemp[g] != '\0'){
+                stringtemp[g] = '\0';
+                g++;
             }
-            m = 0;        
+            g = 0;
+            n = 0;    
     }
-    push_ARRAY(s, array);
-
-}
-      
+push_ARRAY(s,array);
+}      
 //  --------------------------------------------------------------------------
 
 /**

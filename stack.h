@@ -438,6 +438,14 @@ void STRINGET(STACK *s, char *token, char *resto, char *val);
 void GETSUB(STACK *s, DATA x, DATA y);
 
 /**
+ * \brief Recebe uma string e um substring e encontra o indice em que começa esse substring na string
+ * @param s Stack onde se vai colocar o indice
+ * @param x Substring
+ * @param y String
+ */ 
+void GETINDICE(STACK *s, DATA x, DATA y);
+
+/**
  * \brief Lê todo o input e coloca-o numa string
  * @param s Stack onde vai colocar o string
  */ 
@@ -449,10 +457,15 @@ void READ2(STACK *s);
 void WHITE(STACK *s);
 
 /**
+ * \brief Recebe um stack array e coloca-o numa string
+ * @param s Stack que vai ser transformado
+ */ 
+char *FromAtoS(STACK *s);
+
+
+/**
 * \brief Define que faz as funções de push e pop usadas para cada tipo nos stacks
 */
-
- 
 #define STACK_OPERATION_PROTO(_type, _name)   \
   void push_##_name(STACK *s, _type val);     \
   _type pop_##_name(STACK *s);
