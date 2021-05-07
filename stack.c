@@ -937,7 +937,6 @@ void WHITE(STACK *s){
     int i = 0, n = 0, f = 0, g = 0;
     char stringtemp[1000];
     STACK *array = create_stack();
-    char copy[1000];
     while (stringinit[i] != '\0'){
         while ((stringinit[i] != ' ') || (stringinit[i] != '\0')) {
             stringtemp[n] = stringinit[i];
