@@ -166,6 +166,7 @@ switch (*token){
        case 't' : READ2(s);
            break;
        case 'S' : if (token[1] == '/') WHITE(s);
+                  else operacoesvars(token, vars, s);
            break;      
        default : operacoeslogicas(token, s, vars);
            break;           

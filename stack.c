@@ -739,7 +739,7 @@ void EQL(STACK *s){
     else if (has_type(y, ARRAY) && has_type(x, ARRAY)){
         char *ys = FromAtoS(GET_ARRAY(y));
         char *xs = FromAtoS(GET_ARRAY(x));
-        if (ys == xs) push_LONG(s,1);
+        if (strcmp(xs,ys) == 0) push_LONG(s,1);
         else push_LONG(s,0);
     }  
     else {if (get(x) == get(y)) push_LONG(s,1);
@@ -751,7 +751,13 @@ void EQL(STACK *s){
 void LESS(STACK *s){
     DATA x = pop(s);
     DATA y = pop(s);
-    if (has_type(y, ARRAY)) GETI(s, x, y);
+    if ((tipo(y)== ARRAY) && (tipo(x) != ARRAY)) GETI(s, x, y);
+    else if ((tipo(y) == ARRAY) && (tipo(x) == ARRAY)) {
+        char *ys = FromAtoS(GET_ARRAY(y));
+        char *xs = FromAtoS(GET_ARRAY(x));
+        if (strcmp(ys,xs) < 0) push_LONG(s,1);
+        else push_LONG(s,0);
+    }
     else{
     if (get(y) < get(x)) push_LONG(s,1);
     else push_LONG(s,0);
@@ -763,7 +769,13 @@ void LESS(STACK *s){
 void HIGH(STACK *s){
     DATA x = pop(s);
     DATA y = pop(s);
-    if (has_type(y, ARRAY)) GETF(s, x, y);
+    if ((tipo(y)== ARRAY) && (tipo(x) != ARRAY)) GETF(s, x, y);
+    else if ((tipo(y) == ARRAY) && (tipo(x) == ARRAY)) {
+        char *ys = FromAtoS(GET_ARRAY(y));
+        char *xs = FromAtoS(GET_ARRAY(x));
+        if (strcmp(ys,xs) > 0) push_LONG(s,1);
+        else push_LONG(s,0);
+    }    
     else{
     if (get(y) > get(x)) push_LONG(s,1);
     else push_LONG(s,0);
