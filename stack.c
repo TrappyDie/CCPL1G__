@@ -915,9 +915,9 @@ void SIZE(STACK *s){
 void READ2(STACK *s){
     char line[1000];
     assert(fgets(line, 100, stdin) != NULL);
-    char *line3 = strdup(line);             //line3 = "andre\n"
+    char *line3 = strdup(line);     
     while (strlen(line) != 1){
-        fgets(line, 100, stdin);
+        assert(fgets(line, 100, stdin) != NULL);
         char *line2 = strdup(line);
         strcat(line3,line2);
     }
