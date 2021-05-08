@@ -238,11 +238,15 @@ if (tipo(x) == ARRAY && tipo(y) == ARRAY) {
     }
     push_ARRAY(s, arrayy);
     }
-else if (tipo(x) == ARRAY && tipo(y) != ARRAY) {
+if (tipo(x) == ARRAY && tipo(y) != ARRAY) {
     STACK *arrayx = GET_ARRAY(x);
-    push(arrayx, y);
-    push_ARRAY(s, arrayx);  
+    STACK *newarray = create_stack();
+    push(newarray, y);
+    for (int i = 0; i < arrayx->n_elems; i++){
+        push(newarray, arrayx->stack[i]);
     }
+    push_ARRAY(s, newarray);  
+    }   
 else if (tipo(x) != ARRAY && tipo(y) == ARRAY) {
     STACK *arrayy = GET_ARRAY(y);
     push(arrayy, x);
@@ -335,11 +339,11 @@ void REMOVEF(STACK *s, DATA x){
   STACK *s1 = GET_ARRAY(x);
   STACK *array = create_stack();
   int i;
-  push(array, s1->stack[s1->n_elems - 1 ]);
   for (i = 0; i < s1->n_elems - 1; i++){                                   
       push(array, s1->stack[i]); 
   } 
-push_ARRAY(s, array);     
+  push_ARRAY(s, array);
+  push(s, s1->stack[s1->n_elems - 1 ]);     
 }       
 //  --------------------------------------------------------------------------
 
@@ -440,6 +444,7 @@ void SUM(STACK *s){
     else if ((tipo(x) == STRING) && (tipo(y) == ARRAY)) {
         STACK *xs = FromStoA(GET_STRING(x));
         push(s,y);push_ARRAY(s,xs);CONCAT(s);}
+    else if ((has_type(x, ARRAY)) || (has_type(y, ARRAY))) {push(s,y);push(s,x);CONCAT(s);}    
     else if (tipo(x) == LONG && tipo(y) == LONG){
         push_LONG(s,GET_LONG(x) + GET_LONG(y));
     }
@@ -669,17 +674,7 @@ void TRD(STACK *s){
 
 //  --------------------------------------------------------------------------
 double POP1(STACK *s){
-    DATA x = pop(s);
-    STACK *final = create_stack();
-    if (tipo(x) == ARRAY){
-        int i = 1;
-        STACK *array = GET_ARRAY(x);
-        while (i < array->n_elems){
-            push(final, array->stack[i]);
-            i++;
-        }
-    }
-    push_ARRAY(s, final);
+    pop(s);
     return 0;
 }
 
