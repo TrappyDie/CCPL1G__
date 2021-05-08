@@ -21,7 +21,7 @@
  * @def MAX_SIZE
  * Usado como tamanho máximo para os arrays
  */
-#define MAX_SIZE	1000
+#define MAX_SIZE	10000
  
 /**
  * \brief Função que inicializa o array de variáveis

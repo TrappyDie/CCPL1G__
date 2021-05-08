@@ -923,8 +923,8 @@ return token;
 //  --------------------------------------------------------------------------
 
 void STRINGET(STACK *s, char *token, char *resto, char *val){
-    char string[1000];
-    char tokenend[1000] = {'\0'};
+    char string[10000];
+    char tokenend[10000] = {'\0'};
     int i = 0, f = 0;
     char j = 0;
     STACK *array = create_stack();
