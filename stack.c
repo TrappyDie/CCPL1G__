@@ -284,14 +284,15 @@ STACK *new = create_stack();
 
 //  --------------------------------------------------------------------------
 
-void INDICE(STACK *s, DATA x, DATA y){  
-   long i = get(x);
-  if (tipo(y)==STRING){
-    char *str = GET_STRING(y);
-    STACK *s1 = FromStoA(str);
-    DATA z1 = s1->stack[i];
-    push(s, z1);}
-  else if (tipo(y)==ARRAY){STACK *s2 = GET_ARRAY(y);
+void INDICE(STACK *s, DATA x, DATA y){ 
+   STACK *s2 = GET_ARRAY(y);  
+   long i = GET_LONG(x);
+   if (i > s2->n_elems){
+       DATA z2 = s2->stack[s2->n_elems - 1];
+       push(s, z2);
+   }
+  else{
+    STACK *s2 = GET_ARRAY(y);
      DATA z2 = s2->stack[i];
      push(s, z2);}
 }

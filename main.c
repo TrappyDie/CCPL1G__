@@ -221,14 +221,6 @@ void stacking(char *val, STACK *s, DATA *vars){
          *resto = 0;
          }
 }
-
-
-          /*                                                        		
-          case 'N' : switch(resto[1]){
-          		   case '/' : NEW(s, array);
-          		   break;
-          		}   
-          	break; */
           	        
 
 //  --------------------------------------------------------------------------
