@@ -166,8 +166,11 @@ switch (*token){
        case 't' : READ2(s);
            break;
        case 'S' : if (token[1] == '/') WHITE(s);
-                  else operacoesvars(token, vars, s);
-           break;      
+                  else operacoesvars(token,vars, s);
+           break;
+       case 'N' : if (token[1] == '/') NEW(s);
+                  else operacoesvars(token,vars,s);
+           break;                 
        default : operacoeslogicas(token, s, vars);
            break;           
 }
@@ -221,11 +224,6 @@ void stacking(char *val, STACK *s, DATA *vars){
 
 
           /*                                                        		
-          case 'S' : switch(resto[1]){
-          		   case '/' : WHITE(s, array);
-          		   break;
-          		}   
-          	break;
           case 'N' : switch(resto[1]){
           		   case '/' : NEW(s, array);
           		   break;

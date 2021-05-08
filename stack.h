@@ -443,7 +443,7 @@ void GETSUB(STACK *s, DATA x, DATA y);
  * @param x Substring
  * @param y String
  */ 
-void GETINDICE(STACK *s, DATA x, DATA y);
+void GETINDICE(STACK *s, STACK *arrayx, STACK *arrayy);
 
 /**
  * \brief Lê todo o input e coloca-o numa string
@@ -452,7 +452,7 @@ void GETINDICE(STACK *s, DATA x, DATA y);
 void READ2(STACK *s);
 /**
  * \brief Separa um string pelos seus espaços e coloca-o separado num array
- * @param s Stack onde vai colocar o array
+ * @param s Stack onde se vai colocar o array
  */ 
 void WHITE(STACK *s);
 
@@ -462,6 +462,17 @@ void WHITE(STACK *s);
  */ 
 char *FromAtoS(STACK *s);
 
+/**
+ * \brief Recebe um string e coloca-o num array
+ * @param string String que vai ser tranformado
+ */ 
+STACK *FromStoA(char *string);
+
+/**
+ * \brief Separa um string pelos seus newlines e coloca-o separado num array
+ * @param s Stack onde se vai colocar o array
+ */ 
+void NEW(STACK *s);
 
 /**
 * \brief Define que faz as funções de push e pop usadas para cada tipo nos stacks

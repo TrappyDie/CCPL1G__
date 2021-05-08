@@ -73,6 +73,7 @@ void print_array(STACK *s) {
                 printf("%s", elem.STRING);
                     break;
             case ARRAY:
+                print_array( elem.ARRAY );
                     break;       
         }
     }
@@ -223,6 +224,7 @@ int i;
 for(i = 0; i < array->n_elems; i++){
 push(s,array->stack[i]);
 }
+print_stack(s);
 }
 
 void CONCAT(STACK *s){
@@ -389,24 +391,32 @@ for(i = 0; i <= string->n_elems; i++){
 push_ARRAY(s, arraystrings);
 }
 
-void GETINDICE(STACK *s, DATA x, DATA y){   
-STACK *substring = GET_ARRAY(x);
-STACK *string = GET_ARRAY(y);
+STACK *FromStoA(char *string){
+    char newstring[1000] = {'\0'};
+    STACK *array = create_stack();
+    int i = 0;
+    strcpy(newstring,string);
+    printf("%s  <--- NEWSTRING\n", newstring);
+    while (newstring[i] != '\0'){
+        push_CHAR(array,newstring[i]);
+        i++;
+    }
+    return array;
+}
+
+void GETINDICE(STACK *s, STACK *substring, STACK *string){   
 int i, g, j = 0, r = -1;
     for(i = 0; i < string->n_elems; i++){ 
     if (get(string->stack[i]) != get(substring->stack[0]));
     else {
         g = i;
-        if (get(string->stack[i]) != get(substring->stack[0]));
-        else {
-            g = i;
             while ((get(string->stack[g]) == get(substring->stack[j])) && (j < substring->n_elems)){
                 g++;
                 j++;            
             }
             if (j == substring->n_elems) {r = i;i = string->n_elems;}
 
-        }
+        
     }
 }
 push_LONG(s,r);
@@ -490,7 +500,18 @@ void MULT(STACK *s){
 void EXP(STACK *s){
     DATA x = pop(s);
     DATA y = pop(s);
-    if ((has_type(x, ARRAY)) || (has_type(y, ARRAY))) {GETINDICE(s,x,y);}
+    if ((tipo(x) == STRING) && (tipo(y) == STRING)){
+        printf("ENTROU");
+        char *sx = GET_STRING(x);
+        char *sy = GET_STRING(y);
+        STACK *arrayx = FromStoA(sx);
+        STACK *arrayy = FromStoA(sy);
+        print_stack(arrayx);
+        printf("\n");
+        print_stack(arrayy);
+        GETINDICE(s,arrayx, arrayy);
+    }
+    else if ((tipo(x) == ARRAY) && (tipo(y) == ARRAY)) {GETINDICE(s,GET_ARRAY(x),GET_ARRAY(y));}
     else if (tipo(x) == tipo(y) && tipo(x) == LONG){ 
         long y1 = GET_LONG(y);
         long x1 = GET_LONG(x);
@@ -600,6 +621,11 @@ void XOR(STACK *s){
 void NOT(STACK *s){
     DATA x = pop(s);
     if (has_type(x, ARRAY)) PUTS(s, GET_ARRAY(x));
+    else if (has_type(x, STRING))
+    {
+     STACK *arrayx = FromStoA(GET_STRING(x));   
+     PUTS(s, arrayx);   
+    }
     else {
     long x1 = GET_LONG(x);
     long not = ~x1;
@@ -955,16 +981,19 @@ void READ2(STACK *s){
     STACK *lastread = create_stack();
     assert(fgets(line, 100, stdin) != NULL);
     char *line3 = strdup(line);     
-    while (strlen(line) != 1){
+    while (strlen(line) != 1){        
         assert(fgets(line, 100, stdin) != NULL);
+       if (strlen(line) != 1){ 
         char *line2 = strdup(line);
-        strcat(line3,line2);
+        strcat(line3,line2);}
     }
+    line3[strlen(line3) - 1] = '\0';
     strcpy(lineend, line3);
     int f = strlen(lineend);
     for(int i = 0; i < f; i++){
         push_CHAR(lastread,lineend[i]);
     }
+    print_stack(lastread);
     push_ARRAY(s, lastread);  
 }
 
@@ -972,37 +1001,58 @@ void READ2(STACK *s){
 
 void WHITE(STACK *s){
     DATA x = pop(s);
-    char *line;
-    char stringinit[1000];
-    if (tipo(x) == ARRAY) {line = FromAtoS(GET_ARRAY(x));}
-    else {
-    line = GET_STRING(x);}
-    strcpy(stringinit,line);
-    int i = 0, n = 0, f = 0, g = 0;
-    char stringtemp[1000];
-    STACK *array = create_stack();
-    while (stringinit[i] != '\0'){
-        while ((stringinit[i] != ' ') || (stringinit[i] != '\0')) {
-            stringtemp[n] = stringinit[i];
-            printf("%s",stringtemp);
+    char stringtemp[1000] = {'\0'};
+    char *stringend = "\0";
+    int i = 0, n = 0, f = 0;
+    STACK *arrayinit = GET_ARRAY(x); 
+    STACK *arrayend = create_stack();
+    while (i < arrayinit->n_elems){
+        while (((GET_CHAR(arrayinit->stack[i]) != ' ') && (i < arrayinit->n_elems)) && (GET_CHAR(arrayinit->stack[i]) != '\n')) {
+            stringtemp[n] = GET_CHAR(arrayinit->stack[i]);
             i++;
             n++;
         }
-        push_STRING(array, stringtemp);
-        while (stringtemp[f] != '\0'){
+            stringend = strdup(stringtemp);                                     
+            push_STRING(arrayend, stringend);
+            while (stringtemp[f] != '\0'){
                 stringtemp[f] = '\0';
                 f++;
             }
-            f = 0;
-        while (stringtemp[g] != '\0'){
-                stringtemp[g] = '\0';
-                g++;
-            }
-            g = 0;
-            n = 0;    
+            i++;
+            f = 0;           
+            n = 0;
     }
-push_ARRAY(s,array);
-}      
+push_ARRAY(s, arrayend);
+}
+
+//  --------------------------------------------------------------------------
+
+void NEW(STACK *s){
+    DATA x = pop(s);
+    char stringtemp[1000] = {'\0'};
+    char *stringend = "\0";
+    int i = 0, n = 0, f = 0;
+    STACK *arrayinit = GET_ARRAY(x); 
+    STACK *arrayend = create_stack();
+    while (i < arrayinit->n_elems){
+        while ((GET_CHAR(arrayinit->stack[i]) != '\n') && (i < arrayinit->n_elems)) {
+            stringtemp[n] = GET_CHAR(arrayinit->stack[i]);
+            i++;
+            n++;
+        }
+            stringend = strdup(stringtemp);                                     
+            push_STRING(arrayend, stringend);
+            while (stringtemp[f] != '\0'){
+                stringtemp[f] = '\0';
+                f++;
+            }
+            i++;
+            f = 0;           
+            n = 0;
+    }
+    print_stack(arrayend);
+push_ARRAY(s, arrayend);
+}
 //  --------------------------------------------------------------------------
 
 /**
