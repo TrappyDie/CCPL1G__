@@ -46,10 +46,10 @@ for(i = 23; i <= 25; i++){
     vars[i] = x1;
     f++;
 }
-    push_CHAR(s, ' ');
+    push_STRING(s, " ");
     DATA y = pop(s);
     vars[18] = y;
-    push_CHAR(s, '\n');
+    push_STRING(s, "\n");
     DATA y1 = pop(s);
     vars[13] = y1; 
 }

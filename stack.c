@@ -224,7 +224,6 @@ int i;
 for(i = 0; i < array->n_elems; i++){
 push(s,array->stack[i]);
 }
-print_stack(s);
 }
 
 void CONCAT(STACK *s){
@@ -331,7 +330,7 @@ void REMOVEF(STACK *s, DATA x){
   STACK *s1 = GET_ARRAY(x);
   STACK *array = create_stack();
   int i;
-  push(s, s1->stack[s1->n_elems - 1 ]);
+  push(array, s1->stack[s1->n_elems - 1 ]);
   for (i = 0; i < s1->n_elems - 1; i++){                                   
       push(array, s1->stack[i]); 
   } 
@@ -396,7 +395,6 @@ STACK *FromStoA(char *string){
     STACK *array = create_stack();
     int i = 0;
     strcpy(newstring,string);
-    printf("%s  <--- NEWSTRING\n", newstring);
     while (newstring[i] != '\0'){
         push_CHAR(array,newstring[i]);
         i++;
@@ -426,9 +424,18 @@ push_LONG(s,r);
 void SUM(STACK *s){
     DATA x = pop(s);
     DATA y = pop(s);
-    if ((has_type(x, ARRAY)) || (has_type(y, ARRAY))) {push(s,y);push(s,x);CONCAT(s);}
-    else {
-    if (tipo(x) == LONG && tipo(y) == LONG){
+    if ((has_type(x, ARRAY)) && (has_type(y, ARRAY))) {push(s,y);push(s,x);CONCAT(s);}
+    else if ((tipo(x) == STRING) && (tipo(y) == STRING)) {
+        STACK *xs = FromStoA(GET_STRING(x));
+        STACK *ys = FromStoA(GET_STRING(y));
+        push_ARRAY(s,ys);push_ARRAY(s,xs);CONCAT(s);}
+    else if ((tipo(x) == ARRAY) && (tipo(y) == STRING)) {
+        STACK *ys = FromStoA(GET_STRING(y));
+        push_ARRAY(s,ys);push(s,x);CONCAT(s);}     
+    else if ((tipo(x) == STRING) && (tipo(y) == ARRAY)) {
+        STACK *xs = FromStoA(GET_STRING(x));
+        push(s,y);push_ARRAY(s,xs);CONCAT(s);}
+    else if (tipo(x) == LONG && tipo(y) == LONG){
         push_LONG(s,GET_LONG(x) + GET_LONG(y));
     }
     else if (tipo(x) == DOUBLE && tipo(y) == DOUBLE){
@@ -440,8 +447,7 @@ void SUM(STACK *s){
     else{
         push_DOUBLE(s,GET_DOUBLE(x) + GET_LONG(y));
     }
-  }  
-}
+  }
 
 //  --------------------------------------------------------------------------
 
@@ -501,14 +507,10 @@ void EXP(STACK *s){
     DATA x = pop(s);
     DATA y = pop(s);
     if ((tipo(x) == STRING) && (tipo(y) == STRING)){
-        printf("ENTROU");
         char *sx = GET_STRING(x);
         char *sy = GET_STRING(y);
         STACK *arrayx = FromStoA(sx);
         STACK *arrayy = FromStoA(sy);
-        print_stack(arrayx);
-        printf("\n");
-        print_stack(arrayy);
         GETINDICE(s,arrayx, arrayy);
     }
     else if ((tipo(x) == ARRAY) && (tipo(y) == ARRAY)) {GETINDICE(s,GET_ARRAY(x),GET_ARRAY(y));}
@@ -662,7 +664,17 @@ void TRD(STACK *s){
 
 //  --------------------------------------------------------------------------
 double POP1(STACK *s){
-    pop(s);
+    DATA x = pop(s);
+    STACK *final = create_stack();
+    if (tipo(x) == ARRAY){
+        int i = 1;
+        STACK *array = GET_ARRAY(x);
+        while (i < array->n_elems){
+            push(final, array->stack[i]);
+            i++;
+        }
+    }
+    push_ARRAY(s, final);
     return 0;
 }
 
@@ -993,7 +1005,6 @@ void READ2(STACK *s){
     for(int i = 0; i < f; i++){
         push_CHAR(lastread,lineend[i]);
     }
-    print_stack(lastread);
     push_ARRAY(s, lastread);  
 }
 
@@ -1050,7 +1061,6 @@ void NEW(STACK *s){
             f = 0;           
             n = 0;
     }
-    print_stack(arrayend);
 push_ARRAY(s, arrayend);
 }
 //  --------------------------------------------------------------------------
