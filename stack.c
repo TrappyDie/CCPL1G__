@@ -683,7 +683,7 @@ double POP1(STACK *s){
 
 void READ(STACK *s){
     char line[10000];
-    assert(fgets(line, 100, stdin) != NULL);
+    assert(fgets(line, 10000, stdin) != NULL);
     char *line2 = strdup(line);
     push_STRING(s,line2);   
 }
@@ -788,6 +788,7 @@ void EQL(STACK *s){
     DATA x = pop(s);
     DATA y = pop(s);            
     if (has_type(y, ARRAY) && tipo(x) == LONG) INDICE(s, x, y);
+    else if (has_type(y, STRING) && tipo(x) == LONG) {STACK *ys = FromStoA(GET_STRING(y));push_ARRAY(s,ys);push(s,x);DATA x1 = pop(s); DATA y1 = pop(s); INDICE(s, x1, y1);}
     else if (has_type(y, ARRAY) && has_type(x, ARRAY)){
         char *ys = FromAtoS(GET_ARRAY(y));
         char *xs = FromAtoS(GET_ARRAY(x));
