@@ -280,11 +280,16 @@ i = i/2;
 
 //  --------------------------------------------------------------------------
 
-void INDICE(STACK *s, DATA x, DATA y){
-  STACK *s1 = GET_ARRAY(y);
-  long i = get(x);
-  DATA z = s1->stack[i];
-  push(s, z);
+void INDICE(STACK *s, DATA x, DATA y){  
+   long i = get(x);
+  if (tipo(y)==STRING){
+    char *str = GET_STRING(y);
+    STACK *s1 = FromStoA(str);
+    DATA z1 = s1->stack[i];
+    push(s, z1);}
+  else if (tipo(y)==ARRAY){STACK *s2 = GET_ARRAY(y);
+     DATA z2 = s2->stack[i];
+     push(s, z2);}
 }
 
 //  --------------------------------------------------------------------------
