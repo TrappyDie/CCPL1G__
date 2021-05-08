@@ -901,9 +901,14 @@ void PUTMAI(STACK *s){
 void IF(STACK *s){
     DATA x = pop(s);
     DATA y = pop(s);  
-    DATA z = pop(s);  
-    if (get(z) != 0) push(s,y);
-    else push(s,x);
+    DATA z = pop(s);
+    if (tipo(z) == ARRAY) {
+        STACK *array = GET_ARRAY(z);
+        if (array->n_elems != 0) push(s,y);
+        else push(s,x);
+    }  
+    else { if (get(z) != 0) push(s,y);
+            else push(s,x);}
 }   
 
 //  --------------------------------------------------------------------------
