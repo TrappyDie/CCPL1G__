@@ -255,7 +255,7 @@ else if (tipo(x) != ARRAY && tipo(y) == ARRAY) {
 else if (tipo(x) != ARRAY && tipo(y) != ARRAY) {
     char *stringy = GET_STRING(y);
     char *stringx = GET_STRING(x);
-    char string[1000];
+    char string[10000];
     STACK *array = create_stack();
     strcat(stringx, stringy);
     strcpy(string,stringx);
@@ -355,7 +355,7 @@ STACK *arraystrings = create_stack();
 int i,j = 0,g = 0,m = 0,f = 0;
 for(i = 0; i <= string->n_elems; i++){ 
     if (i == string->n_elems) {
-        char string2[1000];
+        char string2[10000];
         while (m < finalstring->n_elems){
             string2[m] = GET_CHAR(finalstring->stack[m]);
             m++;
@@ -372,7 +372,7 @@ for(i = 0; i <= string->n_elems; i++){
         }
 
         if (j == substring->n_elems) {    
-            char string2[1000];                                                        
+            char string2[10000];                                                        
             for (m = 0; m < finalstring->n_elems; m++){                                                              
                 string2[m] = GET_CHAR(finalstring->stack[m]);
             }
@@ -400,7 +400,7 @@ push_ARRAY(s, arraystrings);
 }
 
 STACK *FromStoA(char *string){
-    char newstring[1000] = {'\0'};
+    char newstring[10000] = {'\0'};
     STACK *array = create_stack();
     int i = 0;
     strcpy(newstring,string);
@@ -681,7 +681,7 @@ double POP1(STACK *s){
 //  --------------------------------------------------------------------------
 
 void READ(STACK *s){
-    char line[1000];
+    char line[10000];
     assert(fgets(line, 100, stdin) != NULL);
     char *line2 = strdup(line);
     push_STRING(s,line2);   
@@ -773,7 +773,7 @@ return 0;
 //  --------------------------------------------------------------------------
 
 char *FromAtoS(STACK *s){
-char string2[1000];                                                        
+char string2[10000];                                                        
 for (int m = 0; m < s->n_elems; m++){                                                              
 string2[m] = GET_CHAR(s->stack[m]);
 }
@@ -993,8 +993,8 @@ void SIZE(STACK *s){
 //  --------------------------------------------------------------------------
 
 void READ2(STACK *s){
-    char line[1000];
-    char lineend[1000];
+    char line[10000];
+    char lineend[10000];
     STACK *lastread = create_stack();
     assert(fgets(line, 100, stdin) != NULL);
     char *line3 = strdup(line);     
@@ -1017,7 +1017,7 @@ void READ2(STACK *s){
 
 void WHITE(STACK *s){
     DATA x = pop(s);
-    char stringtemp[1000] = {'\0'};
+    char stringtemp[10000] = {'\0'};
     char *stringend = "\0";
     int i = 0, n = 0, f = 0;
     STACK *arrayinit = GET_ARRAY(x); 
@@ -1045,7 +1045,7 @@ push_ARRAY(s, arrayend);
 
 void NEW(STACK *s){
     DATA x = pop(s);
-    char stringtemp[1000] = {'\0'};
+    char stringtemp[10000] = {'\0'};
     char *stringend = "\0";
     int i = 0, n = 0, f = 0;
     STACK *arrayinit = GET_ARRAY(x); 
