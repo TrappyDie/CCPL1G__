@@ -1019,10 +1019,13 @@ void READ2(STACK *s){
 
 void WHITE(STACK *s){
     DATA x = pop(s);
+    STACK *arrayinit;
     char stringtemp[10000] = {'\0'};
     char *stringend = "\0";
     int i = 0, n = 0, f = 0;
-    STACK *arrayinit = GET_ARRAY(x); 
+    if (tipo(x) == STRING) (arrayinit = FromStoA(GET_STRING(x)));
+    else{
+    arrayinit = GET_ARRAY(x); }
     STACK *arrayend = create_stack();
     while (i < arrayinit->n_elems){
         while (((GET_CHAR(arrayinit->stack[i]) != ' ') && (i < arrayinit->n_elems)) && (GET_CHAR(arrayinit->stack[i]) != '\n')) {
