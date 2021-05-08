@@ -272,15 +272,15 @@ else if (tipo(x) != ARRAY && tipo(y) != ARRAY) {
 void CONCAT2(STACK *s, DATA x, DATA y){
 long i = get(x);
 STACK *array = GET_ARRAY(y);
+STACK *new = create_stack();
  while (i > 0){
-  push_ARRAY(s, array);
+     for(int n = 0; n < array->n_elems;n++){
+     push(new, array->stack[n]);
+     }
   i--;
   }
-i = i/2;      
-  while(i > 0){
-  CONCAT(s);
-  i--;
-  }}
+  push_ARRAY(s , new);
+}
 
 //  --------------------------------------------------------------------------
 
