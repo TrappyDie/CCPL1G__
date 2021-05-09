@@ -1002,7 +1002,6 @@ void READ2(STACK *s){
     char line[10000];
     char lineend[10000];
     STACK *lastread = create_stack();
-    assert(fgets(line, 1000, stdin) != NULL);
     char *line3 = strdup(line);     
     while (strlen(line) != 1){        
         assert(fgets(line, 1000, stdin) != NULL);
