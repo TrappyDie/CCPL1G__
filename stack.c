@@ -440,10 +440,7 @@ int i, g, j = 0, r = -1;
 push_LONG(s,r);
 }    
 
-
-void SUM(STACK *s){
-    DATA x = pop(s);
-    DATA y = pop(s);
+void SUMCAT(STACK *s, DATA x, DATA y){
     if ((has_type(x, ARRAY)) && (has_type(y, ARRAY))) {push(s,y);push(s,x);CONCAT(s);}
     else if ((tipo(x) == STRING) && (tipo(y) == STRING)) {
         STACK *xs = FromStoA(GET_STRING(x));
@@ -455,7 +452,15 @@ void SUM(STACK *s){
     else if ((tipo(x) == STRING) && (tipo(y) == ARRAY)) {
         STACK *xs = FromStoA(GET_STRING(x));
         push(s,y);push_ARRAY(s,xs);CONCAT(s);}
-    else if ((has_type(x, ARRAY)) || (has_type(y, ARRAY))) {push(s,y);push(s,x);CONCAT(s);}    
+    else if ((has_type(x, ARRAY)) || (has_type(y, ARRAY))) {push(s,y);push(s,x);CONCAT(s);}
+
+}
+
+
+void SUM(STACK *s){
+    DATA x = pop(s);
+    DATA y = pop(s);
+    if ((tipo(x) == ARRAY) || (tipo(x) == STRING) || (tipo(y) == ARRAY) || (tipo(y) == STRING)) SUMCAT(s, x, y);    
     else if (tipo(x) == LONG && tipo(y) == LONG){
         push_LONG(s,GET_LONG(x) + GET_LONG(y));
     }
@@ -926,6 +931,7 @@ void IF(STACK *s){
 //  --------------------------------------------------------------------------
 
 char *get_delimited(char *val, char *token, char *resto){
+    printf("%s\n",token);
 if (*token == '[')    sscanf(val, "%[^]]%[^\n]]", token, resto);
 if (*token == '\"')   {token++;}
     resto++;

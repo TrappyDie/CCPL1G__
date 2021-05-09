@@ -430,6 +430,14 @@ void REMOVEF(STACK *s, DATA x);
 void STRINGET(STACK *s, char *token, char *resto, char *val);
 
 /**
+ * \brief Recebe parametros ARRAY ou STRING, prepara-os e manda-os para a função que os concatena
+ * @param s Stack onde vai ser colocado o resultado da concatenação
+ * @param x Elemento recebido que se vai concatenar
+ * @param y Elemento recebido que se vai concatenar 
+ */ 
+void SUMCAT(STACK *s, DATA x, DATA y);
+
+/**
  * \brief Recebe um string e um delimitador e separa a string colocando cada parte desta num array
  * @param s Stack onde se vai colocar o array final
  * @param x Delimitadores
