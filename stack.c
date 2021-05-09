@@ -423,6 +423,7 @@ int i, g, j = 0, r = -1;
                 j++;            
             }
             if (j == substring->n_elems) {r = i;i = string->n_elems;}
+            else {g = 0;j = 0;}
 
         
     }
@@ -1002,13 +1003,11 @@ void READ2(STACK *s){
     char line[1000];
     char lineend[1000];
     STACK *lastread = create_stack();
-    char *line3 = strdup(line);     
-    while (strlen(line) != 1){        
-        assert(fgets(line, 1000, stdin) != NULL);
+    char line3[1000] = {'\0'};    
+    while (fgets(line, 1000, stdin) != NULL){        
         char *line2 = strdup(line);
         strcat(line3,line2);
     }
-    line3[strlen(line3) - 1] = '\0';
     strcpy(lineend, line3);
     int f = strlen(lineend);
     for(int i = 0; i < f; i++){
