@@ -372,7 +372,7 @@ for(i = 0; i <= string->n_elems; i++){
             j++;            
         }
 
-        if (j == substring->n_elems) {    
+        if ((j == substring->n_elems) && (get(string->stack[i + j + 1]) != '\0')) {    
             char string2[10000];                                                        
             for (m = 0; m < finalstring->n_elems; m++){                                                              
                 string2[m] = GET_CHAR(finalstring->stack[m]);
@@ -392,6 +392,15 @@ for(i = 0; i <= string->n_elems; i++){
             }
             f = 0;
 }
+        else if ((j == substring->n_elems) && (get(string->stack[i + j + 1]) == '\0')){
+            char string2[10000];                                                        
+            for (m = 0; m < finalstring->n_elems; m++){                                                              
+                string2[m] = GET_CHAR(finalstring->stack[m]);
+            }
+            char *stringcopia = strdup(string2);
+            push_STRING(arraystrings, stringcopia);
+            i = string->n_elems + 1; 
+        }
         else {push(finalstring, string->stack[i]);g = 0;j=0;
     } 
                                              
