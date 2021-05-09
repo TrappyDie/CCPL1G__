@@ -985,9 +985,13 @@ void SIZENUMBER(STACK *s, DATA x){
 
 void SIZE(STACK *s){
    DATA x = pop(s);
-   if (tipo(x) == ARRAY){
-   STACK *s1 = GET_ARRAY(x); 
-   push_LONG(s, s1->n_elems);
+   if(tipo(x) == STRING) {
+    char *str = GET_STRING(x);
+    STACK *s1 = FromStoA(str);
+    push_LONG(s, s1->n_elems);}
+   else if (tipo(x) == ARRAY){
+    STACK *s2 = GET_ARRAY(x); 
+    push_LONG(s, s2->n_elems);
    }
    else SIZENUMBER(s, x);
 }
@@ -998,13 +1002,12 @@ void READ2(STACK *s){
     char line[10000];
     char lineend[10000];
     STACK *lastread = create_stack();
-    assert(fgets(line, 100, stdin) != NULL);
+    assert(fgets(line, 1000, stdin) != NULL);
     char *line3 = strdup(line);     
     while (strlen(line) != 1){        
-        assert(fgets(line, 100, stdin) != NULL);
-       if (strlen(line) != 1){ 
+        assert(fgets(line, 1000, stdin) != NULL);
         char *line2 = strdup(line);
-        strcat(line3,line2);}
+        strcat(line3,line2);
     }
     line3[strlen(line3) - 1] = '\0';
     strcpy(lineend, line3);
