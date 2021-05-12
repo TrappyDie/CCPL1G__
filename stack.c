@@ -363,7 +363,7 @@ for(i = 0; i <= string->n_elems; i++){
             }
             char *strcopia = strdup(string2);
             push_STRING(arraystrings, strcopia);
-            }  
+            }
     else if (get(string->stack[i]) != get(substring->stack[0]))  {push_CHAR(finalstring, GET_CHAR(string->stack[i]));}
     else {
         g = i;
@@ -371,7 +371,6 @@ for(i = 0; i <= string->n_elems; i++){
             g++;
             j++;            
         }
-
         if ((j == substring->n_elems) && (get(string->stack[i + j + 1]) != '\0')) {    
             char string2[10000];                                                        
             for (m = 0; m < finalstring->n_elems; m++){                                                              
@@ -405,7 +404,7 @@ for(i = 0; i <= string->n_elems; i++){
     } 
                                              
 }
-}         
+}
 push_ARRAY(s, arraystrings);
 }
 
@@ -513,20 +512,18 @@ void MULT(STACK *s){
     DATA x = pop(s);
     DATA y = pop(s);
     if (has_type(y, ARRAY)) CONCAT2(s, x, y);
-    else {
-    if (tipo(x) == tipo(y) && tipo(x) == LONG){
+    else if (tipo(x) == tipo(y) && tipo(x) == LONG){
         push_LONG(s,GET_LONG(x) * GET_LONG(y));
     }
     else if (tipo(x) == tipo(y) && tipo(x) == DOUBLE){
         push_LONG(s,GET_DOUBLE(x) * GET_DOUBLE(y));
     }
-    else if (tipo(x) == LONG && tipo(x) == DOUBLE){
+    else if (tipo(x) == LONG && tipo(y) == DOUBLE){
         push_LONG(s,GET_LONG(x) * GET_DOUBLE(y));
     }
-    else {
+    else{
         push_LONG(s,GET_DOUBLE(x) * GET_LONG(y));
     }
-  }
 }
 //  --------------------------------------------------------------------------
 void EXP(STACK *s){
@@ -600,8 +597,7 @@ void INC(STACK *s){
 void DEC(STACK *s){
     DATA x = pop(s);
     if (has_type(x, ARRAY)) REMOVEI(s, x); 
-    else {
-    if  (tipo(x) == LONG){
+    else if (tipo(x) == LONG){
         long x1 = GET_LONG(x);
         x1--;
         push_LONG(s,x1);
@@ -615,7 +611,6 @@ void DEC(STACK *s){
         char x3 = GET_CHAR(x);
         x3--;
         push_CHAR(s,x3);
-    }
    } 
 }
 //  --------------------------------------------------------------------------
