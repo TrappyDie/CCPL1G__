@@ -456,6 +456,7 @@ void SUMCAT(STACK *s, DATA x, DATA y){
 }
 
 
+
 void SUM(STACK *s){
     DATA x = pop(s);
     DATA y = pop(s);
@@ -486,10 +487,10 @@ void MINUS(STACK *s){
         push_DOUBLE(s,GET_DOUBLE(y) - GET_DOUBLE(x));
     }
     else if (tipo(x) == LONG && tipo(y) == DOUBLE){
-        push_DOUBLE(s,GET_LONG(x) - GET_DOUBLE(y));
+        push_DOUBLE(s,GET_LONG(y) - GET_DOUBLE(x));
     }
     else {
-        push_DOUBLE(s,GET_DOUBLE(x) - GET_LONG(y));
+        push_DOUBLE(s,GET_DOUBLE(y) - GET_LONG(x));
     }
 }
 //  --------------------------------------------------------------------------
@@ -525,7 +526,9 @@ void MULT(STACK *s){
         push_LONG(s,GET_DOUBLE(x) * GET_LONG(y));
     }
 }
+
 //  --------------------------------------------------------------------------
+
 void EXP(STACK *s){
     DATA x = pop(s);
     DATA y = pop(s);
@@ -536,19 +539,19 @@ void EXP(STACK *s){
         STACK *arrayy = FromStoA(sy);
         GETINDICE(s,arrayx, arrayy);
     }
-    else if ((tipo(x) == ARRAY) && (tipo(y) == ARRAY)) {GETINDICE(s,GET_ARRAY(x),GET_ARRAY(y));}
-    else if (tipo(x) == tipo(y) && tipo(x) == LONG){ 
-        long y1 = GET_LONG(y);
-        long x1 = GET_LONG(x);
-        long ex = pow(y1,x1);
-        push_LONG(s,ex);
-    }    
+    else if ((tipo(x) == ARRAY) && (tipo(y) == ARRAY)) GETINDICE(s,GET_ARRAY(x),GET_ARRAY(y));
+    else if (tipo(x) == LONG && tipo(y) == LONG){ 
+        double y1 = GET_LONG(y);
+        double x1 = GET_LONG(x);
+        double ex = pow(y1,x1);
+        push_DOUBLE(s,ex);
+    }
     else if (tipo(x) == tipo(y) && tipo(x) == DOUBLE){
         float y1 = GET_DOUBLE(y);
         float x1 = GET_DOUBLE(x);
         float ex = pow(y1,x1);
         push_DOUBLE(s, ex);
-    }    
+    }           
     else if (tipo(x) != tipo(y) && tipo(x) == LONG){
         float y1 = GET_DOUBLE(y);
         float x1 = GET_LONG(x);
@@ -562,7 +565,9 @@ void EXP(STACK *s){
         push_DOUBLE(s, ex);
     }
 }
+
 //  --------------------------------------------------------------------------
+
 void RES(STACK *s){
     DATA x = pop(s);
     DATA y = pop(s);
@@ -571,7 +576,9 @@ void RES(STACK *s){
     long res = y1 % x1;
     push_LONG(s,res);
 }
+
 //  --------------------------------------------------------------------------
+
 void INC(STACK *s){
     DATA x = pop(s);
     if (has_type(x, ARRAY)) REMOVEF(s, x);
@@ -592,8 +599,10 @@ void INC(STACK *s){
          push_CHAR(s,x3);
     }
   }
-} 
+}
+
 //  --------------------------------------------------------------------------
+
 void DEC(STACK *s){
     DATA x = pop(s);
     if (has_type(x, ARRAY)) REMOVEI(s, x); 
@@ -613,7 +622,9 @@ void DEC(STACK *s){
         push_CHAR(s,x3);
    } 
 }
+
 //  --------------------------------------------------------------------------
+
 void AND(STACK *s){
     DATA x = pop(s);
     DATA y = pop(s);
@@ -622,7 +633,9 @@ void AND(STACK *s){
     long and = y1 & x1;
     push_LONG(s,and);
 }
+
 //  --------------------------------------------------------------------------
+
 void OR(STACK *s){
     DATA x = pop(s);
     DATA y = pop(s);
@@ -644,11 +657,9 @@ void XOR(STACK *s){
 void NOT(STACK *s){
     DATA x = pop(s);
     if (has_type(x, ARRAY)) PUTS(s, GET_ARRAY(x));
-    else if (has_type(x, STRING))
-    {
+    else if (has_type(x, STRING)){
      STACK *arrayx = FromStoA(GET_STRING(x));   
-     PUTS(s, arrayx);   
-    }
+     PUTS(s, arrayx);}
     else {
     long x1 = GET_LONG(x);
     long not = ~x1;
